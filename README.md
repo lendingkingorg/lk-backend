@@ -10,7 +10,7 @@ Backend codebase for LendingKing application.
 
 ## Run Locally
 
-Install Java and Eclipse IDE on your system.
+Install Java, Eclipse IDE and PostgreSQL on your system.
 
 Steps to set-up the project in Eclipse:
 
