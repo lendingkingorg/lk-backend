@@ -1,25 +1,31 @@
-package com.lkbackend.lkbackend;
-
-import org.antlr.v4.runtime.misc.NotNull;
-import org.springframework.data.annotation.Id;
+package com.lkbackend.lkbackend.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 
 @Entity
 @Table(name = "users")
 public class User {
 	
-	@Id
+	@Id	
 	private String phoneNumber;
 	
-	@NotNull
 	private String panNumber;
 	
-	public User(String phoneNumber, String panNumber) {
+	private String mPin;
+	
+	private String emailID;
+
+	public User() {}
+	
+	public User(String phoneNumber, String panNumber, String mPin, String emailID) {
 		super();
 		this.phoneNumber = phoneNumber;
 		this.panNumber = panNumber;
+		this.mPin = mPin;
+		this.emailID = emailID;
 	}
 
 	public String getPhoneNumber() {
@@ -37,7 +43,26 @@ public class User {
 	public void setPanNumber(String panNumber) {
 		this.panNumber = panNumber;
 	}
+
+	public String getmPin() {
+		return mPin;
+	}
+
+	public void setmPin(String mPin) {
+		this.mPin = mPin;
+	}
+
+	public String getEmailID() {
+		return emailID;
+	}
+
+	public void setEmailID(String emailID) {
+		this.emailID = emailID;
+	}
+	
+	
 	
 	
 
 }
+
