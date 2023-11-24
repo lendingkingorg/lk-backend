@@ -16,7 +16,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("/getUser")
+	@GetMapping("/app/user")
 	public ResponseEntity<User> getUser(@RequestHeader(value="phoneNumber") String phoneNumber) {
 		System.out.println("get User API Triggered");
 		User user = userService.findUser(phoneNumber);
@@ -26,7 +26,7 @@ public class UserController {
 		return ResponseEntity.ok(user);
 	}
 	
-	@PostMapping("/addUser")
+	@PostMapping("/signUp")
 	public ResponseEntity<User> addUser(@RequestHeader(value="phoneNumber") String phoneNumber,
 										@RequestHeader(value="panNumber") String panNumber,
 										@RequestHeader(value="mPin") String mPin,
