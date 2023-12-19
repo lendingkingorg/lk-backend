@@ -39,7 +39,7 @@ public class SendOTPController {
         return responseEntity.getBody();
     }
 
-    @GetMapping("verify-otp")
+    @GetMapping("/verify-otp")
     public String verifyOTP(@RequestParam String mobile, @RequestParam int otp) {
         // Replace "Enter your MSG91 authkey" with your actual MSG91 authkey
         String authKey = "410480ArZD05k4xV6566f67eP1";
@@ -48,11 +48,14 @@ public class SendOTPController {
         headers.set("authkey", authKey);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        // You may need to replace "otp" with the actual OTP parameter name used by MSG91
+        String requestBody = "";
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
         ResponseEntity<String> responseEntity = new RestTemplate().exchange(
                 MSG91_API_URL_v + "?mobile=" + mobile + "&" + "otp=" + otp,
                 HttpMethod.GET,
-                null,
+                requestEntity,
                 String.class
         );
 
