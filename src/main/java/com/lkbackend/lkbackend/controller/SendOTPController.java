@@ -17,6 +17,8 @@ public class SendOTPController {
 
     private static final String MSG91_API_URL_v = "https://control.msg91.com/api/v5/otp/verify";
 
+    private static final String MSG91_API_URL_r = "https://control.msg91.com/api/v5/otp/retry?retrytype=text";
+
     @PostMapping("/send-otp")
     public String sendOTP(@RequestParam String mobile) {
         HttpHeaders headers = new HttpHeaders();
@@ -61,4 +63,29 @@ public class SendOTPController {
 
         return responseEntity.getBody();
     }
+
+    @GetMapping("/resend-otp")
+    public String resendOTP(@RequestParam String mobile) {
+        // Replace "Enter your MSG91 authkey" with your actual MSG91 authkey
+        String authKey = "410480ArZD05k4xV6566f67eP1";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("authkey", authKey);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        String requestBody = "";
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<String> responseEntity = new RestTemplate().exchange(
+                MSG91_API_URL_r + "&mobile=" + mobile,
+                HttpMethod.GET,
+                requestEntity,
+                String.class
+        );
+
+        return responseEntity.getBody();
+    }
+
+
 }
