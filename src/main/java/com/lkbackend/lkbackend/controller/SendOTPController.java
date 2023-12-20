@@ -1,11 +1,8 @@
 package com.lkbackend.lkbackend.controller;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
@@ -42,9 +39,10 @@ public class SendOTPController {
     }
 
     @GetMapping("/verify-otp")
-    public String verifyOTP(@RequestParam String mobile, @RequestParam int otp) {
+    public boolean verifyOTP(@RequestParam String mobile, @RequestParam int otp) {
         // Replace "Enter your MSG91 authkey" with your actual MSG91 authkey
-        String authKey = "410480ArZD05k4xV6566f67eP1";
+
+        try{String authKey = "410480ArZD05k4xV6566f67eP1";
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("authkey", authKey);
@@ -61,7 +59,20 @@ public class SendOTPController {
                 String.class
         );
 
-        return responseEntity.getBody();
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            // You may want to further parse the response JSON to check for success
+            return true;
+        } else {
+            // Handle the case where the OTP verification failed
+            return false;
+        }
+    } catch (RestClientException e) {
+        // Handle exceptions, e.g., connection errors, timeouts, etc.
+        e.printStackTrace();
+        return false;
+    }
+
+
     }
 
     @GetMapping("/resend-otp")
