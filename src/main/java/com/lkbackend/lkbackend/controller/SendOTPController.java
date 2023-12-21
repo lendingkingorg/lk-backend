@@ -18,13 +18,13 @@ public class SendOTPController {
     private static final String MSG91_API_URL_r = "https://control.msg91.com/api/v5/otp/retry?retrytype=text";
 
     @PostMapping("/send-otp")
-    public String sendOTP(@RequestParam String mobile) {
+    public CustomJsonResponse sendOTP(@RequestParam String mobile) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("authkey","410480ArZD05k4xV6566f67eP1");
-        //headers.set("6566f66ad6fc05476e020572", "template_id");
+        headers.set("6566f66ad6fc05476e020572", "template_id");
 
-        String requestBody = "{\"Param1\":\"value1\",\"Param2\":\"value2\",\"Param3\":\"value3\"}";
+        String requestBody = "";
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
@@ -36,8 +36,34 @@ public class SendOTPController {
                 String.class
         );
 
-        return responseEntity.getBody();
+        CustomJsonResponse customJsonResponse = new CustomJsonResponse();
+        CustomJsonResponse.Data data = new CustomJsonResponse.Data();
+        CustomJsonResponse.Info info = new CustomJsonResponse.Info();
+
+        customJsonResponse.setData(data);
+        data.setInfo(info);
+
+
+        if(responseEntity.getStatusCode()==HttpStatus.OK){
+            data.setDone(true);
+            info.setDone(true);
+            customJsonResponse.setStatuscode(200);
+            customJsonResponse.setUserId(mobile);
+            customJsonResponse.setMessage("Successfully sent");
+
+
+        } else {
+            data.setDone(false);
+            info.setDone(false);
+            customJsonResponse.setStatuscode(400);
+            customJsonResponse.setUserId(mobile);
+            customJsonResponse.setMessage("Unsuccessful");
+        }
+
+
+        return customJsonResponse;
     }
+
 
     @GetMapping("/verify-otp")
     public boolean verifyOTP(@RequestParam String mobile, @RequestParam int otp) {
@@ -60,6 +86,7 @@ public class SendOTPController {
                 String.class
         );
 
+
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
             // You may want to further parse the response JSON to check for success
             return true;
@@ -75,47 +102,4 @@ public class SendOTPController {
 
 
     }
-
-    @GetMapping("/resend-otp")
-    public CustomJsonResponse resendOTP(@RequestParam String mobile) {
-        // Replace "Enter your MSG91 authkey" with your actual MSG91 authkey
-        String authKey = "410480ArZD05k4xV6566f67eP1";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("authkey", authKey);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        String requestBody = "";
-
-        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
-
-        ResponseEntity<String> responseEntity = new RestTemplate().exchange(
-                MSG91_API_URL_r + "&mobile=" + mobile,
-                HttpMethod.GET,
-                requestEntity,
-                String.class
-        );
-
-        CustomJsonResponse customJsonResponse = new CustomJsonResponse();
-        CustomJsonResponse.Data data = new CustomJsonResponse.Data();
-        CustomJsonResponse.Info info = new CustomJsonResponse.Info();
-
-        customJsonResponse.setData(data);
-        data.setInfo(info);
-
-
-        if(responseEntity.getStatusCode()==HttpStatus.OK){
-            data.setDone(true);
-            info.setDone(true);
-            customJsonResponse.setStatuscode(200);
-            customJsonResponse.setUserId(mobile);
-            customJsonResponse.setMessage("Successfully sent");
-
-
-        }
-
-        return customJsonResponse;
-    }
-
-
 }
