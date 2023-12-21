@@ -1,5 +1,6 @@
 package com.lkbackend.lkbackend.controller;
 
+import com.lkbackend.lkbackend.Entity.CustomJsonResponse;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
@@ -76,7 +77,7 @@ public class SendOTPController {
     }
 
     @GetMapping("/resend-otp")
-    public String resendOTP(@RequestParam String mobile) {
+    public CustomJsonResponse resendOTP(@RequestParam String mobile) {
         // Replace "Enter your MSG91 authkey" with your actual MSG91 authkey
         String authKey = "410480ArZD05k4xV6566f67eP1";
 
@@ -95,7 +96,25 @@ public class SendOTPController {
                 String.class
         );
 
-        return responseEntity.getBody();
+        CustomJsonResponse customJsonResponse = new CustomJsonResponse();
+        CustomJsonResponse.Data data = new CustomJsonResponse.Data();
+        CustomJsonResponse.Info info = new CustomJsonResponse.Info();
+
+        customJsonResponse.setData(data);
+        data.setInfo(info);
+
+
+        if(responseEntity.getStatusCode()==HttpStatus.OK){
+            data.setDone(true);
+            info.setDone(true);
+            customJsonResponse.setStatuscode(200);
+            customJsonResponse.setUserId(mobile);
+            customJsonResponse.setMessage("Successfully sent");
+
+
+        }
+
+        return customJsonResponse;
     }
 
 
