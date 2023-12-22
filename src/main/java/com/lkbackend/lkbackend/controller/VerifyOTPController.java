@@ -2,6 +2,7 @@ package com.lkbackend.lkbackend.controller;
 
 import com.lkbackend.lkbackend.Entity.CustomResponseOTPSent;
 import com.lkbackend.lkbackend.Entity.CustomResponseOTPVerify;
+import com.lkbackend.lkbackend.Repo.LendingInfoRepo;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +17,10 @@ public class VerifyOTPController {
 
     private static final String MSG91_API_URL_v = "https://control.msg91.com/api/v5/otp/verify";
 
+    LendingInfoRepo repo ;
+
     @GetMapping("/verify-otp")
-    public CustomResponseOTPVerify verifyOTP(@RequestParam String mobile, @RequestParam int otp) {
+    public CustomResponseOTPVerify verifyOTP(@RequestParam long mobile, @RequestParam int otp) {
 
         CustomResponseOTPVerify customResponseOTPVerify = new CustomResponseOTPVerify();
         CustomResponseOTPVerify.Data  data = new CustomResponseOTPVerify.Data();
@@ -44,8 +47,12 @@ public class VerifyOTPController {
 
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
             data.setOtpVerified(true);
-            info.setCustomerExists(true);
-            info.setMpin(1234);
+            if(repo.findByFieldName(mobile)!= null){
+                info.setCustomerExists(true);
+
+                info.setMpin(repo.findByFieldName(mpin);
+
+            }
             customResponseOTPVerify.setStatusCode(200);
             customResponseOTPVerify.setUserId(mobile);
             customResponseOTPVerify.setMessage("MessageSuccessfully sent");

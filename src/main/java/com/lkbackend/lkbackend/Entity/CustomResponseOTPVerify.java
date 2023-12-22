@@ -5,10 +5,10 @@ import javax.swing.plaf.PanelUI;
 public class CustomResponseOTPVerify {
     private Data data;
     private int statusCode;
-    private String userId;
+    private long userId;
     private String message;
 
-    public CustomResponseOTPVerify(boolean otpVerified, boolean customerExists, int mpin, int statusCode, String userId, String message) {
+    public CustomResponseOTPVerify(boolean otpVerified, boolean customerExists, int mpin, int statusCode, long userId, String message) {
         this.data = new Data(otpVerified, new Info(customerExists, mpin));
         this.statusCode = statusCode;
         this.userId = userId;
@@ -34,11 +34,11 @@ public class CustomResponseOTPVerify {
         this.statusCode = statusCode;
     }
 
-    public String getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 

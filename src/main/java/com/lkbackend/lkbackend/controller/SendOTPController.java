@@ -11,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 public class SendOTPController {
 
     private static final String MSG91_API_URL = "https://control.msg91.com/api/v5/otp";
-    private static final String MSG91_AUTH_KEY = "YourMSG91AuthKey"; // Replace with your actual MSG91 authkey
 
     @PostMapping("/send-otp")
     public CustomResponseOTPSent sendOTP(@RequestParam String mobile) {
