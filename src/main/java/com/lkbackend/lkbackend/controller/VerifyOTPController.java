@@ -3,6 +3,7 @@ package com.lkbackend.lkbackend.controller;
 import com.lkbackend.lkbackend.Entity.CustomResponseOTPSent;
 import com.lkbackend.lkbackend.Entity.CustomResponseOTPVerify;
 import com.lkbackend.lkbackend.Repo.LendingInfoRepo;
+import com.lkbackend.lkbackend.model.LendingInfo;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 @RestController
 @RequestMapping
@@ -33,13 +36,14 @@ public class VerifyOTPController {
         HttpHeaders headers = new HttpHeaders();
         headers.set("authkey", authKey);
         headers.setContentType(MediaType.APPLICATION_JSON);
+        String mob = Long.toString(mobile);
 
         String requestBody = "";
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
         ResponseEntity<String> responseEntity = new RestTemplate().exchange(
-                MSG91_API_URL_v + "?mobile=" + mobile + "&" + "otp=" + otp,
+                MSG91_API_URL_v + "?mobile=" + mob + "&" + "otp=" + otp,
                 HttpMethod.GET,
                 requestEntity,
                 String.class
@@ -47,15 +51,20 @@ public class VerifyOTPController {
 
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
             data.setOtpVerified(true);
-            if(repo.findByFieldName(mobile)!= null){
+            if(repo.findByFieldMobileNumber(mobile)!= null) {
                 info.setCustomerExists(true);
-
-                info.setMpin(repo.findByFieldName(mpin);
-
+                LendingInfo user_info = repo.findByFieldMobileNumber(mobile);
+                info.setMpin(user_info.getMPin());
+                customResponseOTPVerify.setStatusCode(200);
+                customResponseOTPVerify.setUserId(mobile);
+                customResponseOTPVerify.setMessage("MessageSuccessfully sent");
+            } else {
+                info.setCustomerExists(false);
+                info.setMpin(0);
+                customResponseOTPVerify.setStatusCode(200);
+                customResponseOTPVerify.setUserId(mobile);
+                customResponseOTPVerify.setMessage("MessageSuccessfully sent");
             }
-            customResponseOTPVerify.setStatusCode(200);
-            customResponseOTPVerify.setUserId(mobile);
-            customResponseOTPVerify.setMessage("MessageSuccessfully sent");
 
 
         } else {
