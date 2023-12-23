@@ -62,13 +62,13 @@ public class VerifyOTPController {
                 info.setMpin(user_info.getmPin());
                 customResponseOTPVerify.setStatusCode(200);
                 customResponseOTPVerify.setUserId(mobile);
-                customResponseOTPVerify.setMessage("MessageSuccessfully sent");
+                customResponseOTPVerify.setMessage("OTP Verified Successfully");
             } else {
                 info.setCustomerExists(false);
                 info.setMpin(0);
                 customResponseOTPVerify.setStatusCode(200);
                 customResponseOTPVerify.setUserId(mobile);
-                customResponseOTPVerify.setMessage("MessageSuccessfully sent");
+                customResponseOTPVerify.setMessage("OTP Verified Successfully");
             }
 
 
@@ -78,7 +78,7 @@ public class VerifyOTPController {
             info.setCustomerExists(false);
             info.setMpin(0);
             customResponseOTPVerify.setUserId(mobile);
-            customResponseOTPVerify.setMessage("Message unsuccessfull");
+            customResponseOTPVerify.setMessage("OTP Verification unsucccessfull");
         }
 
         return customResponseOTPVerify;

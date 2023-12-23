@@ -43,14 +43,14 @@ public class SendOTPController {
                 data.setOtp_verified(true);
                 customResponseOTPSent.setStatusCode(200);
                 customResponseOTPSent.setUserId(mobile);
-                customResponseOTPSent.setMessage("MessageSuccessfully sent");
+                customResponseOTPSent.setMessage("OTP Sent Successfully");
 
 
             } else {
                 data.setOtp_verified(false);
                 customResponseOTPSent.setStatusCode(400);
                 customResponseOTPSent.setUserId(mobile);
-                customResponseOTPSent.setMessage("Message unsuccessfull");
+                customResponseOTPSent.setMessage("OTP Unsuccessfull");
             }
         } else {
             data.setOtp_verified(false);
