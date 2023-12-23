@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @ComponentScan(basePackages = { "com.*"})
 @SpringBootApplication(exclude={ SecurityAutoConfiguration.class})
+@EnableJpaRepositories
 public class LkBackendApplication {
 
 	public static void main(String[] args) {

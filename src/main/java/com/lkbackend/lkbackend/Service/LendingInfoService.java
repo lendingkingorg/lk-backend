@@ -4,6 +4,8 @@ import com.lkbackend.lkbackend.Repo.LendingInfoRepo;
 import com.lkbackend.lkbackend.model.LendingInfo;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.parser.Entity;
+
 @Service
 public class LendingInfoService {
 
@@ -15,5 +17,9 @@ public class LendingInfoService {
 
     public LendingInfo findByMobileNumber(final long mobile){
         return repo.findByMobileNumber(mobile);
+    }
+
+    public LendingInfo save(LendingInfo lendingInfo){
+        return repo.save(lendingInfo);
     }
 }
