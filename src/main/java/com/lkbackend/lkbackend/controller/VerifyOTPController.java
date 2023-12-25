@@ -1,6 +1,7 @@
 package com.lkbackend.lkbackend.controller;
 
 import com.lkbackend.lkbackend.Entity.CustomResponseOTPVerify;
+import com.lkbackend.lkbackend.Entity.VerifyResponseBody;
 import com.lkbackend.lkbackend.Service.LendingInfoService;
 import com.lkbackend.lkbackend.model.LendingInfo;
 import org.springframework.http.*;
@@ -23,7 +24,7 @@ public class VerifyOTPController {
     }
 
     @GetMapping("/verify-otp")
-    public CustomResponseOTPVerify verifyOTP(@RequestParam long mobile, @RequestParam int otp) {
+    public String verifyOTP(@RequestParam long mobile, @RequestParam int otp) {
 
         LendingInfo user_info = lendingInfoService.findByMobileNumber(mobile);
 
@@ -54,8 +55,10 @@ public class VerifyOTPController {
                 String.class
         );
 
+        VerifyResponseBody verifyResponseBody = new VerifyResponseBody("OTP not match","error");
 
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+
+        if ((responseEntity.getStatusCode() == HttpStatus.OK && (responseEntity.getBody() != verifyResponseBody.toString()))) {
             data.setOtpVerified(true);
             if(user_info!= null) {
                 info.setCustomerExists(true);;
@@ -81,7 +84,7 @@ public class VerifyOTPController {
             customResponseOTPVerify.setMessage("OTP Verification unsucccessfull");
         }
 
-        return customResponseOTPVerify;
+        return responseEntity.getBody();
 
 
     }
