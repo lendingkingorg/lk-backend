@@ -39,20 +39,20 @@ public class SendOTPController {
 
 
             if (responseEntity.getStatusCode() == HttpStatus.OK) {
-                data.setOtp_verified(true);
+                data.setOtp_sent(true);
                 customResponseOTPSent.setStatusCode(200);
                 customResponseOTPSent.setUserId(mobile);
                 customResponseOTPSent.setMessage("OTP Sent Successfully");
 
 
             } else {
-                data.setOtp_verified(false);
+                data.setOtp_sent(false);
                 customResponseOTPSent.setStatusCode(400);
                 customResponseOTPSent.setUserId(mobile);
                 customResponseOTPSent.setMessage("OTP Unsuccessfull");
             }
         } else {
-            data.setOtp_verified(false);
+            data.setOtp_sent(false);
             customResponseOTPSent.setStatusCode(500);
             customResponseOTPSent.setUserId(mobile);
             customResponseOTPSent.setMessage("Mobile number incorrect");

@@ -58,21 +58,21 @@ public class CustomResponseOTPSent {
     }
 
     public static class Data{
-        private boolean otp_verified;
+        private boolean otp_sent;
 
         public Data(){
         }
 
         public Data(boolean isDone) {
-            this.otp_verified = isDone;
+            this.otp_sent = isDone;
         }
 
-        public boolean isOtp_verified() {
-            return otp_verified;
+        public boolean isOtp_sent() {
+            return otp_sent;
         }
 
-        public void setOtp_verified(boolean otp_verified) {
-            this.otp_verified = otp_verified;
+        public void setOtp_sent(boolean otp_verified) {
+            this.otp_sent = otp_verified;
         }
 
 
