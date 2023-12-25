@@ -3,7 +3,6 @@ package com.lkbackend.lkbackend.controller;
 import com.lkbackend.lkbackend.Entity.CustomResponseOTPSent;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
