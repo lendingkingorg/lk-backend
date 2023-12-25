@@ -24,7 +24,7 @@ public class VerifyOTPController {
     }
 
     @GetMapping("/verify-otp")
-    public String verifyOTP(@RequestParam long mobile, @RequestParam int otp) {
+    public CustomResponseOTPVerify verifyOTP(@RequestParam long mobile, @RequestParam int otp) {
 
         LendingInfo user_info = lendingInfoService.findByMobileNumber(mobile);
 
@@ -84,7 +84,7 @@ public class VerifyOTPController {
             customResponseOTPVerify.setMessage("OTP Verification unsucccessfull");
         }
 
-        return responseEntity.getBody();
+        return customResponseOTPVerify;
 
 
     }
