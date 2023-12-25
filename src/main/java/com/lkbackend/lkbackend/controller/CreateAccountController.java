@@ -1,8 +1,10 @@
 package com.lkbackend.lkbackend.controller;
 
+import com.lkbackend.lkbackend.Entity.CustomerResponseAccountCreate;
 import com.lkbackend.lkbackend.Repo.LendingInfoRepo;
 import com.lkbackend.lkbackend.Service.LendingInfoService;
 import com.lkbackend.lkbackend.model.LendingInfo;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +21,7 @@ public class CreateAccountController {
     }
 
     @PostMapping("/create-account")
-    public void createAccount(@RequestParam String name,@RequestParam long mobile, @RequestParam int mpin, @RequestParam String email, @RequestParam String pan, @RequestParam String referral){
+    public CustomerResponseAccountCreate createAccount(@RequestParam String name, @RequestParam long mobile, @RequestParam int mpin, @RequestParam String email, @RequestParam String pan, @RequestParam String referral){
         LendingInfo lendingInfo = new LendingInfo();
         lendingInfo.setMobileNumber(mobile);
         lendingInfo.setmPin(mpin);
@@ -30,6 +32,15 @@ public class CreateAccountController {
 
 
         lendingInfoService.save(lendingInfo);
+
+        CustomerResponseAccountCreate customerResponseAccountCreate = new CustomerResponseAccountCreate();
+        CustomerResponseAccountCreate.Data data = new CustomerResponseAccountCreate.Data();
+        customerResponseAccountCreate.setData(data);
+        data.setAccountCreated(true);
+        customerResponseAccountCreate.setMessage("Account Successfully Created");
+
+
+        return customerResponseAccountCreate;
 
 
 
