@@ -38,6 +38,8 @@ public class CreateAccountController {
         customerResponseAccountCreate.setData(data);
         data.setAccountCreated(true);
         customerResponseAccountCreate.setMessage("Account Successfully Created");
+        customerResponseAccountCreate.setStatusCode(200);
+        customerResponseAccountCreate.setUserId(mobile);
 
 
         return customerResponseAccountCreate;

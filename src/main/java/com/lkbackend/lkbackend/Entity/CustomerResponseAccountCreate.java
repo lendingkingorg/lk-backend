@@ -3,10 +3,10 @@ package com.lkbackend.lkbackend.Entity;
 public class CustomerResponseAccountCreate {
     private Data data;
     private int statusCode;
-    private String userId;
+    private long userId;
     private String message;
 
-    public CustomerResponseAccountCreate(boolean otpSent, int statusCode, String userId, String message) {
+    public CustomerResponseAccountCreate(boolean otpSent, int statusCode, long userId, String message) {
         this.data = new CustomerResponseAccountCreate.Data(otpSent);
         this.statusCode = statusCode;
         this.userId = userId;
@@ -16,7 +16,7 @@ public class CustomerResponseAccountCreate {
     public CustomerResponseAccountCreate() {
     }
 
-    public CustomerResponseAccountCreate(CustomerResponseAccountCreate.Data data, int statusCode, String userId, String message) {
+    public CustomerResponseAccountCreate(CustomerResponseAccountCreate.Data data, int statusCode, long userId, String message) {
         this.data = data;
         this.statusCode = statusCode;
         this.userId = userId;
@@ -41,11 +41,11 @@ public class CustomerResponseAccountCreate {
         this.statusCode = statusCode;
     }
 
-    public String getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
