@@ -29,9 +29,9 @@ public class VerifyResponseBody {
 
     @Override
     public String toString() {
-        return "VerifyResponseBody{" +
-                "message='" + message + '\'' +
-                ", type='" + type + '\'' +
+        return "{" + '\"' +
+                "message" + '\"' +':'+ '\"' + message + '\"' +
+                ','+ '\"'+ "type" + '\"' +':'+ '\"' + type + '\"' +
                 '}';
     }
 }

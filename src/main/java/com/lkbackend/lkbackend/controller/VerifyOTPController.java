@@ -58,7 +58,7 @@ public class VerifyOTPController {
         VerifyResponseBody verifyResponseBody = new VerifyResponseBody("OTP not match","error");
 
 
-        if ((responseEntity.getStatusCode() == HttpStatus.OK && (responseEntity.getBody() != verifyResponseBody.toString()))) {
+        if ((responseEntity.getStatusCode() == HttpStatus.OK && (responseEntity.getBody()!= verifyResponseBody.getMessage()))) {
             data.setOtpVerified(true);
             if(user_info!= null) {
                 info.setCustomerExists(true);;
