@@ -66,6 +66,7 @@ public class VerifyOTPController {
             if(user_info!= null) {
                 info.setCustomerExists(true);;
                 info.setMpin(user_info.getmPin());
+                customResponseOTPVerify.setEmail(user_info.getEmail());
                 customResponseOTPVerify.setStatusCode(200);
                 customResponseOTPVerify.setUserId(mobile);
                 customResponseOTPVerify.setMessage("OTP Verified Successfully");

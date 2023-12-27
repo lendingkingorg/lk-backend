@@ -10,12 +10,15 @@ public class CustomResponseOTPVerify {
 
     public int sessionId;
 
-    public CustomResponseOTPVerify(boolean otpVerified, boolean customerExists, int mpin, int statusCode, long userId, String message, int sessionId) {
+    public String email;
+
+    public CustomResponseOTPVerify(boolean otpVerified, boolean customerExists, int mpin, int statusCode, long userId, String message, int sessionId, String email) {
         this.data = new Data(otpVerified, new Info(customerExists, mpin));
         this.statusCode = statusCode;
         this.userId = userId;
         this.message = message;
         this.sessionId = sessionId;
+        this.email = email;
     }
 
     public CustomResponseOTPVerify() {
@@ -24,6 +27,10 @@ public class CustomResponseOTPVerify {
     public Data getData() {
         return data;
     }
+
+    public String getEmail(){return email;}
+
+    public void setEmail(String email){this.email =email;}
 
     public int getSessionId() {
         return sessionId;
