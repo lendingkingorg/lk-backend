@@ -11,7 +11,6 @@ public class LendingInfo {
 
     @Id
     @Column(name = "userId")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
 
     private long mobileNumber;

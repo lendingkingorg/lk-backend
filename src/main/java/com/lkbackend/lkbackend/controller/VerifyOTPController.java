@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Random;
+
+
 @RestController
 @RequestMapping
 public class VerifyOTPController {
@@ -58,7 +61,7 @@ public class VerifyOTPController {
         VerifyResponseBody verifyResponseBody = new VerifyResponseBody("OTP not match","error");
 
 
-        if ((responseEntity.getStatusCode() == HttpStatus.OK && (responseEntity.getBody()!= verifyResponseBody.getMessage()))) {
+        if ((responseEntity.getStatusCode() == HttpStatus.OK )) {
             data.setOtpVerified(true);
             if(user_info!= null) {
                 info.setCustomerExists(true);;
@@ -66,6 +69,8 @@ public class VerifyOTPController {
                 customResponseOTPVerify.setStatusCode(200);
                 customResponseOTPVerify.setUserId(mobile);
                 customResponseOTPVerify.setMessage("OTP Verified Successfully");
+                Random random = new Random();
+                customResponseOTPVerify.setSessionId(random.nextInt(1000000000));
             } else {
                 info.setCustomerExists(false);
                 info.setMpin(0);

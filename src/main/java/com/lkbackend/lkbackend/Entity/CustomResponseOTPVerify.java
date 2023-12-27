@@ -8,11 +8,14 @@ public class CustomResponseOTPVerify {
     private long userId;
     private String message;
 
-    public CustomResponseOTPVerify(boolean otpVerified, boolean customerExists, int mpin, int statusCode, long userId, String message) {
+    public int sessionId;
+
+    public CustomResponseOTPVerify(boolean otpVerified, boolean customerExists, int mpin, int statusCode, long userId, String message, int sessionId) {
         this.data = new Data(otpVerified, new Info(customerExists, mpin));
         this.statusCode = statusCode;
         this.userId = userId;
         this.message = message;
+        this.sessionId = sessionId;
     }
 
     public CustomResponseOTPVerify() {
@@ -21,6 +24,12 @@ public class CustomResponseOTPVerify {
     public Data getData() {
         return data;
     }
+
+    public int getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(int sessionId){this.sessionId = sessionId;}
 
     public void setData(Data data) {
         this.data = data;

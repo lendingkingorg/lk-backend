@@ -14,4 +14,6 @@ import java.util.List;
 public interface LendingInfoRepo extends JpaRepository<LendingInfo, Long> {
 
     LendingInfo findByMobileNumber(long mobileNumber);
+
+    LendingInfo findByCode(String referral);
 }
