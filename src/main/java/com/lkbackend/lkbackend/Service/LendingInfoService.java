@@ -23,5 +23,5 @@ public class LendingInfoService {
         return repo.save(lendingInfo);
     }
 
-    public LendingInfo findByCode(String referral){return repo.findByCode(referral);}
+    public LendingInfo findByReferral(String referral){return repo.findByReferral(referral);}
 }
