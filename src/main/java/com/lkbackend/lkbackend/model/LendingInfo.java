@@ -11,6 +11,7 @@ public class LendingInfo {
 
     @Id
     @Column(name = "userId")
+    @GeneratedValue
     private int userId;
 
     private long mobileNumber;
