@@ -70,8 +70,7 @@ public class VerifyOTPController {
                 customResponseOTPVerify.setStatusCode(200);
                 customResponseOTPVerify.setUserId(mobile);
                 customResponseOTPVerify.setMessage("OTP Verified Successfully");
-                Random random = new Random();
-                customResponseOTPVerify.setSessionId(random.nextInt(1000000000));
+                customResponseOTPVerify.setSessionId(java.util.UUID.randomUUID());
             } else {
                 info.setCustomerExists(false);
                 info.setMpin(0);

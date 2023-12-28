@@ -1,6 +1,7 @@
 package com.lkbackend.lkbackend.Entity;
 
 import javax.swing.plaf.PanelUI;
+import java.util.UUID;
 
 public class CustomResponseOTPVerify {
     private Data data;
@@ -8,11 +9,11 @@ public class CustomResponseOTPVerify {
     private long userId;
     private String message;
 
-    public int sessionId;
+    public UUID sessionId;
 
     public String email;
 
-    public CustomResponseOTPVerify(boolean otpVerified, boolean customerExists, int mpin, int statusCode, long userId, String message, int sessionId, String email) {
+    public CustomResponseOTPVerify(boolean otpVerified, boolean customerExists, int mpin, int statusCode, long userId, String message, UUID sessionId, String email) {
         this.data = new Data(otpVerified, new Info(customerExists, mpin));
         this.statusCode = statusCode;
         this.userId = userId;
@@ -32,11 +33,11 @@ public class CustomResponseOTPVerify {
 
     public void setEmail(String email){this.email =email;}
 
-    public int getSessionId() {
+    public UUID getSessionId() {
         return sessionId;
     }
 
-    public void setSessionId(int sessionId){this.sessionId = sessionId;}
+    public void setSessionId(UUID sessionId){this.sessionId = sessionId;}
 
     public void setData(Data data) {
         this.data = data;
