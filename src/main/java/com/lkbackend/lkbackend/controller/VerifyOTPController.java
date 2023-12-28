@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Random;
+import java.util.UUID;
 
 
 @RestController
@@ -66,11 +67,12 @@ public class VerifyOTPController {
             if(user_info!= null) {
                 info.setCustomerExists(true);;
                 info.setMpin(user_info.getmPin());
-                customResponseOTPVerify.setEmail(user_info.getEmail());
+                data.setEmail(user_info.getEmail());
+                UUID uuid = java.util.UUID.randomUUID();
+                data.setSessionId(uuid);
                 customResponseOTPVerify.setStatusCode(200);
                 customResponseOTPVerify.setUserId(mobile);
                 customResponseOTPVerify.setMessage("OTP Verified Successfully");
-                customResponseOTPVerify.setSessionId(java.util.UUID.randomUUID());
             } else {
                 info.setCustomerExists(false);
                 info.setMpin(0);

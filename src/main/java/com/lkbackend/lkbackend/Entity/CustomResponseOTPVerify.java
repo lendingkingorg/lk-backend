@@ -9,17 +9,11 @@ public class CustomResponseOTPVerify {
     private long userId;
     private String message;
 
-    public UUID sessionId;
-
-    public String email;
-
     public CustomResponseOTPVerify(boolean otpVerified, boolean customerExists, int mpin, int statusCode, long userId, String message, UUID sessionId, String email) {
-        this.data = new Data(otpVerified, new Info(customerExists, mpin));
+        this.data = new Data(sessionId,email,otpVerified, new Info(customerExists, mpin));
         this.statusCode = statusCode;
         this.userId = userId;
         this.message = message;
-        this.sessionId = sessionId;
-        this.email = email;
     }
 
     public CustomResponseOTPVerify() {
@@ -29,15 +23,6 @@ public class CustomResponseOTPVerify {
         return data;
     }
 
-    public String getEmail(){return email;}
-
-    public void setEmail(String email){this.email =email;}
-
-    public UUID getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(UUID sessionId){this.sessionId = sessionId;}
 
     public void setData(Data data) {
         this.data = data;
@@ -71,10 +56,16 @@ public class CustomResponseOTPVerify {
         private boolean otpVerified;
         private Info info;
 
+        public UUID sessionId;
+
+        public String email;
+
         public Data(){}
 
-        public Data(boolean otpVerified, Info info) {
+        public Data(UUID sessionId, String email, boolean otpVerified, Info info) {
             this.otpVerified = otpVerified;
+            this.email = email;
+            this.sessionId = sessionId;
             this.info = info;
         }
 
@@ -84,6 +75,22 @@ public class CustomResponseOTPVerify {
 
         public void setOtpVerified(boolean otpVerified) {
             this.otpVerified = otpVerified;
+        }
+
+        public UUID getSessionId() {
+            return sessionId;
+        }
+
+        public void setSessionId(UUID sessionId) {
+            this.sessionId = sessionId;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
         }
 
         public Info getInfo() {

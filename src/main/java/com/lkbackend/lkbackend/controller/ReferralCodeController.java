@@ -18,15 +18,18 @@ public class ReferralCodeController {
         this.lendingInfoService = lendingInfoService;
     }
 
-    ReferralExists referralExists = new ReferralExists();
-    ReferralExists.Data data = new ReferralExists.Data();
-
-    @GetMapping("/get-referral")
+    @GetMapping("/check-referral")
     public ReferralExists ReferralCode(@RequestParam String referral){
         LendingInfo referral_info = lendingInfoService.findByReferral(referral);
+        ReferralExists referralExists = new ReferralExists();
+        ReferralExists.Data data = new ReferralExists.Data();
+        referralExists.setData(data);
+
         if (referral_info != null){
             data.setReferralExists(true);
             referralExists.setMessage("Referral Found");
+            referralExists.setStatusCode(200);
+            referralExists.setUserId(String.valueOf(referral_info.getMobileNumber()));
 
             return referralExists;
         }else{
