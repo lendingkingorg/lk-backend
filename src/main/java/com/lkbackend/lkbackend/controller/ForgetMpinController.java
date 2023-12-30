@@ -24,7 +24,7 @@ public class ForgetMpinController {
         this.lendingInfoService = lendingInfoService;
     }
 
-    @PostMapping("/forget-mpi")
+    @PostMapping("/recovery-mpin")
     public ForgotMpin ForgetMpin(@RequestParam long mobile){
         ForgotMpin forgotMpin = new ForgotMpin();
         ForgotMpin.Data data = new ForgotMpin.Data();
