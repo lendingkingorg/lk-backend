@@ -1,7 +1,6 @@
 package com.lkbackend.lkbackend.controller;
 
 import com.lkbackend.lkbackend.Entity.CustomResponseOTPVerify;
-import com.lkbackend.lkbackend.Entity.VerifyResponseBody;
 import com.lkbackend.lkbackend.Service.LendingInfoService;
 import com.lkbackend.lkbackend.model.LendingInfo;
 import org.springframework.http.*;
@@ -10,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Random;
 import java.util.UUID;
 
 
@@ -59,17 +56,14 @@ public class VerifyOTPController {
                 String.class
         );
 
-        VerifyResponseBody verifyResponseBody = new VerifyResponseBody("OTP not match","error");
-
-
         if ((responseEntity.getStatusCode() == HttpStatus.OK && (responseEntity.getBody().contains("OTP not match") != true))) {
             data.setOtpVerified(true);
+            UUID uuid = java.util.UUID.randomUUID();
+            data.setSessionId(uuid);
             if(user_info!= null) {
                 info.setCustomerExists(true);;
                 info.setMpin(user_info.getmPin());
                 data.setEmail(user_info.getEmail());
-                UUID uuid = java.util.UUID.randomUUID();
-                data.setSessionId(uuid);
                 customResponseOTPVerify.setStatusCode(200);
                 customResponseOTPVerify.setUserId(mobile);
                 customResponseOTPVerify.setMessage("OTP Verified Successfully");
