@@ -1,6 +1,7 @@
 package com.lkbackend.lkbackend.controller;
 
 import com.lkbackend.lkbackend.Entity.CustomerResponseAccountCreate;
+import com.lkbackend.lkbackend.Entity.GenerateReferralCode;
 import com.lkbackend.lkbackend.Repo.LendingInfoRepo;
 import com.lkbackend.lkbackend.Service.LendingInfoService;
 import com.lkbackend.lkbackend.model.LendingInfo;
@@ -21,13 +22,14 @@ public class CreateAccountController {
     }
 
     @PostMapping("/create-account")
-    public CustomerResponseAccountCreate createAccount(@RequestParam String name, @RequestParam long mobile, @RequestParam int mpin, @RequestParam String email, @RequestParam String pan, @RequestParam String referral){
+    public CustomerResponseAccountCreate createAccount(@RequestParam String name, @RequestParam long mobile, @RequestParam int mpin, @RequestParam String email, @RequestParam String pan){
+        GenerateReferralCode generateReferralCode = new GenerateReferralCode();
         LendingInfo lendingInfo = new LendingInfo();
         lendingInfo.setMobileNumber(mobile);
         lendingInfo.setmPin(mpin);
         lendingInfo.setEmail(email);
         lendingInfo.setPan(pan);
-        lendingInfo.setReferral(referral);
+        lendingInfo.setReferral(generateReferralCode.generateReferralCode());
         lendingInfo.setName(name);
 
 
