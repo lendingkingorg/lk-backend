@@ -26,8 +26,28 @@ public class LendingInfo {
 
     private String referral;
 
+    private String lk_TnC;
+
+    private String cibil_TnC;
+
     public int getUserId() {
         return userId;
+    }
+
+    public String getLk_TnC() {
+        return lk_TnC;
+    }
+
+    public void setLk_TnC(String lk_TnC) {
+        this.lk_TnC = lk_TnC;
+    }
+
+    public String getCibil_TnC() {
+        return cibil_TnC;
+    }
+
+    public void setCibil_TnC(String cibil_TnC) {
+        this.cibil_TnC = cibil_TnC;
     }
 
     public void setUserId(int userId) {

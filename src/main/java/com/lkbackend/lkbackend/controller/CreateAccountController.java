@@ -31,6 +31,8 @@ public class CreateAccountController {
         lendingInfo.setPan(pan);
         lendingInfo.setReferral(generateReferralCode.generateReferralCode());
         lendingInfo.setName(name);
+        lendingInfo.setLk_TnC("True");
+        lendingInfo.setCibil_TnC("True");
 
 
         lendingInfoService.save(lendingInfo);
