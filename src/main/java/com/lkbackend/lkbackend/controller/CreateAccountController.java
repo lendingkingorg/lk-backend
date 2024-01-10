@@ -2,10 +2,8 @@ package com.lkbackend.lkbackend.controller;
 
 import com.lkbackend.lkbackend.Entity.CustomerResponseAccountCreate;
 import com.lkbackend.lkbackend.Entity.GenerateReferralCode;
-import com.lkbackend.lkbackend.Repo.LendingInfoRepo;
 import com.lkbackend.lkbackend.Service.LendingInfoService;
 import com.lkbackend.lkbackend.model.LendingInfo;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
