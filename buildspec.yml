@@ -6,18 +6,18 @@ phases:
       - echo dependencies
       - mvn clean install
       - echo Logging in to Amazon ECR....
-      - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/t8g7f8a1
+      - aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 919795290280.dkr.ecr.eu-north-1.amazonaws.com
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
       - docker build -t onbaordingimage .
-      - docker tag onbaordingimage:latest public.ecr.aws/t8g7f8a1/onbaordingimage:latest
+      - docker tag onbaordingimage:latest 919795290280.dkr.ecr.eu-north-1.amazonaws.com/onbaordingimage:latest
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image......
-      - docker push public.ecr.aws/t8g7f8a1/onbaordingimage:latest
+      - docker push 919795290280.dkr.ecr.eu-north-1.amazonaws.com/onbaordingimage:latest
 artifacts:
   files:
     - target/lk-backend-0.0.1-SNAPSHOT.jar lk-backend-0.0.1-SNAPSHOT.jar
