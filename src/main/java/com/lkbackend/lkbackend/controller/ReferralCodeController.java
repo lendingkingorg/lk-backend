@@ -1,18 +1,21 @@
 package com.lkbackend.lkbackend.controller;
 
 import com.lkbackend.lkbackend.Entity.ReferralExists;
+import com.lkbackend.lkbackend.Repo.LendingInfoRepo;
 import com.lkbackend.lkbackend.Service.LendingInfoService;
 import com.lkbackend.lkbackend.model.LendingInfo;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping
 public class ReferralCodeController {
 
     private final LendingInfoService lendingInfoService;
+@Autowired
+    private LendingInfoRepo lendingInfoRepo;
 
     public ReferralCodeController(LendingInfoService lendingInfoService) {
         this.lendingInfoService = lendingInfoService;
@@ -38,6 +41,23 @@ public class ReferralCodeController {
             return referralExists;
         }
 
+    }
+
+    @GetMapping("/get-referral/{mobNo}")
+    public ResponseEntity<String> getCode(@PathVariable long mobNo) {
+        LendingInfo user = lendingInfoRepo.findByMobileNumber(mobNo);
+
+        if (user == null) {
+            // Handle the case where the user is not found
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        if (user.getReferral() == null) {
+            // Handle the case where the referral is null
+            return ResponseEntity.ok("null");
+        }
+
+        return ResponseEntity.ok(user.getReferral());
     }
 
 
