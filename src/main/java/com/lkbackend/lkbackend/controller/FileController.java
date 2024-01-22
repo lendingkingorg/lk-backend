@@ -113,7 +113,7 @@ public class FileController {
 
 
 
-            return status(HttpStatus.OK).body(fileUrl);
+            return status(HttpStatus.OK).body("isSaved:" + HttpStatus.OK);
         } catch (IOException e) {
             return status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file");
         }
