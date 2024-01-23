@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping
 public class ReferralCodeController {
@@ -44,20 +47,16 @@ public class ReferralCodeController {
     }
 
     @GetMapping("/get-referral/{mobNo}")
-    public ResponseEntity<String> getCode(@PathVariable long mobNo) {
+    public ResponseEntity<?> getCode(@PathVariable long mobNo) {
         LendingInfo user = lendingInfoRepo.findByMobileNumber(mobNo);
-
+        Map<String, Object> response = new HashMap<>();
         if (user == null) {
             // Handle the case where the user is not found
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            response.put("referral", null);
+              return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        if (user.getReferral() == null) {
-            // Handle the case where the referral is null
-            return ResponseEntity.ok("null");
-        }
-
-        return ResponseEntity.ok(user.getReferral());
+        response.put("referral", user.getReferral());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
