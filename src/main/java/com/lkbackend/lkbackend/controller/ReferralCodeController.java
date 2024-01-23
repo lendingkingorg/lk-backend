@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 public class ReferralCodeController {
 
     private final LendingInfoService lendingInfoService;
-@Autowired
+
+    @Autowired
     private LendingInfoRepo lendingInfoRepo;
 
     public ReferralCodeController(LendingInfoService lendingInfoService) {

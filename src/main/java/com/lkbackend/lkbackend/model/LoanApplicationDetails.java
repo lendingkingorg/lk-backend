@@ -3,7 +3,9 @@ package com.lkbackend.lkbackend.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Entity
@@ -18,7 +20,7 @@ public class LoanApplicationDetails {
     private String name;
 
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
 
     private Date dob;
     private String gender;
