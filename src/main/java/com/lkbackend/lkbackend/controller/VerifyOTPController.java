@@ -62,6 +62,7 @@ public class VerifyOTPController {
             data.setSessionId(uuid);
             if(user_info!= null) {
                 info.setCustomerExists(true);;
+                info.setUserName((user_info.getName()));
                 info.setMpin(user_info.getmPin());
                 data.setEmail(user_info.getEmail());
                 customResponseOTPVerify.setStatusCode(200);

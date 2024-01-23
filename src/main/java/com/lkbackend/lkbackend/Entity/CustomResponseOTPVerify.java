@@ -1,5 +1,8 @@
 package com.lkbackend.lkbackend.Entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.swing.plaf.PanelUI;
 import java.util.UUID;
 
@@ -103,9 +106,12 @@ public class CustomResponseOTPVerify {
         // Getters and setters
     }
 
+    @Setter
+    @Getter
     public static class Info {
         private boolean customerExists;
         private int mpin;
+        private String userName;
 
 
         public Info(boolean customerExists, int mpin) {
