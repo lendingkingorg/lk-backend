@@ -2,6 +2,7 @@ package com.lkbackend.lkbackend.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -15,6 +16,10 @@ public class LoanApplicationDetails {
 
     // Personal Information
     private String name;
+
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+
     private Date dob;
     private String gender;
 
@@ -26,8 +31,8 @@ public class LoanApplicationDetails {
     private String pan;
 
     // Financial Information
-    private double annualTurnover;
-    private int yearsInCurrentBusiness;
+    private String annualTurnover;
+    private String yearsInCurrentBusiness;
 
     // Business Information
     private String businessPincode;
@@ -40,7 +45,6 @@ public class LoanApplicationDetails {
     // Loan Request Information
     private double requestedLoanAmount;
     private int loanDurationInMonths;
-
 
 
 }

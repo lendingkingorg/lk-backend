@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -15,10 +14,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.*;
-import java.nio.file.Path;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.springframework.http.ResponseEntity.*;
@@ -35,8 +31,8 @@ public class FileController {
     @Value("${aws.s3.bucketName}")
     private String bucketName;
 
-    @PostMapping(value = "/upload/{mobNo}", consumes = {"multipart/form-data", "application/json"})
-    public ResponseEntity<String> handleFileUpload(
+    @PostMapping(value = "/bl-document-upload/{mobNo}", consumes = {"multipart/form-data", "application/json"})
+    public ResponseEntity<?> handleFileUpload(
             @RequestPart(value = "file") MultipartFile file,
             @PathVariable long mobNo,
             @RequestPart DocumentUploadRequest documentUploadRequest) {
@@ -110,12 +106,9 @@ public class FileController {
             documentRepository.save(documentInfo);
             modifiedFile.delete();
 
-
-
-
-            return status(HttpStatus.OK).body("isSaved:" + HttpStatus.OK);
+            return new ResponseEntity<>(documentInfo, HttpStatus.OK);
         } catch (IOException e) {
-            return status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file");
+            return new ResponseEntity<>("Error uploading file", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
