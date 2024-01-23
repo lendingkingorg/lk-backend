@@ -7,14 +7,12 @@ public class GenerateReferralCode {
 
     public GenerateReferralCode(){}
 
-    public String generateReferralCode() {
-        byte[] bytes = new byte[8];
+    public static String generateReferralCode() {
+        byte[] bytes = new byte[4]; // Using half the number of bytes for a 6-character code
         new SecureRandom().nextBytes(bytes);
 
-        String encoded = Base64.getEncoder().encodeToString(bytes);
+        String encoded = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
 
-        String stripped = encoded.replace("=", "").replace("+", "").replace("/", "");
-
-        return stripped;
+        return encoded.substring(0, 6);
     }
 }
