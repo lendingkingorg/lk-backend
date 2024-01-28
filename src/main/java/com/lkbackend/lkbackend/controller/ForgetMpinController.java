@@ -60,7 +60,7 @@ public class ForgetMpinController {
                     "    \"email\": \"support@mail.lendingking.in\"\n" +
                     "  },\n" +
                     "  \"domain\": \"mail.lendingking.in\",\n" +
-                    "  \"template_id\": \"welcome_template_2\"\n" +
+                    "  \"template_id\": \"forgot_mpin\"\n" +
                     "}";
 
             // Create an HTTP client
