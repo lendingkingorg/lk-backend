@@ -44,24 +44,19 @@ public class CreateAccountController {
         String apiUrl = "https://control.msg91.com/api/v5/email/send";
 
         // Create JSON body as a string
-        String jsonBody = "{\n" +
+        String json = "{\n" +
                 "  \"recipients\": [\n" +
                 "    {\n" +
                 "      \"to\": [\n" +
                 "        {\n" +
-                "          \"name\": \"" + user_info.getName() + "\",\n" +
-                "          \"email\": \"" + user_info.getEmail() + "\"\n" +
+                "          \"email\": \""+ user_info .getEmail()+ "\",\n" +
+                "          \"name\": \""+user_info.getName()+ "\"\n" +
                 "        }\n" +
-                "      ],\n" +
-                "      \"variables\": {\n" +
-                "        \"MPIN\": \"" + user_info.getmPin() + "\",\n" +
-                "        \"USER\": \"" + user_info.getName() + "\"\n" +
-                "      }\n" +
+                "      ]\n" +
                 "    }\n" +
                 "  ],\n" +
                 "  \"from\": {\n" +
-                "    \"name\": \"Support\",\n" +
-                "    \"email\": \"support@mail.lendingking.in\"\n" +
+                "    \"email\": \"no-reply@mail.lendingking.in\"\n" +
                 "  },\n" +
                 "  \"domain\": \"mail.lendingking.in\",\n" +
                 "  \"template_id\": \"welcome_template_2\"\n" +
@@ -76,7 +71,7 @@ public class CreateAccountController {
         String mob = Long.toString(mobile);
 
 
-        HttpEntity<String> requestEntity = new HttpEntity<>(jsonBody, headers);
+        HttpEntity<String> requestEntity = new HttpEntity<>(json, headers);
 
         ResponseEntity<String> responseEntity = new RestTemplate().exchange(
                 apiUrl,
