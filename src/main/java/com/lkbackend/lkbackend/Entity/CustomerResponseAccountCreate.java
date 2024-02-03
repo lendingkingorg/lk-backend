@@ -6,6 +6,8 @@ public class CustomerResponseAccountCreate {
     private long userId;
     private String message;
 
+    private String token;
+
     public CustomerResponseAccountCreate(boolean otpSent, int statusCode, long userId, String message) {
         this.data = new CustomerResponseAccountCreate.Data(otpSent);
         this.statusCode = statusCode;
@@ -27,6 +29,14 @@ public class CustomerResponseAccountCreate {
 
     public CustomerResponseAccountCreate.Data getData() {
         return data;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
     }
 
     public void setData(CustomerResponseAccountCreate.Data data) {

@@ -1,19 +1,31 @@
 package com.lkbackend.lkbackend.controller;
 
+import com.lkbackend.lkbackend.Config.JwtTokenUtil;
 import com.lkbackend.lkbackend.Entity.CustomerResponseAccountCreate;
 import com.lkbackend.lkbackend.Entity.GenerateReferralCode;
+import com.lkbackend.lkbackend.Entity.JWTResponse;
 import com.lkbackend.lkbackend.Service.LendingInfoService;
 import com.lkbackend.lkbackend.model.LendingInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api")
 public class CreateAccountController {
+
+    @Autowired
+    JwtTokenUtil helper;
+
+    @Autowired
+    private AuthenticationManager manager;
 
     private final LendingInfoService lendingInfoService;
 
@@ -94,12 +106,31 @@ public class CreateAccountController {
         customerResponseAccountCreate.setUserId(mobile);
 
 
+        this.doAuthenticate(name, mpin);
+
+        String token = this.helper.generateToken(name);
+
+        customerResponseAccountCreate.setToken(token);
+
         return customerResponseAccountCreate;
-
-
-
 
     }
 
+    private void doAuthenticate(String email, int password) {
+
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(email, password);
+        try {
+            manager.authenticate(authentication);
+
+
+        } catch (BadCredentialsException e) {
+            throw new BadCredentialsException(" Invalid Username or Password  !!");
+        }
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public String exceptionHandler() {
+        return "Credentials Invalid !!";
+    }
 
 }

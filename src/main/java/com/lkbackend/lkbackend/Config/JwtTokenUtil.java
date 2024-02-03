@@ -1,9 +1,12 @@
 package com.lkbackend.lkbackend.Config;
 
 import io.jsonwebtoken.*;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+@Component
 public class JwtTokenUtil {
 
     private static final String SECRET_KEY = "your-secret-key"; // Replace with your actual secret key

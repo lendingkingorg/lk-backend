@@ -10,30 +10,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.http.HttpMethod.OPTIONS;
 
-//@Configuration
-//@EnableWebSecurity
-//public class SecurityConfig {
-//
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests()
-//                .requestMatchers("/api/public/**").permitAll() // Configure public endpoints
-//                .anyRequest().authenticated();
-//    }
-//
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        // Configure your authentication provider, e.g., in-memory, JDBC, or custom UserDetailsService
-//    }
-//
-//    @Bean
-//    @Override
-//    public AuthenticationManager authenticationManagerBean() throws Exception {
-//        return super.authenticationManagerBean();
-//    }
-//}
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -41,9 +17,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(OPTIONS).permitAll() // allow CORS option calls for Swagger UI
-                        .requestMatchers("/api/public/**").permitAll()
+                        .requestMatchers("/api/**").permitAll()
                         .anyRequest().authenticated());
         return http.build();
     }
