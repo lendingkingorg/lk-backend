@@ -22,7 +22,9 @@ public class BusinessEngineController {
 
         try {
 
-           boolean sol= businessEngineServiceInterface.runBusinessEngine(mobNo);
+           Long sol= businessEngineServiceInterface.runBusinessEngine(mobNo);
+           if(sol==null)return new ResponseEntity<>( "NO_DATA_FOUND", HttpStatus.OK);
+
             return new ResponseEntity<>( sol, HttpStatus.OK);
 
         }

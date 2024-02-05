@@ -60,13 +60,9 @@ public class BusinessEngineServiceImpl implements BusinessEngineServiceInterface
 
 
     @Override
-    public boolean runBusinessEngine(Long mobNo) {
-    boolean ApplicationLogsFlag = saveIntoCentralBin(mobNo);
-    return ApplicationLogsFlag;
-
-
-
-
+    public Long runBusinessEngine(Long mobNo) {
+    Long ApplicationID = saveIntoCentralBin(mobNo);
+    return ApplicationID;
     }
 
 

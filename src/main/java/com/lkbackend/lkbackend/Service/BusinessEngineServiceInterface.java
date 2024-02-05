@@ -5,5 +5,5 @@ public interface BusinessEngineServiceInterface {
     public void getPayLoad(Long mobNo);
 
     Long saveIntoCentralBin(Long mobNo);
-    public boolean runBusinessEngine(Long mobNo);
+    public Long runBusinessEngine(Long mobNo);
 }
