@@ -22,8 +22,8 @@ public class BusinessEngineController {
 
         try {
 
-            businessEngineServiceInterface.runBusinessEngine(mobNo);
-            return new ResponseEntity<>("errorMessage", HttpStatus.INTERNAL_SERVER_ERROR);
+           boolean sol= businessEngineServiceInterface.runBusinessEngine(mobNo);
+            return new ResponseEntity<>( sol, HttpStatus.OK);
 
         }
         catch (Exception errorMessage){

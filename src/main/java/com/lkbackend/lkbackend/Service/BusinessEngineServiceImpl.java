@@ -37,20 +37,20 @@ public class BusinessEngineServiceImpl implements BusinessEngineServiceInterface
     }
 
     @Override
-    public Boolean saveIntoCentralBin(Long mobNo) {
+    public Long saveIntoCentralBin(Long mobNo) {
         try {
             DocumentUploadDetails urlDetails = documentRepository.findByMobileNo(mobNo);
             LoanApplicationDetails applicantDetails = loanApplicationRepository.findByMobileNo(mobNo);
 
             if (urlDetails == null && applicantDetails == null) {
                 // Log or handle the case where both are null, if needed
-                return false;
+                return null;
             }
 
             ApplicationCentralBin application = new ApplicationCentralBin(urlDetails, applicantDetails, mobNo);
 
-            applicationCentralBinRepo.save(application);
-            return true;
+            ApplicationCentralBin res=   applicationCentralBinRepo.save(application);
+            return res.getApplicationID();
             // Optionally, you can log or handle success here.
         } catch (Exception e) {
             // Log or handle the exception.
@@ -60,8 +60,11 @@ public class BusinessEngineServiceImpl implements BusinessEngineServiceInterface
 
 
     @Override
-    public void runBusinessEngine(Long mobNo) {
-        saveIntoCentralBin(mobNo);
+    public boolean runBusinessEngine(Long mobNo) {
+    boolean ApplicationLogsFlag = saveIntoCentralBin(mobNo);
+    return ApplicationLogsFlag;
+
+
 
 
     }
