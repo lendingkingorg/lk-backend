@@ -25,7 +25,7 @@ public class BusinessEngineServiceImpl implements BusinessEngineServiceInterface
     DocumentRepository documentRepository;
     @Autowired
     LoanApplicationRepository loanApplicationRepository;
-
+    @Autowired
     ApplicationCentralBinRepo applicationCentralBinRepo;
     @Override
     public void getPayLoad(Long mobNo) {

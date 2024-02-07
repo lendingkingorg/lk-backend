@@ -1,9 +1,7 @@
 package com.lkbackend.lkbackend.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -13,6 +11,8 @@ import java.util.Date;
 @Table(name = "application_central_bin")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ApplicationCentralBin {
 
     @Id
