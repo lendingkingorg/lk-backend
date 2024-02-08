@@ -28,7 +28,11 @@ public class BusinessEngineController {
            Long sol= businessEngineServiceInterface.runBusinessEngine(mobNo);
            if(sol==null)return new ResponseEntity<>( "NO_DATA_FOUND", HttpStatus.OK);
 
-            return new ResponseEntity<>( sol, HttpStatus.OK);
+            HashMap<String, Object> jsonResponse = new HashMap<>();
+            jsonResponse.put("ApplicationID",sol );
+
+
+            return new ResponseEntity<>( jsonResponse, HttpStatus.OK);
 
         }
         catch (Exception errorMessage){
@@ -48,13 +52,13 @@ public class BusinessEngineController {
          for(ApplicationCentralBin x : allUser){
             if(Objects.equals(mobNo, x.getMobileNo())){
                 finalElement=x;
-              //  break;
+
             }
-
-
          }
+            HashMap<String, Object> jsonResponse = new HashMap<>();
+            jsonResponse.put("ApplicationID",finalElement.getApplicationID() );
              //    .findAllByMobileNo(mobNo);
-           return new ResponseEntity<>( finalElement.getApplicationID(), HttpStatus.OK);
+           return new ResponseEntity<>( jsonResponse, HttpStatus.OK);
 
         }
         catch (Exception errorMessage){
