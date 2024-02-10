@@ -81,6 +81,15 @@ public class ApplicationCentralBin {
     String idProofOfGuarantorUrl;
 
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Date createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = new Date();
+    }
+
     public ApplicationCentralBin(
             DocumentUploadDetails urlDetails,
             LoanApplicationDetails applicantDetails,
