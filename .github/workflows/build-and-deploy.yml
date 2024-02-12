@@ -1,0 +1,43 @@
+name: Build and Deploy to AWS Elastic Beanstalk
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Set up Java
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+
+    - name: Build Spring Boot Application
+      run: ./mvnw clean package -Dmaven.test.skip=true
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Deploy to Elastic Beanstalk
+      uses: einaregilsson/beanstalk-deploy@v14
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        application_name: my-spring-boot-app
+        environment_name: my-spring-boot-app-env
+        version_label: ${{ github.run_id }}
+        region: us-east-1
+        source_bundle: target/*.jar
+        environment_variables: |
+          VAR1=${{ secrets.VAR1_SECRET }}
+          VAR2=${{ secrets.VAR2_SECRET }}
