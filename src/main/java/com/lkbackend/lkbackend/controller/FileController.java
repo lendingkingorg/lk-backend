@@ -1,8 +1,8 @@
 package com.lkbackend.lkbackend.controller;
 
-import com.lkbackend.lkbackend.Entity.DocumentUploadRequest;
+import com.lkbackend.lkbackend.entity.DocumentUploadRequest;
 import com.lkbackend.lkbackend.model.DocumentUploadDetails;
-import com.lkbackend.lkbackend.Repo.DocumentRepository;
+import com.lkbackend.lkbackend.repo.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;

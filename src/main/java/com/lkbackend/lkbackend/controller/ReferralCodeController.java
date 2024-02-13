@@ -1,8 +1,8 @@
 package com.lkbackend.lkbackend.controller;
 
-import com.lkbackend.lkbackend.Entity.ReferralExists;
-import com.lkbackend.lkbackend.Repo.LendingInfoRepo;
-import com.lkbackend.lkbackend.Service.LendingInfoService;
+import com.lkbackend.lkbackend.entity.ReferralExists;
+import com.lkbackend.lkbackend.repo.LendingInfoRepo;
+import com.lkbackend.lkbackend.service.LendingInfoService;
 import com.lkbackend.lkbackend.model.LendingInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,8 +1,9 @@
 package com.lkbackend.lkbackend.controller;
 
-import com.lkbackend.lkbackend.Entity.CustomResponseOTPVerify;
-import com.lkbackend.lkbackend.Service.LendingInfoService;
+import com.lkbackend.lkbackend.entity.CustomResponseOTPVerify;
+import com.lkbackend.lkbackend.service.LendingInfoService;
 import com.lkbackend.lkbackend.model.LendingInfo;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,10 +16,12 @@ import java.util.UUID;
 @RestController
 @RequestMapping
 public class VerifyOTPController {
-
-    private static final String MSG91_API_URL_v = "https://control.msg91.com/api/v5/otp/verify";
+    @Value("${msg91.verify-otp-url}")
+    private String MSG91_API_URL;
 
     private final LendingInfoService lendingInfoService;
+    @Value("${msg91.authkey}")
+    String authKey;
 
     public VerifyOTPController(LendingInfoService lendingInfoService) {
         this.lendingInfoService = lendingInfoService;
@@ -37,9 +40,6 @@ public class VerifyOTPController {
         data.setInfo(info);
 
 
-
-        String authKey = "410480ArZD05k4xV6566f67eP1";
-
         HttpHeaders headers = new HttpHeaders();
         headers.set("authkey", authKey);
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -50,7 +50,7 @@ public class VerifyOTPController {
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
         ResponseEntity<String> responseEntity = new RestTemplate().exchange(
-                MSG91_API_URL_v + "?mobile=" + mob + "&" + "otp=" + otp,
+                MSG91_API_URL + "?mobile=" + mob + "&" + "otp=" + otp,
                 HttpMethod.GET,
                 requestEntity,
                 String.class
@@ -61,7 +61,7 @@ public class VerifyOTPController {
             UUID uuid = java.util.UUID.randomUUID();
             data.setSessionId(uuid);
             if(user_info!= null) {
-                info.setCustomerExists(true);;
+                info.setCustomerExists(true);
                 info.setUserName((user_info.getName()));
                 info.setMpin(user_info.getmPin());
                 data.setEmail(user_info.getEmail());

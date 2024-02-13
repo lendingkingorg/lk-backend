@@ -1,9 +1,12 @@
 package com.lkbackend.lkbackend.controller;
 
-import com.lkbackend.lkbackend.Entity.CustomerResponseAccountCreate;
-import com.lkbackend.lkbackend.Entity.GenerateReferralCode;
-import com.lkbackend.lkbackend.Service.LendingInfoService;
+
+import com.lkbackend.lkbackend.entity.CustomerResponseAccountCreate;
+import com.lkbackend.lkbackend.entity.GenerateReferralCode;
 import com.lkbackend.lkbackend.model.LendingInfo;
+import com.lkbackend.lkbackend.service.LendingInfoService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,13 +16,16 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping
+@RequiredArgsConstructor
 public class CreateAccountController {
 
     private final LendingInfoService lendingInfoService;
 
-    public CreateAccountController(LendingInfoService lendingInfoService) {
-        this.lendingInfoService = lendingInfoService;
-    }
+    @Value("${msg91.send-email-url}")
+    private String MSG91_API_URL;
+
+    @Value("${msg91.authkey}")
+    String authKey;
 
     @PostMapping("/create-account")
     public CustomerResponseAccountCreate createAccount(@RequestParam String name, @RequestParam long mobile, @RequestParam int mpin, @RequestParam String email, @RequestParam String pan){
@@ -38,10 +44,6 @@ public class CreateAccountController {
         lendingInfoService.save(lendingInfo);
 
         LendingInfo user_info = lendingInfoService.findByMobileNumber(mobile);
-
-
-        // Set the API endpoint URL
-        String apiUrl = "https://control.msg91.com/api/v5/email/send";
 
         // Create JSON body as a string
         String json = "{\n" +
@@ -63,7 +65,6 @@ public class CreateAccountController {
                 "}";
 
         // Create an HTTP client
-        String authKey = "410480ArZD05k4xV6566f67eP1";
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("authkey", authKey);
@@ -74,7 +75,7 @@ public class CreateAccountController {
         HttpEntity<String> requestEntity = new HttpEntity<>(json, headers);
 
         ResponseEntity<String> responseEntity = new RestTemplate().exchange(
-                apiUrl,
+                MSG91_API_URL,
                 HttpMethod.POST,
                 requestEntity,
                 String.class
