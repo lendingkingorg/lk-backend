@@ -1,7 +1,6 @@
 package com.lkbackend.lkbackend.controller;
 
-import com.lkbackend.lkbackend.entity.CustomResponseOTPSent;
-import org.springframework.beans.factory.annotation.Value;
+import com.lkbackend.lkbackend.Entity.CustomResponseOTPSent;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -9,17 +8,14 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequestMapping
 public class SendOTPController {
-    @Value("${msg91.send-otp-url}")
-    private String MSG91_API_URL;
 
-    @Value("${msg91.authkey}")
-    String authKey;
+    private static final String MSG91_API_URL = "https://control.msg91.com/api/v5/otp";
 
     @PostMapping("/send-otp")
     public CustomResponseOTPSent sendOTP(@RequestParam String mobile) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("authkey",authKey);
+        headers.set("authkey","410480ArZD05k4xV6566f67eP1");
         headers.set("6566f66ad6fc05476e020572", "template_id");
 
         String requestBody = "";

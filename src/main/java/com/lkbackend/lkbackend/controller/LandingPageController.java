@@ -1,6 +1,6 @@
 package com.lkbackend.lkbackend.controller;
 
-import com.lkbackend.lkbackend.repo.LPFormRepo;
+import com.lkbackend.lkbackend.Repo.LPFormRepo;
 import com.lkbackend.lkbackend.model.LPFormTbl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

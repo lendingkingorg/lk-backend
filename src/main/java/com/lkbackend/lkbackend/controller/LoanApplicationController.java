@@ -1,14 +1,17 @@
 package com.lkbackend.lkbackend.controller;
 
-import com.lkbackend.lkbackend.entity.DocumentURL;
+import com.lkbackend.lkbackend.Entity.DocumentURL;
 import com.lkbackend.lkbackend.model.DocumentUploadDetails;
 import com.lkbackend.lkbackend.model.LoanApplicationDetails;
-import com.lkbackend.lkbackend.service.LoanApplicationServiceInterface;
+import com.lkbackend.lkbackend.Service.LoanApplicationServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
