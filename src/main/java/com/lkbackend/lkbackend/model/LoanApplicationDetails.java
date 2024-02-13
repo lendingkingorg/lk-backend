@@ -48,6 +48,10 @@ public class LoanApplicationDetails {
     private double requestedLoanAmount;
     private int loanDurationInMonths;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    private LendingInfo lendingInfo;
+
 
 }
 

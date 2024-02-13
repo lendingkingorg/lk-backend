@@ -30,6 +30,9 @@ public class LendingInfo {
 
     private String cibil_TnC;
 
+    @OneToOne(mappedBy = "lendingInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private LoanApplicationDetails loanApplicationDetails;
+
     public int getUserId() {
         return userId;
     }
