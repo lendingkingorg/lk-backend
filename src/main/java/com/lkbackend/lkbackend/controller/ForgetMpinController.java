@@ -1,26 +1,28 @@
 package com.lkbackend.lkbackend.controller;
 
-import com.lkbackend.lkbackend.entity.ForgotMpin;
-import com.lkbackend.lkbackend.service.LendingInfoService;
+import com.lkbackend.lkbackend.Entity.ForgotMpin;
+import com.lkbackend.lkbackend.Service.LendingInfoService;
 import com.lkbackend.lkbackend.model.LendingInfo;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.catalina.connector.Request;
+import org.apache.catalina.connector.Response;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+
 @RestController
 @RequestMapping
-@RequiredArgsConstructor
 public class ForgetMpinController {
 
     private final LendingInfoService lendingInfoService;
 
-    @Value("${msg91.send-email-url}")
-    private String MSG91_API_URL;
-
-    @Value("${msg91.authkey}")
-    String authKey;
+    public ForgetMpinController(LendingInfoService lendingInfoService) {
+        this.lendingInfoService = lendingInfoService;
+    }
 
     @PostMapping("/recovery-mpin")
     public ForgotMpin ForgetMpin(@RequestParam long mobile){
@@ -29,7 +31,13 @@ public class ForgetMpinController {
         forgotMpin.setData(data);
         try {
 
+
+
             LendingInfo user_info = lendingInfoService.findByMobileNumber(mobile);
+
+
+            // Set the API endpoint URL
+            String apiUrl = "https://control.msg91.com/api/v5/email/send";
 
             // Create JSON body as a string
             String jsonBody = "{\n" +
@@ -56,6 +64,7 @@ public class ForgetMpinController {
                     "}";
 
             // Create an HTTP client
+            String authKey = "410480ArZD05k4xV6566f67eP1";
 
             HttpHeaders headers = new HttpHeaders();
             headers.set("authkey", authKey);
@@ -66,7 +75,7 @@ public class ForgetMpinController {
             HttpEntity<String> requestEntity = new HttpEntity<>(jsonBody, headers);
 
             ResponseEntity<String> responseEntity = new RestTemplate().exchange(
-                    MSG91_API_URL,
+                    apiUrl,
                     HttpMethod.POST,
                     requestEntity,
                     String.class
