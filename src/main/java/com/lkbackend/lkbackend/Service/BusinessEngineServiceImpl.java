@@ -1,8 +1,12 @@
 package com.lkbackend.lkbackend.Service;
 
 
+import com.lkbackend.lkbackend.Repo.ApplicationCentralBinRepo;
+import com.lkbackend.lkbackend.Repo.LoanApplicationRepository;
+import com.lkbackend.lkbackend.model.ApplicationCentralBin;
 import com.lkbackend.lkbackend.model.DocumentUploadDetails;
 import com.lkbackend.lkbackend.Repo.DocumentRepository;
+import com.lkbackend.lkbackend.model.LoanApplicationDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,6 +23,10 @@ public class BusinessEngineServiceImpl implements BusinessEngineServiceInterface
     private String bucketName;
     @Autowired
     DocumentRepository documentRepository;
+    @Autowired
+    LoanApplicationRepository loanApplicationRepository;
+    @Autowired
+    ApplicationCentralBinRepo applicationCentralBinRepo;
     @Override
     public void getPayLoad(Long mobNo) {
 
@@ -29,8 +37,32 @@ public class BusinessEngineServiceImpl implements BusinessEngineServiceInterface
     }
 
     @Override
-    public void runBusinessEngine(Long mobNo) {
+    public Long saveIntoCentralBin(Long mobNo) {
+        try {
+            DocumentUploadDetails urlDetails = documentRepository.findByMobileNo(mobNo);
+            LoanApplicationDetails applicantDetails = loanApplicationRepository.findByMobileNo(mobNo);
 
+            if (urlDetails == null && applicantDetails == null) {
+                // Log or handle the case where both are null, if needed
+                return null;
+            }
+
+            ApplicationCentralBin application = new ApplicationCentralBin(urlDetails, applicantDetails, mobNo);
+
+            ApplicationCentralBin res=   applicationCentralBinRepo.save(application);
+            return res.getApplicationID();
+            // Optionally, you can log or handle success here.
+        } catch (Exception e) {
+            // Log or handle the exception.
+            throw new RuntimeException("Failed to save data to central bin.", e);
+        }
+    }
+
+
+    @Override
+    public Long runBusinessEngine(Long mobNo) {
+    Long ApplicationID = saveIntoCentralBin(mobNo);
+    return ApplicationID;
     }
 
 

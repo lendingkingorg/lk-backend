@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 @EnableJpaRepositories
 public interface LoanApplicationRepository extends JpaRepository<LoanApplicationDetails,Long> {
+    LoanApplicationDetails findByMobileNo(Long mobNo);
 }

@@ -17,7 +17,6 @@ public class DocumentUploadDetails {
 
     @Id
     private Long mobileNo;
-
     String PanCardUrl;
 
     String BankStatementUrlOne;
