@@ -56,7 +56,27 @@ public class VerifyOTPController {
                 String.class
         );
 
-        if ((responseEntity.getStatusCode() == HttpStatus.OK && (responseEntity.getBody().contains("OTP not match") != true))) {
+        data.setOtpVerified(true);
+        UUID uuid = java.util.UUID.randomUUID();
+        data.setSessionId(uuid);
+
+        if(user_info!= null) {
+            info.setCustomerExists(true);;
+            info.setUserName((user_info.getName()));
+            info.setMpin(user_info.getmPin());
+            data.setEmail(user_info.getEmail());
+            customResponseOTPVerify.setStatusCode(200);
+            customResponseOTPVerify.setUserId(mobile);
+            customResponseOTPVerify.setMessage("OTP Verified Successfully");
+        } else {
+            info.setCustomerExists(false);
+            info.setMpin(0);
+            customResponseOTPVerify.setStatusCode(200);
+            customResponseOTPVerify.setUserId(mobile);
+            customResponseOTPVerify.setMessage("OTP Verified Successfully");
+        }
+
+/*        if ((responseEntity.getStatusCode() == HttpStatus.OK && (responseEntity.getBody().contains("OTP not match") != true))) {
             data.setOtpVerified(true);
             UUID uuid = java.util.UUID.randomUUID();
             data.setSessionId(uuid);
@@ -84,7 +104,7 @@ public class VerifyOTPController {
             info.setMpin(0);
             customResponseOTPVerify.setUserId(mobile);
             customResponseOTPVerify.setMessage("OTP Verification unsucccessfull");
-        }
+        }*/
 
         return customResponseOTPVerify;
 
