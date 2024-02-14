@@ -1,11 +1,15 @@
 package com.lkbackend.lkbackend.controller;
 
+import com.lkbackend.lkbackend.Entity.DetailedInfoDTO;
 import com.lkbackend.lkbackend.Repo.LendingInfoRepo;
 import com.lkbackend.lkbackend.Repo.LoanApplicationRepository;
+import com.lkbackend.lkbackend.mapper.DetailedInfoMapper;
 import com.lkbackend.lkbackend.model.OnSalaryInfoTbl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.accept.MappingMediaTypeFileExtensionResolver;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -13,20 +17,22 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 public class DashboardController {
-@Autowired
-    LoanApplicationRepository loanApplicationRepository;
-    @Autowired
-    LendingInfoRepo lendingInfoRepo;
+
+    private final LoanApplicationRepository loanApplicationRepository;
+
+    private final LendingInfoRepo lendingInfoRepo;
+
+    private final DetailedInfoMapper detailedInfoMapper;
+
 
     @GetMapping("/get-all-user-data/")
-    public ResponseEntity<?> getUserData()
+    public ResponseEntity< List<DetailedInfoDTO>> getUserData()
     {
-Map<String, List<?>> userData=new HashMap<>();
-        userData.put("applicationData",loanApplicationRepository.findAll());
-        userData.put("userData",lendingInfoRepo.findAll());
-
-       return new ResponseEntity<>(userData, HttpStatus.OK);
+        List<DetailedInfoDTO> detailedInfoDTOS = lendingInfoRepo.findAll().stream().map(lendingInfo ->
+            detailedInfoMapper.fullDetailedMapper(lendingInfo, lendingInfo.getLoanApplicationDetails())).toList();
+       return new ResponseEntity<>(detailedInfoDTOS, HttpStatus.OK);
     }
 
     @GetMapping("/admin-login/{passcode}/{userName}")

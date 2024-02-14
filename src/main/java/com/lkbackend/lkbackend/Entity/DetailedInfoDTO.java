@@ -1,36 +1,40 @@
-package com.lkbackend.lkbackend.model;
+package com.lkbackend.lkbackend.Entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.GetMapping;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-@Entity
-@Data
-@Table(name = "loan_inf")
-public class LoanApplicationDetails {
+@Getter
+@Setter
+public class DetailedInfoDTO {
 
-    @Id
-    private Long mobileNo;
+    private Long mobileNumber;
 
-    // Personal Information
     private String name;
 
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private int mPin;
 
+    private String email;
+
+    private String pan;
+
+    private String referral;
+
+    private String lk_TnC;
+
+    private String cibil_TnC;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dob;
     private String gender;
 
     // Residential Information
     private String residentialPincode;
     private String residentialAddress;
-
-    // PAN Information
-    private String pan;
 
     // Financial Information
     private String annualTurnover;
@@ -48,10 +52,5 @@ public class LoanApplicationDetails {
     private double requestedLoanAmount;
     private int loanDurationInMonths;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "mobileNo", referencedColumnName = "mobileNumber")
-    private LendingInfo lendingInfo;
-
 
 }
-

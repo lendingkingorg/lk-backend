@@ -10,11 +10,7 @@ import lombok.Data;
 public class LendingInfo {
 
     @Id
-    @Column(name = "userId")
-    @GeneratedValue
-    private int userId;
-
-    private long mobileNumber;
+    private Long mobileNumber;
 
     private String name;
 
@@ -30,12 +26,8 @@ public class LendingInfo {
 
     private String cibil_TnC;
 
-    @OneToOne(mappedBy = "lendingInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "lendingInfo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private LoanApplicationDetails loanApplicationDetails;
-
-    public int getUserId() {
-        return userId;
-    }
 
     public String getLk_TnC() {
         return lk_TnC;
@@ -51,10 +43,6 @@ public class LendingInfo {
 
     public void setCibil_TnC(String cibil_TnC) {
         this.cibil_TnC = cibil_TnC;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public long getMobileNumber() {

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,7 +50,8 @@ public class ReferralCodeController {
 
     @GetMapping("/get-referral/{mobNo}")
     public ResponseEntity<?> getCode(@PathVariable long mobNo) {
-        LendingInfo user = lendingInfoRepo.findByMobileNumber(mobNo);
+        LendingInfo user = lendingInfoRepo.findById(mobNo)
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND, "Info not found."));
         Map<String, Object> response = new HashMap<>();
         if (user == null) {
             // Handle the case where the user is not found
