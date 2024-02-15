@@ -14,8 +14,6 @@ import software.amazon.awssdk.services.s3.S3Client;
 
 @Service
 public class BusinessEngineServiceImpl implements BusinessEngineServiceInterface{
-
-
     @Autowired
     private S3Client s3Client;
 
@@ -29,11 +27,7 @@ public class BusinessEngineServiceImpl implements BusinessEngineServiceInterface
     ApplicationCentralBinRepo applicationCentralBinRepo;
     @Override
     public void getPayLoad(Long mobNo) {
-
         DocumentUploadDetails urlDetails= documentRepository.findByMobileNo(mobNo);
-
-
-
     }
 
     @Override
@@ -61,8 +55,8 @@ public class BusinessEngineServiceImpl implements BusinessEngineServiceInterface
 
     @Override
     public Long runBusinessEngine(Long mobNo) {
-    Long ApplicationID = saveIntoCentralBin(mobNo);
-    return ApplicationID;
+        Long ApplicationID = saveIntoCentralBin(mobNo);
+        return ApplicationID;
     }
 
 

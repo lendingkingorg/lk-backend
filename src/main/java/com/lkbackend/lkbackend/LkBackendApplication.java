@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication(exclude={ SecurityAutoConfiguration.class})
 @EnableJpaRepositories
 public class LkBackendApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(LkBackendApplication.class, args);
 	}

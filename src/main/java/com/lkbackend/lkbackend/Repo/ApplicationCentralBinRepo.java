@@ -10,9 +10,6 @@ import java.util.List;
 @Repository
 @EnableJpaRepositories
 public interface ApplicationCentralBinRepo extends JpaRepository<ApplicationCentralBin,Long> {
-
  List<ApplicationCentralBin> findAllByMobileNo(Long MobileNo);
-
     //  List<ApplicationCentralBin> findAll() ;
-
 }
