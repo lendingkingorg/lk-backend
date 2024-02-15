@@ -13,10 +13,10 @@ public class LPFormTbl {
 
     @Id
     @GeneratedValue
-    private Long Id;
+    private Long id;
 
-    String businessName;
-    String email;
+    private String businessName;
+    private String email;
 
 
 }

@@ -2,8 +2,6 @@ package com.lkbackend.lkbackend.Entity;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.swing.plaf.PanelUI;
 import java.util.UUID;
 
 public class CustomResponseOTPVerify {
@@ -59,9 +57,9 @@ public class CustomResponseOTPVerify {
         private boolean otpVerified;
         private Info info;
 
-        public UUID sessionId;
+        private UUID sessionId;
 
-        public String email;
+        private String email;
 
         public Data(){}
 

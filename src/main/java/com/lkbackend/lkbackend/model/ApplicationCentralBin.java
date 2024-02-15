@@ -52,33 +52,33 @@ public class ApplicationCentralBin {
     private double requestedLoanAmount;
     private int loanDurationInMonths;
 
-    String panCardUrl;
+    private String panCardUrl;
 
-    String bankStatementUrlOne;
-    String bankInfoOne;
-    String bankStatementOneDocFormat;
+    private String bankStatementUrlOne;
+    private String bankInfoOne;
+    private String bankStatementOneDocFormat;
 
-    String bankStatementUrlTwo;
-    String bankInfoTwo;
-    String bankStatementTwoDocFormat;
+    private String bankStatementUrlTwo;
+    private String bankInfoTwo;
+    private String bankStatementTwoDocFormat;
 
-    String bankStatementUrlThree;
-    String bankInfoThree;
-    String bankStatementThreeDocFormat;
+    private String bankStatementUrlThree;
+    private String bankInfoThree;
+    private String bankStatementThreeDocFormat;
 
-    String bankStatementUrlFour;
-    String bankInfoFour;
-    String bankStatementFourDocFormat;
+    private String bankStatementUrlFour;
+    private String bankInfoFour;
+    private String bankStatementFourDocFormat;
 
-    String bankStatementUrlFive;
-    String bankInfoFive;
-    String bankStatementFiveDocFormat;
+    private String bankStatementUrlFive;
+    private String bankInfoFive;
+    private String bankStatementFiveDocFormat;
 
-    String businessRegistrationProofUrl;
+    private String businessRegistrationProofUrl;
 
-    String businessAddressProofUrl;
+    private String businessAddressProofUrl;
 
-    String idProofOfGuarantorUrl;
+    private String idProofOfGuarantorUrl;
 
 
     @Temporal(TemporalType.TIMESTAMP)

@@ -6,35 +6,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter@Getter@AllArgsConstructor@NoArgsConstructor
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class DocumentURL {
-
-
-
-    String PanCardUrl;
-
-    String BankStatementUrlOne;
-
-
-    String BankStatementUrlTwo;
-
-
-    String BankStatementUrlThree;
-
-
-    String BankStatementUrlFour;
-
-
-    String BankStatementUrlFive;
-
-
-    String BusinessRegistrationProofUrl;
-
-    String BusinessAddressProofUrl;
-
-    String IDProofOfGuarantorUrl;
-
-
+    private String PanCardUrl;
+    private String BankStatementUrlOne;
+    private String BankStatementUrlTwo;
+    private String BankStatementUrlThree;
+    private String BankStatementUrlFour;
+    private String BankStatementUrlFive;
+    private String BusinessRegistrationProofUrl;
+    private String BusinessAddressProofUrl;
+    private String IDProofOfGuarantorUrl;
     public DocumentURL(DocumentUploadDetails res) {
         setBankStatementUrlOne(res.getBankStatementUrlOne());
         setBankStatementUrlTwo(res.getBankStatementUrlTwo());
