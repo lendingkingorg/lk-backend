@@ -51,11 +51,8 @@ jobs:
       with:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: my-spring-boot-app
-        environment_name: my-spring-boot-app-env
+        application_name: lendingking
+        environment_name: Lendingking-env
         version_label: ${{ github.run_id }}
-        region: us-east-1
+        region: eu-north-1
         source_bundle: target/*.jar
-        environment_variables: |
-          VAR1=${{ secrets.VAR1_SECRET }}
-          VAR2=${{ secrets.VAR2_SECRET }}
