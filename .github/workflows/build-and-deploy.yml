@@ -38,10 +38,10 @@ jobs:
 
     - name: Build Spring Boot Application
       run: ./mvnw clean install package -DskipTests=true
-    - name: Print JAR file name
+    - name: List target directory
+      if: always
       run: | 
-        ls -1 spring-boot-app >> deployed-jars.txt
-        cat deployed-jars.txt
+        ls target
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
