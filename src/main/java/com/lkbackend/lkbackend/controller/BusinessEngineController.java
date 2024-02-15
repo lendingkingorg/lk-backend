@@ -1,5 +1,6 @@
 package com.lkbackend.lkbackend.controller;
 
+import com.lkbackend.lkbackend.Entity.ApplicationCentralBinDTO;
 import com.lkbackend.lkbackend.Repo.ApplicationCentralBinRepo;
 import com.lkbackend.lkbackend.model.ApplicationCentralBin;
 import com.lkbackend.lkbackend.model.LoanApplicationDetails;
@@ -25,14 +26,12 @@ public class BusinessEngineController {
 
         try {
 
-           Long sol= businessEngineServiceInterface.runBusinessEngine(mobNo);
-           if(sol==null)return new ResponseEntity<>( "NO_DATA_FOUND", HttpStatus.OK);
+           ApplicationCentralBinDTO sol= businessEngineServiceInterface.runBusinessEngine(mobNo);
+           if(sol==null){
+               return new ResponseEntity<>( "NO_DATA_FOUND", HttpStatus.OK);
+           }
 
-            HashMap<String, Object> jsonResponse = new HashMap<>();
-            jsonResponse.put("ApplicationID",sol );
-
-
-            return new ResponseEntity<>( jsonResponse, HttpStatus.OK);
+            return new ResponseEntity<>( sol, HttpStatus.OK);
 
         }
         catch (Exception errorMessage){
