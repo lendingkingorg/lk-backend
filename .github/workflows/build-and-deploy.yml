@@ -58,4 +58,4 @@ jobs:
         environment_name: Lendingking-env
         version_label: ${{ github.run_id }}
         region: eu-north-1
-        source_bundle: target/lk-backend-0.0.1-SNAPSHOT.jar
+        deployment_package: target/lk-backend-0.0.1-SNAPSHOT.jar
