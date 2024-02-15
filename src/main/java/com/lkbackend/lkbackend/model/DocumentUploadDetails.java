@@ -17,33 +17,33 @@ public class DocumentUploadDetails {
 
     @Id
     private Long mobileNo;
-    String PanCardUrl;
+    private String PanCardUrl;
 
-    String BankStatementUrlOne;
-    String BankInfoOne;
-    String BankStatementOneDocFormat;
+    private String BankStatementUrlOne;
+    private String BankInfoOne;
+    private String BankStatementOneDocFormat;
 
-    String BankStatementUrlTwo;
-    String BankInfoTwo;
-    String BankStatementTwoDocFormat;
+    private String BankStatementUrlTwo;
+    private String BankInfoTwo;
+    private String BankStatementTwoDocFormat;
 
-    String BankStatementUrlThree;
-    String BankInfoThree;
-    String BankStatementThreeDocFormat;
+    private String BankStatementUrlThree;
+    private String BankInfoThree;
+    private String BankStatementThreeDocFormat;
 
-    String BankStatementUrlFour;
-    String BankInfoFour;
-    String BankStatementFourDocFormat;
+    private String BankStatementUrlFour;
+    private String BankInfoFour;
+    private String BankStatementFourDocFormat;
 
-    String BankStatementUrlFive;
-    String BankInfoFive;
-    String BankStatementFiveDocFormat;
+    private String BankStatementUrlFive;
+    private String BankInfoFive;
+    private String BankStatementFiveDocFormat;
 
-    String BusinessRegistrationProofUrl;
+    private String BusinessRegistrationProofUrl;
 
-    String BusinessAddressProofUrl;
+   private String BusinessAddressProofUrl;
 
-    String IDProofOfGuarantorUrl;
+    private String IDProofOfGuarantorUrl;
 
 
 }

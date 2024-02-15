@@ -3,29 +3,26 @@ package com.lkbackend.lkbackend.controller;
 import com.lkbackend.lkbackend.Entity.ForgotMpin;
 import com.lkbackend.lkbackend.Service.LendingInfoService;
 import com.lkbackend.lkbackend.model.LendingInfo;
-import org.apache.catalina.connector.Request;
-import org.apache.catalina.connector.Response;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 
 @RestController
 @RequestMapping
+@RequiredArgsConstructor
 public class ForgetMpinController {
 
     private final LendingInfoService lendingInfoService;
+    @Value("${msg91.send-email-url}")
+    private String msg91ApiUrl;
 
-    public ForgetMpinController(LendingInfoService lendingInfoService) {
-        this.lendingInfoService = lendingInfoService;
-    }
-
+    @Value("${msg91.authkey}")
+    String authKey;
     @PostMapping("/recovery-mpin")
-    public ForgotMpin ForgetMpin(@RequestParam long mobile){
+    public ForgotMpin forgetMpin(@RequestParam long mobile){
         ForgotMpin forgotMpin = new ForgotMpin();
         ForgotMpin.Data data = new ForgotMpin.Data();
         forgotMpin.setData(data);
@@ -33,11 +30,7 @@ public class ForgetMpinController {
 
 
 
-            LendingInfo user_info = lendingInfoService.findByMobileNumber(mobile);
-
-
-            // Set the API endpoint URL
-            String apiUrl = "https://control.msg91.com/api/v5/email/send";
+            LendingInfo userInfo = lendingInfoService.findByMobileNumber(mobile);
 
             // Create JSON body as a string
             String jsonBody = "{\n" +
@@ -45,13 +38,13 @@ public class ForgetMpinController {
                     "    {\n" +
                     "      \"to\": [\n" +
                     "        {\n" +
-                    "          \"name\": \"" + user_info.getName() + "\",\n" +
-                    "          \"email\": \"" + user_info.getEmail() + "\"\n" +
+                    "          \"name\": \"" + userInfo.getName() + "\",\n" +
+                    "          \"email\": \"" + userInfo.getEmail() + "\"\n" +
                     "        }\n" +
                     "      ],\n" +
                     "      \"variables\": {\n" +
-                    "        \"MPIN\": \"" + user_info.getmPin() + "\",\n" +
-                    "        \"USER\": \"" + user_info.getName() + "\"\n" +
+                    "        \"MPIN\": \"" + userInfo.getmPin() + "\",\n" +
+                    "        \"USER\": \"" + userInfo.getName() + "\"\n" +
                     "      }\n" +
                     "    }\n" +
                     "  ],\n" +
@@ -63,9 +56,6 @@ public class ForgetMpinController {
                     "  \"template_id\": \"forgot_mpin\"\n" +
                     "}";
 
-            // Create an HTTP client
-            String authKey = "410480ArZD05k4xV6566f67eP1";
-
             HttpHeaders headers = new HttpHeaders();
             headers.set("authkey", authKey);
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -75,7 +65,7 @@ public class ForgetMpinController {
             HttpEntity<String> requestEntity = new HttpEntity<>(jsonBody, headers);
 
             ResponseEntity<String> responseEntity = new RestTemplate().exchange(
-                    apiUrl,
+                    msg91ApiUrl,
                     HttpMethod.POST,
                     requestEntity,
                     String.class
