@@ -33,7 +33,7 @@ jobs:
         SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
-        MSG91_AUTH_KEY: ${{ secrets.MSG91_AUTH_KY }}
+        MSG91_AUTH_KEY: ${{ secrets.MSG91_AUTH }}
 
 
     - name: Build Spring Boot Application
@@ -54,8 +54,8 @@ jobs:
       with:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: lendingking
-        environment_name: Lendingking-env
+        application_name: Lendingking
+        environment_name: Lendingking
         version_label: ${{ github.run_id }}
         region: eu-north-1
         deployment_package: target/lk-backend-0.0.1-SNAPSHOT.jar
