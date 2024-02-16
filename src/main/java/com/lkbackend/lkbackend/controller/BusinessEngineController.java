@@ -28,7 +28,7 @@ public class BusinessEngineController {
         try {
             Long sol = businessEngineServiceInterface.runBusinessEngine(mobNo);
             if (sol == null) {
-                log.info("No data found for mobNo: {}", mobNo);  // Corrected log message
+                log.info("No data found for mobNo: {}", mobNo);
                 return new ResponseEntity<>("NO_DATA_FOUND", HttpStatus.OK);
             }
 
@@ -58,8 +58,10 @@ public class BusinessEngineController {
                 HashMap<String, Object> jsonResponse = new HashMap<>();
                 jsonResponse.put("ApplicationID", finalElement.getApplicationID());
                 jsonResponse.put("created_at", finalElement.getCreatedAt());
+                log.info("Application ID retrieved successfully for mobNo: {}", mobNo);
                 return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
             } else {
+                log.info("No data found for mobNo: {}", mobNo);
                 return new ResponseEntity<>("NO_DATA_FOUND", HttpStatus.OK);
             }
         } catch (Exception errorMessage) {

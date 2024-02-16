@@ -28,7 +28,7 @@ public class CreateAccountController {
     String authKey;
 
     @PostMapping("/create-account")
-    public CustomerResponseAccountCreate createAccount(@RequestParam String name, @RequestParam long mobile, @RequestParam int mpin, @RequestParam String email, @RequestParam String pan){
+    public CustomerResponseAccountCreate createAccount(@RequestParam String name, @RequestParam long mobile, @RequestParam int mpin, @RequestParam String email, @RequestParam String pan) {
         log.info("Create Account request received for mobile: {}", mobile);
         GenerateReferralCode generateReferralCode = new GenerateReferralCode();
         LendingInfo lendingInfo = new LendingInfo();
@@ -54,8 +54,8 @@ public class CreateAccountController {
                 "    {\n" +
                 "      \"to\": [\n" +
                 "        {\n" +
-                "          \"email\": \""+ user_info .getEmail()+ "\",\n" +
-                "          \"name\": \""+user_info.getName()+ "\"\n" +
+                "          \"email\": \"" + user_info.getEmail() + "\",\n" +
+                "          \"name\": \"" + user_info.getName() + "\"\n" +
                 "        }\n" +
                 "      ]\n" +
                 "    }\n" +

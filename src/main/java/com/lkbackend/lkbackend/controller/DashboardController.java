@@ -2,7 +2,6 @@ package com.lkbackend.lkbackend.controller;
 
 import com.lkbackend.lkbackend.Repo.LendingInfoRepo;
 import com.lkbackend.lkbackend.Repo.LoanApplicationRepository;
-import com.lkbackend.lkbackend.model.OnSalaryInfoTbl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,20 +15,19 @@ import java.util.Map;
 @RestController
 @Slf4j
 public class DashboardController {
-@Autowired
+    @Autowired
     LoanApplicationRepository loanApplicationRepository;
     @Autowired
     LendingInfoRepo lendingInfoRepo;
 
     @GetMapping("/get-all-user-data/")
-    public ResponseEntity<?> getUserData()
-    {
+    public ResponseEntity<?> getUserData() {
         log.info("Request received to fetch all user data.");
-        Map<String, List<?>> userData=new HashMap<>();
-        userData.put("applicationData",loanApplicationRepository.findAll());
-        userData.put("userData",lendingInfoRepo.findAll());
+        Map<String, List<?>> userData = new HashMap<>();
+        userData.put("applicationData", loanApplicationRepository.findAll());
+        userData.put("userData", lendingInfoRepo.findAll());
         log.info("Returning all user data.");
-       return new ResponseEntity<>(userData, HttpStatus.OK);
+        return new ResponseEntity<>(userData, HttpStatus.OK);
     }
 
     @GetMapping("/admin-login/{passcode}/{userName}")

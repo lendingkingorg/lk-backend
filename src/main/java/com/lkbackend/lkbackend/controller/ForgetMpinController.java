@@ -3,19 +3,15 @@ package com.lkbackend.lkbackend.controller;
 import com.lkbackend.lkbackend.Entity.ForgotMpin;
 import com.lkbackend.lkbackend.Service.LendingInfoService;
 import com.lkbackend.lkbackend.model.LendingInfo;
-import org.apache.catalina.connector.Request;
-import org.apache.catalina.connector.Response;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 
 @RestController
 @RequestMapping
+@Slf4j
 public class ForgetMpinController {
 
     private final LendingInfoService lendingInfoService;
@@ -25,14 +21,12 @@ public class ForgetMpinController {
     }
 
     @PostMapping("/recovery-mpin")
-    public ForgotMpin ForgetMpin(@RequestParam long mobile){
+    public ForgotMpin ForgetMpin(@RequestParam long mobile) {
         ForgotMpin forgotMpin = new ForgotMpin();
         ForgotMpin.Data data = new ForgotMpin.Data();
         forgotMpin.setData(data);
         try {
-
-
-
+            log.info("Initiating recovery MPIN process for mobile: {}", mobile);
             LendingInfo user_info = lendingInfoService.findByMobileNumber(mobile);
 
 
@@ -85,8 +79,10 @@ public class ForgetMpinController {
             data.setForgotMpinEmailSent(true);
             forgotMpin.setStatusCode(200);
             forgotMpin.setUserId(String.valueOf(mobile));
+            log.info("MPIN recovery process completed successfully for mobile number: {}", mobile);
             return forgotMpin;
         } catch (Exception e) {
+            log.error("Error occurred during MPIN recovery process for mobile number: {}", mobile, e);
             e.printStackTrace();
             forgotMpin.setUserId(String.valueOf(mobile));
             data.setForgotMpinEmailSent(false);
