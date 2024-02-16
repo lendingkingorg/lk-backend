@@ -33,11 +33,14 @@ jobs:
         SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
-        MSG91_AUTH_KEY: ${{ secrets.MSG91_AUTH_KEY }}
+        MSG91_AUTH_KEY: ${{ secrets.MSG91_AUTH }}
 
 
     - name: Build Spring Boot Application
-      run: ./mvnw clean package -Dmaven.test.skip=true
+      run: ./mvnw clean install package -DskipTests=true
+    - name: List target directory
+      run: | 
+        ls target
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -51,11 +54,8 @@ jobs:
       with:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: my-spring-boot-app
-        environment_name: my-spring-boot-app-env
+        application_name: Lendingking
+        environment_name: Lendingking
         version_label: ${{ github.run_id }}
-        region: us-east-1
-        source_bundle: target/*.jar
-        environment_variables: |
-          VAR1=${{ secrets.VAR1_SECRET }}
-          VAR2=${{ secrets.VAR2_SECRET }}
+        region: eu-north-1
+        deployment_package: target/lk-backend-0.0.1-SNAPSHOT.jar
