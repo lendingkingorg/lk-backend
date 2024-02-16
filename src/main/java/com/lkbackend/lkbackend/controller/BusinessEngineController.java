@@ -44,21 +44,10 @@ public class BusinessEngineController {
     public ResponseEntity<?> getApplicationID(@PathVariable Long mobNo){
 
         try {
-         List<ApplicationCentralBin> allUser= applicationCentralBinRepo.findAllByMobileNo(mobNo);
-
-
-            ApplicationCentralBin finalElement = null;
-         for(ApplicationCentralBin x : allUser){
-            if(Objects.equals(mobNo, x.getMobileNo())){
-                finalElement=x;
-
-            }
-         }
-            HashMap<String, Object> jsonResponse = new HashMap<>();
-            jsonResponse.put("ApplicationID",finalElement.getApplicationID() );
-            jsonResponse.put("created_at",finalElement.getCreatedAt() );
+         ApplicationCentralBin user= applicationCentralBinRepo.findFirstByMobileNoOrderByCreatedAtDesc(mobNo);
+           ApplicationCentralBinDTO applicationCentralBinDTO= new ApplicationCentralBinDTO(user.getApplicationID(), user.getRequestedLoanAmount(), user.getCreatedAt());
              //    .findAllByMobileNo(mobNo);
-           return new ResponseEntity<>( jsonResponse, HttpStatus.OK);
+           return new ResponseEntity<>( applicationCentralBinDTO, HttpStatus.OK);
 
         }
         catch (Exception errorMessage){
