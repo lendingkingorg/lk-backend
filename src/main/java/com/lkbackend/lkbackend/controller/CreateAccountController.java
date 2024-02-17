@@ -50,10 +50,13 @@ public class CreateAccountController {
                 "    {\n" +
                 "      \"to\": [\n" +
                 "        {\n" +
-                "          \"email\": \""+ user_info .getEmail()+ "\",\n" +
-                "          \"name\": \""+user_info.getName()+ "\"\n" +
+                "          \"name\": \"" + user_info.getName() + "\",\n" +
+                "          \"email\": \"" + user_info.getEmail() + "\"\n" +
                 "        }\n" +
-                "      ]\n" +
+                "      ],\n" +
+                "      \"variables\": {\n" +
+                "        \"USER\": \"" + user_info.getName() + "\"\n" +
+                "      }\n" +
                 "    }\n" +
                 "  ],\n" +
                 "  \"from\": {\n" +
