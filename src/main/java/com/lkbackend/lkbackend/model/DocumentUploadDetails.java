@@ -1,49 +1,78 @@
 package com.lkbackend.lkbackend.model;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Data
 @Table(name = "document_inf")
 @Getter
 @Setter
 public class DocumentUploadDetails {
 
     @Id
+    @Column(name = "mobile_no")
     private Long mobileNo;
-    private String PanCardUrl;
 
-    private String BankStatementUrlOne;
-    private String BankInfoOne;
-    private String BankStatementOneDocFormat;
+    @Column(name = "pan_card_url")
+    private String panCardUrl;
 
-    private String BankStatementUrlTwo;
-    private String BankInfoTwo;
-    private String BankStatementTwoDocFormat;
+    @Column(name = "bank_statement_url_one")
+    private String bankStatementUrlOne;
 
-    private String BankStatementUrlThree;
-    private String BankInfoThree;
-    private String BankStatementThreeDocFormat;
+    @Column(name = "bank_info_one")
+    private String bankInfoOne;
 
-    private String BankStatementUrlFour;
-    private String BankInfoFour;
-    private String BankStatementFourDocFormat;
+    @Column(name = "bank_statement_one_doc_format")
+    private String bankStatementOneDocFormat;
 
-    private String BankStatementUrlFive;
-    private String BankInfoFive;
-    private String BankStatementFiveDocFormat;
+    @Column(name = "bank_statement_url_two")
+    private String bankStatementUrlTwo;
 
-    private String BusinessRegistrationProofUrl;
+    @Column(name = "bank_info_two")
+    private String bankInfoTwo;
 
-   private String BusinessAddressProofUrl;
+    @Column(name = "bank_statement_two_doc_format")
+    private String bankStatementTwoDocFormat;
 
-    private String IDProofOfGuarantorUrl;
+    @Column(name = "bank_statement_url_three")
+    private String bankStatementUrlThree;
 
+    @Column(name = "bank_info_three")
+    private String bankInfoThree;
+
+    @Column(name = "bank_statement_three_doc_format")
+    private String bankStatementThreeDocFormat;
+
+    @Column(name = "bank_statement_url_four")
+    private String bankStatementUrlFour;
+
+    @Column(name = "bank_info_four")
+    private String bankInfoFour;
+
+    @Column(name = "bank_statement_four_doc_format")
+    private String bankStatementFourDocFormat;
+
+    @Column(name = "bank_statement_url_five")
+    private String bankStatementUrlFive;
+
+    @Column(name = "bank_info_five")
+    private String bankInfoFive;
+
+    @Column(name = "bank_statement_five_doc_format")
+    private String bankStatementFiveDocFormat;
+
+    @Column(name = "business_registration_proof_url")
+    private String businessRegistrationProofUrl;
+
+    @Column(name = "business_address_proof_url")
+    private String businessAddressProofUrl;
+
+    @Column(name = "id_proof_of_guarantor_url")
+    private String idProofOfGuarantorUrl;
 
 }

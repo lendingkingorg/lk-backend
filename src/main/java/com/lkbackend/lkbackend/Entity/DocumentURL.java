@@ -27,7 +27,7 @@ public class DocumentURL {
         setBankStatementUrlFour(res.getBankStatementUrlFour());
         setBankStatementUrlFive(res.getBankStatementUrlFive());
 
-        setIDProofOfGuarantorUrl(res.getIDProofOfGuarantorUrl());
+        setIDProofOfGuarantorUrl(res.getIdProofOfGuarantorUrl());
         setPanCardUrl(res.getPanCardUrl());
         setBusinessAddressProofUrl(res.getBusinessAddressProofUrl());
         setBusinessRegistrationProofUrl(res.getBusinessRegistrationProofUrl());

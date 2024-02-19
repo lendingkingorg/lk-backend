@@ -30,18 +30,18 @@ public class CreateAccountController {
         GenerateReferralCode generateReferralCode = new GenerateReferralCode();
         LendingInfo lendingInfo = new LendingInfo();
         lendingInfo.setMobileNumber(mobile);
-        lendingInfo.setmPin(mpin);
+        lendingInfo.setMPin(mpin);
         lendingInfo.setEmail(email);
         lendingInfo.setPan(pan);
         lendingInfo.setReferral(generateReferralCode.generateReferralCode());
         lendingInfo.setName(name);
-        lendingInfo.setLk_TnC("True");
-        lendingInfo.setCibil_TnC("True");
+        lendingInfo.setLkTnC("True");
+        lendingInfo.setCibilTnC("True");
 
 
         lendingInfoService.save(lendingInfo);
 
-        LendingInfo user_info = lendingInfoService.findByMobileNumber(mobile);
+        LendingInfo userInfo = lendingInfoService.findByMobileNumber(mobile);
 
 
         // Create JSON body as a string
@@ -50,8 +50,8 @@ public class CreateAccountController {
                 "    {\n" +
                 "      \"to\": [\n" +
                 "        {\n" +
-                "          \"email\": \""+ user_info .getEmail()+ "\",\n" +
-                "          \"name\": \""+user_info.getName()+ "\"\n" +
+                "          \"email\": \""+ userInfo .getEmail()+ "\",\n" +
+                "          \"name\": \""+userInfo.getName()+ "\"\n" +
                 "        }\n" +
                 "      ]\n" +
                 "    }\n" +

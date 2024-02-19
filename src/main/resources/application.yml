@@ -3,18 +3,22 @@ spring:
     user:
       name: user
       password: user
-
-  datasource:
-    url: jdbc:mysql://database-onboarding.cbgii4kmmlyn.eu-north-1.rds.amazonaws.com:3346/database-onboarding?createDatabaseIfNotExist=true
-    username: admin
-    password: ${SPRING_DATASOURCE_PASSWORD:}
-
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+  datasource:
+    url: jdbc:mysql://localhost:3306/database-onboarding?createDatabaseIfNotExist=true
+    username: root
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+
+  flyway:
+    baselineOnMigrate: true
+    enable: true
+    locations: classpath:db/migration,classpath:db/test-migration
+
 
 # AWS S3 Configuration
 aws:
@@ -24,8 +28,36 @@ aws:
   s3:
     bucketName: application-details
 
+# Msg91 Configuration
 msg91:
   authkey: ${MSG91_AUTH_KEY:}
   verify-otp-url: "https://control.msg91.com/api/v5/otp/verify"
   send-otp-url: "https://control.msg91.com/api/v5/otp"
   send-email-url: "https://control.msg91.com/api/v5/email/send"
+
+# Test profile
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:mysql://lendingking-test.cbgii4kmmlyn.eu-north-1.rds.amazonaws.com:3306/database-onboarding?createDatabaseIfNotExist=true
+    username: admin
+    password: ${SPRING_TEST_DATASOURCE_PASSWORD:}
+  flyway:
+    locations: classpath:db/migration,classpath:db/test-migration
+
+
+# Prod profile
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: jdbc:mysql://database-onboarding.cbgii4kmmlyn.eu-north-1.rds.amazonaws.com:3346/database-onboarding?createDatabaseIfNotExist=true
+    username: admin
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+  flyway:
+    locations: classpath:db/migration

@@ -43,7 +43,7 @@ public class ForgetMpinController {
                     "        }\n" +
                     "      ],\n" +
                     "      \"variables\": {\n" +
-                    "        \"MPIN\": \"" + userInfo.getmPin() + "\",\n" +
+                    "        \"MPIN\": \"" + userInfo.getMPin() + "\",\n" +
                     "        \"USER\": \"" + userInfo.getName() + "\"\n" +
                     "      }\n" +
                     "    }\n" +

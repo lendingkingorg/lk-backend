@@ -37,7 +37,7 @@ public class FileController {
             @PathVariable long mobNo,
             @RequestPart DocumentUploadRequest documentUploadRequest) {
         try {
-            System.out.println("Request Headers: " + documentUploadRequest.getDocumentType().toString());
+            System.out.println("Request Headers: " + documentUploadRequest.getDocumentType());
             LocalDateTime localDateTime = LocalDateTime.now();
 
             String key = generateKey(file.getOriginalFilename());
@@ -100,7 +100,7 @@ public class FileController {
                 documentInfo.setBusinessAddressProofUrl(fileUrl);
             }
             else if(documentUploadRequest.getDocumentType().contains("IDProofOfGuarantor")){
-                documentInfo.setIDProofOfGuarantorUrl(fileUrl);
+                documentInfo.setIdProofOfGuarantorUrl(fileUrl);
             }
 
             documentRepository.save(documentInfo);
@@ -187,7 +187,7 @@ public class FileController {
             case "IDProofOfGuarantor":
                 // logic for IDProofOfGuarantor
                 System.out.println("Processing IDProofOfGuarantor");
-                documentInfo.setIDProofOfGuarantorUrl(null);
+                documentInfo.setIdProofOfGuarantorUrl(null);
                 break;
         }
 
