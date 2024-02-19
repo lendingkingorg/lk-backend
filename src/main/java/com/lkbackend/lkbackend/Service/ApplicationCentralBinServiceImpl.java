@@ -16,4 +16,9 @@ public class ApplicationCentralBinServiceImpl implements ApplicationCentralBinSe
     public List<ApplicationCentralBin> getApplicationIDByMobileNo(Long mobNo) {
       return   applicationCentralBinRepo.findAllByMobileNo(mobNo);
     }
+
+    @Override
+    public ApplicationCentralBin findFirstByMobileNoOrderByCreatedAtDesc(Long mobNo) {
+        return applicationCentralBinRepo.findFirstByMobileNoOrderByCreatedAtDesc(mobNo);
+    }
 }

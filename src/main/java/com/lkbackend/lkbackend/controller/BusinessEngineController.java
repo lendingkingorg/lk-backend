@@ -40,21 +40,6 @@ public class BusinessEngineController {
 
     }
 
-    @GetMapping("get-application-id/{mobNo}")
-    public ResponseEntity<?> getApplicationID(@PathVariable Long mobNo){
-
-        try {
-         ApplicationCentralBin user= applicationCentralBinRepo.findFirstByMobileNoOrderByCreatedAtDesc(mobNo);
-           ApplicationCentralBinDTO applicationCentralBinDTO= new ApplicationCentralBinDTO(user.getApplicationID(), user.getRequestedLoanAmount(), user.getCreatedAt());
-             //    .findAllByMobileNo(mobNo);
-           return new ResponseEntity<>( applicationCentralBinDTO, HttpStatus.OK);
-
-        }
-        catch (Exception errorMessage){
-            return new ResponseEntity<>("SORRY_SOMETHING_WENT_WRONG", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
 
 
 
