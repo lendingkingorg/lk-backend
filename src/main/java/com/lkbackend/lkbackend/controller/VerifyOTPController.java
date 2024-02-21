@@ -5,18 +5,21 @@ import com.lkbackend.lkbackend.Service.LendingInfoService;
 import com.lkbackend.lkbackend.model.LendingInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
 import java.util.UUID;
 
 
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
+@Slf4j
 public class VerifyOTPController {
 
     @Value("${msg91.verify-otp-url}")
@@ -29,11 +32,11 @@ public class VerifyOTPController {
 
     @GetMapping("/verify-otp")
     public CustomResponseOTPVerify verifyOTP(@RequestParam long mobile, @RequestParam int otp) {
-
+        log.info("Verifying OTP for mobile number: {}", mobile);
         LendingInfo userInfo = lendingInfoService.findByMobileNumber(mobile);
 
         CustomResponseOTPVerify customResponseOTPVerify = new CustomResponseOTPVerify();
-        CustomResponseOTPVerify.Data  data = new CustomResponseOTPVerify.Data();
+        CustomResponseOTPVerify.Data data = new CustomResponseOTPVerify.Data();
         CustomResponseOTPVerify.Info info = new CustomResponseOTPVerify.Info();
 
         customResponseOTPVerify.setData(data);

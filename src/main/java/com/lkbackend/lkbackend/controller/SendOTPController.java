@@ -2,12 +2,14 @@ package com.lkbackend.lkbackend.controller;
 
 import com.lkbackend.lkbackend.Entity.CustomResponseOTPSent;
 import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping
+@Slf4j
 public class SendOTPController {
 
     @Value("${msg91.send-otp-url}")
@@ -17,6 +19,7 @@ public class SendOTPController {
 
     @PostMapping("/send-otp")
     public CustomResponseOTPSent sendOTP(@RequestParam String mobile) {
+        log.info("Sending OTP for mobile number: {}", mobile);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("authkey",authKey);
@@ -29,7 +32,7 @@ public class SendOTPController {
 
         customResponseOTPSent.setData(data);
 
-        if(mobile.length()==12) {
+        if (mobile.length() == 12) {
 
             HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
@@ -47,20 +50,21 @@ public class SendOTPController {
                 customResponseOTPSent.setStatusCode(200);
                 customResponseOTPSent.setUserId(mobile);
                 customResponseOTPSent.setMessage("OTP Sent Successfully");
-
+                log.info("OTP sent successfully to mobile number: {}", mobile);
 
             } else {
                 data.setOtp_sent(false);
                 customResponseOTPSent.setStatusCode(400);
                 customResponseOTPSent.setUserId(mobile);
                 customResponseOTPSent.setMessage("OTP Unsuccessfull");
+                log.error("Failed to send OTP to mobile number: {}", mobile);
             }
         } else {
             data.setOtp_sent(false);
             customResponseOTPSent.setStatusCode(500);
             customResponseOTPSent.setUserId(mobile);
             customResponseOTPSent.setMessage("Mobile number incorrect");
-
+            log.warn("Invalid mobile number format: {}", mobile);
         }
 
 

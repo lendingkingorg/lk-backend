@@ -3,6 +3,7 @@ package com.lkbackend.lkbackend.controller;
 import com.lkbackend.lkbackend.Entity.DocumentUploadRequest;
 import com.lkbackend.lkbackend.model.DocumentUploadDetails;
 import com.lkbackend.lkbackend.Repo.DocumentRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import java.util.UUID;
 import static org.springframework.http.ResponseEntity.*;
 
 @RestController
+@Slf4j
 public class FileController {
 
     @Autowired
@@ -37,7 +39,8 @@ public class FileController {
             @PathVariable long mobNo,
             @RequestPart DocumentUploadRequest documentUploadRequest) {
         try {
-            System.out.println("Request Headers: " + documentUploadRequest.getDocumentType());
+            log.info("Received file upload request for mobNo: {}", mobNo);
+            System.out.println("Request Headers: " + documentUploadRequest.getDocumentType().toString());
             LocalDateTime localDateTime = LocalDateTime.now();
 
             String key = generateKey(file.getOriginalFilename());
@@ -52,37 +55,37 @@ public class FileController {
                     .build(), RequestBody.fromFile(modifiedFile));
 
             String bankInfo = documentUploadRequest.getDocumentInfo();
-            if(!documentRepository.existsById(mobNo)){
+            if (!documentRepository.existsById(mobNo)) {
                 DocumentUploadDetails documentUploadDetails = new DocumentUploadDetails();
                 documentUploadDetails.setMobileNo(mobNo);
                 documentRepository.save(documentUploadDetails);
             }
             System.out.println(documentUploadRequest.getDocumentType().contains("BankStatement"));
-            DocumentUploadDetails documentInfo=  documentRepository.findByMobileNo(mobNo);
-            if(documentUploadRequest.getDocumentType().contains("BankStatement")){
+            DocumentUploadDetails documentInfo = documentRepository.findByMobileNo(mobNo);
+            if (documentUploadRequest.getDocumentType().contains("BankStatement")) {
 
 
-                if(documentInfo.getBankStatementUrlOne()==null){
+                if (documentInfo.getBankStatementUrlOne() == null) {
                     documentInfo.setBankStatementUrlOne(fileUrl);
                     documentInfo.setBankInfoOne(documentUploadRequest.getDocumentInfo());
                     documentInfo.setBankStatementOneDocFormat(documentUploadRequest.getDocumentFormat());
 
-                } else if (documentInfo.getBankStatementUrlTwo()==null) {
+                } else if (documentInfo.getBankStatementUrlTwo() == null) {
                     documentInfo.setBankStatementUrlTwo(fileUrl);
                     documentInfo.setBankInfoTwo(documentUploadRequest.getDocumentInfo());
                     documentInfo.setBankStatementTwoDocFormat(documentUploadRequest.getDocumentFormat());
 
-                }else if (documentInfo.getBankStatementUrlThree()==null) {
+                } else if (documentInfo.getBankStatementUrlThree() == null) {
                     documentInfo.setBankStatementUrlThree(fileUrl);
                     documentInfo.setBankInfoThree(documentUploadRequest.getDocumentInfo());
                     documentInfo.setBankStatementThreeDocFormat(documentUploadRequest.getDocumentFormat());
 
-                }else if (documentInfo.getBankStatementUrlFour()==null) {
+                } else if (documentInfo.getBankStatementUrlFour() == null) {
                     documentInfo.setBankStatementUrlFour(fileUrl);
                     documentInfo.setBankInfoFour(documentUploadRequest.getDocumentInfo());
                     documentInfo.setBankStatementFourDocFormat(documentUploadRequest.getDocumentFormat());
 
-                }else  {
+                } else {
                     documentInfo.setBankStatementUrlFive(fileUrl);
                     documentInfo.setBankInfoFive(documentUploadRequest.getDocumentInfo());
                     documentInfo.setBankStatementFiveDocFormat(documentUploadRequest.getDocumentFormat());
@@ -105,9 +108,10 @@ public class FileController {
 
             documentRepository.save(documentInfo);
             modifiedFile.delete();
-
+            log.info("File uploaded successfully for mobNo: {}", mobNo);
             return new ResponseEntity<>(documentInfo, HttpStatus.OK);
         } catch (IOException e) {
+            log.error("Error uploading file for mobNo: {}", mobNo, e);
             return new ResponseEntity<>("Error uploading file", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -118,7 +122,7 @@ public class FileController {
 
     @PostMapping("/bl-file-removal/{mobNo}/{documentID}")
     public ResponseEntity<?> removeFile(@PathVariable Long  mobNo , @PathVariable String documentID){
-
+        log.info("Received request to remove file for mobNo: {}, documentID: {}", mobNo, documentID);
 
         DocumentUploadDetails documentInfo=  documentRepository.findByMobileNo(mobNo);
 
@@ -192,7 +196,7 @@ public class FileController {
         }
 
         documentRepository.save(documentInfo);
-
+        log.info("File URL Removed Sucessfully");
         return status(HttpStatus.OK).body("fileUrl Removed Sucessfully");
 
     }

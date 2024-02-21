@@ -8,6 +8,7 @@ import com.lkbackend.lkbackend.model.ApplicationCentralBin;
 import com.lkbackend.lkbackend.model.DocumentUploadDetails;
 import com.lkbackend.lkbackend.Repo.DocumentRepository;
 import com.lkbackend.lkbackend.model.LoanApplicationDetails;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
@@ -18,9 +19,8 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class BusinessEngineServiceImpl implements BusinessEngineServiceInterface{
-
-
     @Autowired
     private S3Client s3Client;
 
@@ -34,11 +34,8 @@ public class BusinessEngineServiceImpl implements BusinessEngineServiceInterface
     ApplicationCentralBinRepo applicationCentralBinRepo;
     @Override
     public void getPayLoad(Long mobNo) {
-
         DocumentUploadDetails urlDetails= documentRepository.findByMobileNo(mobNo);
-
-
-
+        log.info("Retrieved document upload details for mobile number: {}", mobNo);
     }
 
     private ApplicationCentralBinDTO saveIntoCentralBin(Long mobNo) {
@@ -47,6 +44,7 @@ public class BusinessEngineServiceImpl implements BusinessEngineServiceInterface
             Optional<LoanApplicationDetails> applicantDetailsOpt = Optional.ofNullable(loanApplicationRepository.findByMobileNo(mobNo));
 
             if (urlDetailsOpt.isEmpty() && applicantDetailsOpt.isEmpty()) {
+                log.warn("No document upload details and loan application details found for mobile number: {}", mobNo);
                 // Log or handle the case where both are empty, if needed
                 return null;
             }
@@ -58,10 +56,11 @@ public class BusinessEngineServiceImpl implements BusinessEngineServiceInterface
             );
 
             ApplicationCentralBin res = applicationCentralBinRepo.save(application);
-
+            log.info("Saved application into central bin with ID: {}", res.getApplicationID());
             return new ApplicationCentralBinDTO(res.getApplicationID(), res.getRequestedLoanAmount(), res.getCreatedAt());
             // Optionally, you can log or handle success here.
         } catch (Exception e) {
+            log.error("Failed to save data to central bin for mobile number: {}", mobNo, e);
             // Log or handle the exception.
             throw new RuntimeException("Failed to save data to central bin for mobile number: " + mobNo, e);
         }
@@ -71,6 +70,7 @@ public class BusinessEngineServiceImpl implements BusinessEngineServiceInterface
 
     @Override
     public ApplicationCentralBinDTO runBusinessEngine(Long mobNo) {
+        log.info("Business engine executed successfully for mobile number: {}", mobNo);
         return saveIntoCentralBin(mobNo);
     }
 
