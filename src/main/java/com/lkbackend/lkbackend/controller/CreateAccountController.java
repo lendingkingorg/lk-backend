@@ -55,7 +55,7 @@ public class CreateAccountController {
                 "        }\n" +
                 "      ],\n" +
                 "      \"variables\": {\n" +
-                "        \"USER\": \"" + user_info.getName() + "\"\n" +
+                "        \"USER\": \"" + userInfo.getName() + "\"\n" +
                 "      }\n" +
                 "    }\n" +
                 "  ],\n" +
