@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - PlayStore
+      - Test
 
 jobs:
   build-and-deploy:
@@ -28,34 +29,39 @@ jobs:
       with:
         input_file: 'src/main/resources/application.yml'
         pattern: single_dollar_brackets
-        fail_on_missing_env: true
+        fail_on_missing_env: false
       env:
-        SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+        SPRING_PROD_DATASOURCE_PASSWORD: ${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}
+        SPRING_TEST_DATASOURCE_PASSWORD: ${{ secrets.SPRING_TEST_DATASOURCE_PASSWORD }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
         MSG91_AUTH_KEY: ${{ secrets.MSG91_AUTH }}
 
 
     - name: Build Spring Boot Application
-      run: ./mvnw clean install package -DskipTests=true
-    - name: List target directory
-      run: | 
-        ls target
+      run: |
+        if [ "${{ github.event_name }}" == "push" ] && [ "${{ github.event_ref }}" == "refs/heads/PlayStore" ]; then
+          ./mvnw clean package -Dmaven.test.skip=true -Dspring.profiles.active=prod
+        elif [ "${{ github.event_name }}" == "push" ] && [ "${{ github.event_ref }}" == "refs/heads/Test" ]; then
+          ./mvnw clean package -Dmaven.test.skip=true -Dspring.profiles.active=test
+        else
+          echo "Skipping build for event: ${{ github.event_name }} and ref: ${{ github.event_ref }}"
+        fi
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: eu-north-1
+        aws-region: ${{ github.event_name == 'push' && github.event_ref == 'refs/heads/Test' && 'eu-central-1' || 'eu-north-1' }}
 
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v14
       with:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: Lendingking
-        environment_name: Lendingking
+        application_name: ${{ github.event_name == 'push' && github.event_ref == 'refs/heads/PlayStore' && 'LendingKing' || 'lendingking-test' }}
+        environment_name: ${{ github.event_name == 'push' && github.event_ref == 'refs/heads/PlayStore' && 'my-spring-boot-app-test-env' || 'Lendingking-test-env' }}
         version_label: ${{ github.run_id }}
-        region: eu-north-1
+        region:  ${{ github.event_name == 'push' && github.event_ref == 'refs/heads/Test' && 'eu-central-1' || 'eu-north-1' }}
         deployment_package: target/lk-backend-0.0.1-SNAPSHOT.jar
