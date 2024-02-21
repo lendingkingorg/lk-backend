@@ -48,7 +48,7 @@ public class CreateAccountController {
 
         LendingInfo userInfo = lendingInfoService.findByMobileNumber(mobile);
 
-        log.info("Sending welcome email to {} with name {}", user_info.getEmail(), user_info.getName());
+        log.info("Sending welcome email to {} with name {}", userInfo.getEmail(), userInfo.getName());
 
         // Create JSON body as a string
         String json = "{\n" +
@@ -56,7 +56,7 @@ public class CreateAccountController {
                 "    {\n" +
                 "      \"to\": [\n" +
                 "        {\n" +
-                "          \"email\": \""+ userInfo .getEmail()+ "\",\n" +
+                "          \"email\": \""+ userInfo.getEmail()+ "\",\n" +
                 "          \"name\": \""+userInfo.getName()+ "\"\n" +
                 "        }\n" +
                 "      ],\n" +
