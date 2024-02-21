@@ -28,7 +28,7 @@ jobs:
       uses: nightstory/replace-env@v2  
       with:
         input_file: 'src/main/resources/application.yml'
-        pattern: single_dollar_brackets
+        pattern: multi_dollar_brackets
         fail_on_missing_env: false
       env:
         SPRING_PROD_DATASOURCE_PASSWORD: ${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}
