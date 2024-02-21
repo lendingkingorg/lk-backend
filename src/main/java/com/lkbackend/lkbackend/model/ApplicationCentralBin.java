@@ -7,7 +7,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 @Entity
-@Data
 @Table(name = "application_central_bin")
 @Getter
 @Setter
@@ -17,8 +16,9 @@ public class ApplicationCentralBin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "application_id")
     private Long applicationID;  // Add applicationID as the primary key
-
+    @Column(name = "mobile_no")
     private Long mobileNo;
 
     // Personal Information
@@ -30,57 +30,77 @@ public class ApplicationCentralBin {
     private String gender;
 
     // Residential Information
+    @Column(name = "residential_pincode")
     private String residentialPincode;
+    @Column(name = "residential_address")
     private String residentialAddress;
 
     // PAN Information
     private String pan;
 
     // Financial Information
+    @Column(name = "annual_turnover")
     private String annualTurnover;
+    @Column(name ="years_in_current_business" )
     private String yearsInCurrentBusiness;
 
     // Business Information
+    @Column(name = "business_pincode")
     private String businessPincode;
+    @Column(name = "business_address")
     private String businessAddress;
+    @Column(name = "business_registered_as")
     private String businessRegisteredAs;
+    @Column(name = "product_category")
     private String productCategory;
+    @Column(name ="nature_of_business" )
     private String natureOfBusiness;
+    @Column(name = "business_run_by")
     private String businessRunBy;
 
     // Loan Request Information
+    @Column(name = "requested_loan_amount")
     private double requestedLoanAmount;
+    @Column(name = "loan_duration_in_months")
     private int loanDurationInMonths;
-
+    @Column(name = "pan_card_url")
     private String panCardUrl;
-
+    @Column(name = "bank_statement_url_one")
     private String bankStatementUrlOne;
+    @Column(name = "bank_info_one")
     private String bankInfoOne;
+    @Column(name = "bank_statement_one_doc_format")
     private String bankStatementOneDocFormat;
-
+    @Column(name = "bank_statement_url_two")
     private String bankStatementUrlTwo;
+    @Column(name = "bank_info_two")
     private String bankInfoTwo;
+    @Column(name = "bank_statement_two_doc_format")
     private String bankStatementTwoDocFormat;
-
+    @Column(name = "bank_statement_url_three")
     private String bankStatementUrlThree;
+    @Column(name = "bank_info_three")
     private String bankInfoThree;
+    @Column(name = "bank_statement_three_doc_format")
     private String bankStatementThreeDocFormat;
-
+    @Column(name = "bank_statement_url_four")
     private String bankStatementUrlFour;
+    @Column(name = "bank_info_four")
     private String bankInfoFour;
+    @Column(name = "bank_statement_four_doc_format")
     private String bankStatementFourDocFormat;
-
+    @Column(name = "bank_statement_url_five")
     private String bankStatementUrlFive;
+    @Column(name = "bank_info_five")
     private String bankInfoFive;
+    @Column(name = "bank_statement_five_doc_format")
     private String bankStatementFiveDocFormat;
-
+    @Column(name = "business_registration_proof_url")
     private String businessRegistrationProofUrl;
-
+    @Column(name = "business_address_proof_url")
     private String businessAddressProofUrl;
-
+    @Column(name = "id_proof_of_guarantor_url")
     private String idProofOfGuarantorUrl;
-
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;
@@ -116,7 +136,7 @@ public class ApplicationCentralBin {
             this.bankStatementFiveDocFormat = urlDetails.getBankStatementFiveDocFormat();
             this.businessRegistrationProofUrl = urlDetails.getBusinessRegistrationProofUrl();
             this.businessAddressProofUrl = urlDetails.getBusinessAddressProofUrl();
-            this.idProofOfGuarantorUrl = urlDetails.getIDProofOfGuarantorUrl();
+            this.idProofOfGuarantorUrl = urlDetails.getIdProofOfGuarantorUrl();
         }
 
         if (applicantDetails != null) {

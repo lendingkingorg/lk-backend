@@ -60,9 +60,9 @@ public class VerifyOTPController {
         data.setSessionId(uuid);
 
         if(userInfo!= null) {
-            info.setCustomerExists(true);;
+            info.setCustomerExists(true);
             info.setUserName((userInfo.getName()));
-            info.setMpin(userInfo.getmPin());
+            info.setMpin(userInfo.getMPin());
             data.setEmail(userInfo.getEmail());
             customResponseOTPVerify.setStatusCode(200);
             customResponseOTPVerify.setUserId(mobile);
