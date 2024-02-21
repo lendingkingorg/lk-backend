@@ -24,12 +24,17 @@ jobs:
       run: chmod +x mvnw
 
 
-    - name: Replace env vars
-      uses: nightstory/replace-env@v2  
+    - name: Replace env vars in YAML
+      uses: Slidem/inplace-envsubst-action@v1.2.2
       with:
-        input_file: 'src/main/resources/application.yml'
-        pattern: multi_dollar_brackets
-        fail_on_missing_env: false
+        working-directory: src/main/resources
+        fail-on-missing-variables: "true"
+        search_input: |
+          {
+            "patterns": ["*.yml"],
+            "files": ["application.yml"],
+            "depth": 1
+          }
       env:
         SPRING_PROD_DATASOURCE_PASSWORD: ${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}
         SPRING_TEST_DATASOURCE_PASSWORD: ${{ secrets.SPRING_TEST_DATASOURCE_PASSWORD }}
@@ -37,6 +42,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
         MSG91_AUTH_KEY: ${{ secrets.MSG91_AUTH_KEY }}
         SPRING_ACTIVE_PROFILE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/Test' && 'test' || 'prod' }}
+
         
     - name: Print modified YAML
       run: cat src/main/resources/application.yml
