@@ -37,7 +37,9 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
         MSG91_AUTH_KEY: ${{ secrets.MSG91_AUTH_KEY }}
         SPRING_ACTIVE_PROFILE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/Test' && 'test' || 'prod' }}
-
+        
+    - name: Print modified YAML
+      run: cat src/main/resources/application.yml
 
     - name: Build Spring Boot Application
       run: |
