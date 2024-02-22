@@ -27,17 +27,12 @@ jobs:
       uses: fjogeleit/yaml-update-action@main
       with:
         valueFile: 'src/main/resources/application.yml'
-        method: CreateOrUpdate
-        branch: Test
-        targetBranch: Test
         masterBranchName: Test
-        createPR: false
         changes: |
           {
             "datasources.default.password": "${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}"
           }
         commitChange: false
-        format: YAML 
 
         
     - name: Print modified YAML
