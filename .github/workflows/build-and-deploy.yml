@@ -27,6 +27,7 @@ jobs:
       uses: fjogeleit/yaml-update-action@main
       with:
         valueFile: 'src/main/resources/application.yml'
+        method: CreateOrUpdate
         changes: |
           {
             "SPRING_PROD_DATASOURCE_PASSWORD": "${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}",
