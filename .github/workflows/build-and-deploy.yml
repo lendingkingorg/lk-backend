@@ -30,6 +30,7 @@ jobs:
         method: CreateOrUpdate
         branch: Test
         targetBranch: Test
+        masterBranchName: Test
         changes: |
           {
             "SPRING_PROD_DATASOURCE_PASSWORD": "${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}",
