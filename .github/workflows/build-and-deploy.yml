@@ -31,6 +31,7 @@ jobs:
         branch: Test
         targetBranch: Test
         masterBranchName: Test
+        createPR: false
         changes: |
           {
             "datasources.default.password": "${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}"
