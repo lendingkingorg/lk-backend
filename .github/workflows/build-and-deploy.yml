@@ -33,7 +33,7 @@ jobs:
         updateFile: true
         changes: |
           {
-            "SPRING_ACTIVE_PROFILE": "${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}"
+            "spring.profiles.active": "${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}"
           }
         commitChange: false
 
