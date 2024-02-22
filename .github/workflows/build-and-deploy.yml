@@ -30,7 +30,7 @@ jobs:
         masterBranchName: Test
         changes: |
           {
-            "datasources.default.password": "${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}"
+            "SPRING_TEST_DATASOURCE_PASSWORD": "${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}"
           }
         commitChange: false
 
