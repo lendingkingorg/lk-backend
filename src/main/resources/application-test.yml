@@ -1,0 +1,10 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:mysql://lendingking-test.cbgii4kmmlyn.eu-north-1.rds.amazonaws.com:3306/database-onboarding?createDatabaseIfNotExist=true
+    username: admin
+    password: ${SPRING_TEST_DATASOURCE_PASSWORD:}
+  flyway:
+    locations: classpath:db/migration,classpath:db/test-migration
