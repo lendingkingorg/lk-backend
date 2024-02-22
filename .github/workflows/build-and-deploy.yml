@@ -29,16 +29,16 @@ jobs:
         valueFile: 'src/main/resources/application.yml'
         changes: |
           {
-            "/application.yml": {
+            "src/main/resources/application.yml": {
                  "aws.accessKeyId": "${{ secrets.AWS_ACCESS_KEY_ID }}",
                   "aws.secretKey": "${{ secrets.AWS_SECRET_ACCESS_KEY }}",
                   "msg91.authkey": "${{ secrets.MSG91_AUTH_KEY }}",
                   "spring.profiles.active": "${{ github.event_name == 'push' && github.ref == 'refs/heads/Test' && 'test' || 'prod' }}"
               },
-              "/application-test.yml": {
+              "src/main/resources/application-test.yml": {
                "spring.datasource.password": "${{ secrets.SPRING_TEST_DATASOURCE_PASSWORD }}"
               },
-              "/application-prod.yml": {
+              "src/main/resources/application-prod.yml": {
                "spring.datasource.password": "${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}"
               }
             
