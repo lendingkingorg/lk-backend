@@ -37,6 +37,7 @@ jobs:
             "SPRING_ACTIVE_PROFILE": "${{ github.event_name == 'push' && github.ref == 'refs/heads/Test' && 'test' || 'prod' }}",
           }
         commitChange: false
+        format: YAML 
 
         
     - name: Print modified YAML
