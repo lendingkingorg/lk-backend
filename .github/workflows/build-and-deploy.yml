@@ -27,10 +27,6 @@ jobs:
       uses: fjogeleit/yaml-update-action@main
       with:
         valueFile: 'src/main/resources/application.yml'
-        masterBranchName: Test
-        branch: Test
-        targetBranch: Test
-        updateFile: true
         changes: |
           {
             "spring.profiles.active": "${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}"
