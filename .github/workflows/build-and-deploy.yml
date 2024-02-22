@@ -29,13 +29,32 @@ jobs:
         valueFile: 'src/main/resources/application.yml'
         changes: |
           {
-            "spring.profiles.active": "${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}"
+            "/application.yml": {
+                 "aws.accessKeyId": "${{ secrets.AWS_ACCESS_KEY_ID }}",
+                  "aws.secretKey": "${{ secrets.AWS_SECRET_ACCESS_KEY }}",
+                  "msg91.authkey": "${{ secrets.MSG91_AUTH_KEY }}",
+                  "spring.profiles.active": "${{ github.event_name == 'push' && github.ref == 'refs/heads/Test' && 'test' || 'prod' }}"
+              },
+              "/application-test.yml": {
+               "spring.datasource.password": "${{ secrets.SPRING_TEST_DATASOURCE_PASSWORD }}"
+              },
+              "/application-prod.yml": {
+               "spring.datasource.password": "${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}"
+              }
+            
+            
+         
           }
         commitChange: false
 
         
     - name: Print modified YAML
       run: cat src/main/resources/application.yml
+    - name: Print modified prod YAML
+      run: cat src/main/resources/application-prod.yml
+    - name: Print modified test YAML
+      run: cat src/main/resources/application-test.yml
+      
 
     - name: Build Spring Boot Application
       run: |
