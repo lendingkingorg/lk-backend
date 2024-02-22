@@ -28,6 +28,9 @@ jobs:
       with:
         valueFile: 'src/main/resources/application.yml'
         masterBranchName: Test
+        branch: Test
+        targetBranch: Test
+        updateFile: true
         changes: |
           {
             "SPRING_ACTIVE_PROFILE": "${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}"
