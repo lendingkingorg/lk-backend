@@ -23,21 +23,20 @@ jobs:
     - name: Make Maven Wrapper Executable
       run: chmod +x mvnw
 
-
-    - name: Replace env vars
-      uses: nightstory/replace-env@v2  
+    - name: Update application.yml
+      uses: fjogeleit/yaml-update-action@main
       with:
-        input_file: 'src/main/resources/application.yml'
-        pattern: single_dollar_brackets
-        fail_on_missing_env: false
-      env:
-        SPRING_PROD_DATASOURCE_PASSWORD: ${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}
-        SPRING_TEST_DATASOURCE_PASSWORD: ${{ secrets.SPRING_TEST_DATASOURCE_PASSWORD }}
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
-        MSG91_AUTH_KEY: ${{ secrets.MSG91_AUTH_KEY }}
-        SPRING_ACTIVE_PROFILE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/Test' && 'test' || 'prod' }}
+        valueFile: 'src/main/resources/application.yml'
+        masterBranchName: Test
+        changes: |
+          {
+            "SPRING_TEST_DATASOURCE_PASSWORD": "${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}"
+          }
+        commitChange: false
 
+        
+    - name: Print modified YAML
+      run: cat src/main/resources/application.yml
 
     - name: Build Spring Boot Application
       run: |
