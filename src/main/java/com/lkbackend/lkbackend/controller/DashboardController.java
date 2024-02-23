@@ -34,15 +34,18 @@ public class DashboardController {
     public ResponseEntity<?> loginUser(@PathVariable String passcode, @PathVariable String userName) {
         log.info("Login attempt for user: {}", userName);
 
-        if ("admin!1998@_".equals(passcode) && "superAdminLendingKing".equals(userName)) {
-            log.info("Successful login for super admin.");
-            return new ResponseEntity<>("L1-ACCESS", HttpStatus.OK);
-        } else if ("admin!2000@_".equals(passcode) && "adminLendingKing".equals(userName)) {
-            log.info("Successful login for admin.");
-            return new ResponseEntity<>("L2-ACCESS", HttpStatus.OK);
-        } else {
-            log.warn("Failed login attempt for user: {}", userName);
-            return new ResponseEntity<>("NO_ACCESS", HttpStatus.OK);
-        }
+        Map<String, String> access=new HashMap<>();
+
+        if(passcode=="admin!1998@_" && userName=="superAdminLendingKing")
+        {
+            access.put("token","L1-ACCESS");
+            return new ResponseEntity<>(access, HttpStatus.OK);}
+        if(passcode=="admin!2000@_" && userName=="adminLendingKing")
+        {
+            access.put("token","L2-ACCESS");
+            return new ResponseEntity<>(access, HttpStatus.OK);}
+
+        access.put("token","NO_ACCESS");
+        return new ResponseEntity<>(access, HttpStatus.OK);
     }
 }
