@@ -36,11 +36,11 @@ public class DashboardController {
 
         Map<String, String> access=new HashMap<>();
 
-            if(passcode=="admin!1998@_" && userName=="superAdminLendingKing")
+            if(passcode.equals("admin!1998@_") && userName.equals("superAdminLendingKing"))
             {
                 access.put("token","L1-ACCESS");
                 return new ResponseEntity<>(access, HttpStatus.OK);}
-            if(passcode=="admin!2000@_" && userName=="adminLendingKing")
+            if(passcode.equals("admin!2000@_") && userName.equals("adminLendingKing"))
             {
                 access.put("token","L2-ACCESS");
                 return new ResponseEntity<>(access, HttpStatus.OK);}
