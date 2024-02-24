@@ -1,7 +1,10 @@
 package com.lkbackend.lkbackend.controller;
 
+import com.lkbackend.lkbackend.Entity.UserDetailsDTO;
 import com.lkbackend.lkbackend.Repo.LendingInfoRepo;
 import com.lkbackend.lkbackend.Repo.LoanApplicationRepository;
+import com.lkbackend.lkbackend.mapper.UserDetailsMapper;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,19 +17,21 @@ import java.util.Map;
 
 @RestController
 @Slf4j
+@AllArgsConstructor
 public class DashboardController {
-    @Autowired
-    LoanApplicationRepository loanApplicationRepository;
-    @Autowired
-    LendingInfoRepo lendingInfoRepo;
 
-    @GetMapping("/get-all-user-data/")
-    public ResponseEntity<?> getUserData() {
+    private final LoanApplicationRepository loanApplicationRepository;
+
+    private final LendingInfoRepo lendingInfoRepo;
+    private final UserDetailsMapper userDetailsMapper;
+
+
+
+    @GetMapping("/get-all-user/")
+    public ResponseEntity<List<UserDetailsDTO>> getUserData() {
         log.info("Request received to fetch all user data.");
-        Map<String, List<?>> userData = new HashMap<>();
-        userData.put("applicationData", loanApplicationRepository.findAll());
-        userData.put("userData", lendingInfoRepo.findAll());
-        log.info("Returning all user data.");
+        List<UserDetailsDTO> userData = loanApplicationRepository.findAll().stream().map(loanApplicationDetails ->
+                userDetailsMapper.mapUserDetailsToDTO(loanApplicationDetails, lendingInfoRepo.findByMobileNumber(loanApplicationDetails.getMobileNo()))).toList();
         return new ResponseEntity<>(userData, HttpStatus.OK);
     }
 
