@@ -50,7 +50,7 @@ public class DashboardController {
                 access.put("token","L2-ACCESS");
                 return new ResponseEntity<>(access, HttpStatus.OK);}
 
-            access.put("token","NO_ACCESS");
+            access.put("token",null);
             return new ResponseEntity<>(access, HttpStatus.OK);
     }
 }
