@@ -9,7 +9,7 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name = "loan_inf")
-public class LoanApplicationDetails {
+public class BLApplicationDetails {
 
     @Id
     @Column(name = "mobile_no")

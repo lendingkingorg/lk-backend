@@ -2,11 +2,10 @@ package com.lkbackend.lkbackend.controller;
 
 import com.lkbackend.lkbackend.Entity.UserDetailsDTO;
 import com.lkbackend.lkbackend.Repo.LendingInfoRepo;
-import com.lkbackend.lkbackend.Repo.LoanApplicationRepository;
+import com.lkbackend.lkbackend.Repo.BLApplicationRepository;
 import com.lkbackend.lkbackend.mapper.UserDetailsMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +19,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class DashboardController {
 
-    private final LoanApplicationRepository loanApplicationRepository;
+    private final BLApplicationRepository loanApplicationRepository;
 
     private final LendingInfoRepo lendingInfoRepo;
     private final UserDetailsMapper userDetailsMapper;

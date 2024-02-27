@@ -1,8 +1,8 @@
-package com.lkbackend.lkbackend.controller;
+package com.lkbackend.lkbackend.controller.BusinessLoanController;
 
 import com.lkbackend.lkbackend.Entity.DocumentUploadRequest;
-import com.lkbackend.lkbackend.model.DocumentUploadDetails;
-import com.lkbackend.lkbackend.Repo.DocumentRepository;
+import com.lkbackend.lkbackend.model.BLDocumentUploadDetails;
+import com.lkbackend.lkbackend.Repo.BLDocumentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,10 +22,10 @@ import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @Slf4j
-public class FileController {
+public class BLFileController {
 
     @Autowired
-    DocumentRepository documentRepository;
+    BLDocumentRepository documentRepository;
 
     @Autowired
     private S3Client s3Client;
@@ -56,12 +56,12 @@ public class FileController {
 
             String bankInfo = documentUploadRequest.getDocumentInfo();
             if (!documentRepository.existsById(mobNo)) {
-                DocumentUploadDetails documentUploadDetails = new DocumentUploadDetails();
+                BLDocumentUploadDetails documentUploadDetails = new BLDocumentUploadDetails();
                 documentUploadDetails.setMobileNo(mobNo);
                 documentRepository.save(documentUploadDetails);
             }
             System.out.println(documentUploadRequest.getDocumentType().contains("BankStatement"));
-            DocumentUploadDetails documentInfo = documentRepository.findByMobileNo(mobNo);
+            BLDocumentUploadDetails documentInfo = documentRepository.findByMobileNo(mobNo);
             if (documentUploadRequest.getDocumentType().contains("BankStatement")) {
 
 
@@ -124,7 +124,7 @@ public class FileController {
     public ResponseEntity<?> removeFile(@PathVariable Long  mobNo , @PathVariable String documentID){
         log.info("Received request to remove file for mobNo: {}, documentID: {}", mobNo, documentID);
 
-        DocumentUploadDetails documentInfo=  documentRepository.findByMobileNo(mobNo);
+        BLDocumentUploadDetails documentInfo=  documentRepository.findByMobileNo(mobNo);
 
         // Check if documentInfo is null
         if (documentInfo == null) {

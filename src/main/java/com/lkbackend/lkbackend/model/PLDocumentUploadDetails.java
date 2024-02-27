@@ -9,10 +9,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "document_inf")
+@Table(name = "pl_document_inf")
 @Getter
 @Setter
-public class DocumentUploadDetails {
+public class PLDocumentUploadDetails {
 
     @Id
     @Column(name = "mobile_no")
@@ -20,6 +20,13 @@ public class DocumentUploadDetails {
 
     @Column(name = "pan_card_url")
     private String panCardUrl;
+
+    @Column(name = "id_proof")
+    private String idProof;
+
+    @Column(name = "address_proof")
+    private String addressProof;
+
 
     @Column(name = "bank_statement_url_one")
     private String bankStatementUrlOne;
@@ -66,13 +73,6 @@ public class DocumentUploadDetails {
     @Column(name = "bank_statement_five_doc_format")
     private String bankStatementFiveDocFormat;
 
-    @Column(name = "business_registration_proof_url")
-    private String businessRegistrationProofUrl;
 
-    @Column(name = "business_address_proof_url")
-    private String businessAddressProofUrl;
-
-    @Column(name = "id_proof_of_guarantor_url")
-    private String idProofOfGuarantorUrl;
 
 }

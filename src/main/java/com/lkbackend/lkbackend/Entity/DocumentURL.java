@@ -1,6 +1,6 @@
 package com.lkbackend.lkbackend.Entity;
 
-import com.lkbackend.lkbackend.model.DocumentUploadDetails;
+import com.lkbackend.lkbackend.model.BLDocumentUploadDetails;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +20,7 @@ public class DocumentURL {
     private String BusinessRegistrationProofUrl;
     private String BusinessAddressProofUrl;
     private String IDProofOfGuarantorUrl;
-    public DocumentURL(DocumentUploadDetails res) {
+    public DocumentURL(BLDocumentUploadDetails res) {
         setBankStatementUrlOne(res.getBankStatementUrlOne());
         setBankStatementUrlTwo(res.getBankStatementUrlTwo());
         setBankStatementUrlThree(res.getBankStatementUrlThree());
