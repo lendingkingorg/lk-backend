@@ -76,7 +76,7 @@ public class BusinessEngineServiceImpl implements BusinessEngineServiceInterface
                         applicationType
                 );
 
-//                res = applicationCentralBinRepo.save(application);
+                res = applicationCentralBinRepo.save(application);
 
 
             }

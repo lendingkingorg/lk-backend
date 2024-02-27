@@ -105,12 +105,28 @@ public class ApplicationCentralBin {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;
 
+    private String idProof;
+
+    @Column(name = "address_proof")
+    private String addressProof;
+
+
+
     @PrePersist
     protected void onCreate() {
         createdAt = new Date();
     }
 
     private String applicationType;
+
+
+
+    private String employmentType;
+    private String salaryBankAccount;
+    private String employmentDetails;
+    private String residentType;
+
+
 
     public ApplicationCentralBin(
             BLDocumentUploadDetails urlDetails,
@@ -120,7 +136,7 @@ public class ApplicationCentralBin {
     ) {
         this.mobileNo = mobNo;
         this.applicationType = applicationType;
-        if (applicationType.equals("BLApplication")) {
+
             if (urlDetails != null) {
 
                 this.panCardUrl = urlDetails.getPanCardUrl();
@@ -162,50 +178,56 @@ public class ApplicationCentralBin {
                 this.requestedLoanAmount = applicantDetails.getRequestedLoanAmount();
                 this.loanDurationInMonths = applicantDetails.getLoanDurationInMonths();
             }
-        } else if (applicationType.equals("PLApplication")) {
 
-            if (urlDetails != null) {
+    }
 
-                this.panCardUrl = urlDetails.getPanCardUrl();
-                this.bankStatementUrlOne = urlDetails.getBankStatementUrlOne();
-                this.bankInfoOne = urlDetails.getBankInfoOne();
-                this.bankStatementOneDocFormat = urlDetails.getBankStatementOneDocFormat();
-                this.bankStatementUrlTwo = urlDetails.getBankStatementUrlTwo();
-                this.bankInfoTwo = urlDetails.getBankInfoTwo();
-                this.bankStatementTwoDocFormat = urlDetails.getBankStatementTwoDocFormat();
-                this.bankStatementUrlThree = urlDetails.getBankStatementUrlThree();
-                this.bankInfoThree = urlDetails.getBankInfoThree();
-                this.bankStatementThreeDocFormat = urlDetails.getBankStatementThreeDocFormat();
-                this.bankStatementUrlFour = urlDetails.getBankStatementUrlFour();
-                this.bankInfoFour = urlDetails.getBankInfoFour();
-                this.bankStatementFourDocFormat = urlDetails.getBankStatementFourDocFormat();
-                this.bankStatementUrlFive = urlDetails.getBankStatementUrlFive();
-                this.bankInfoFive = urlDetails.getBankInfoFive();
-                this.bankStatementFiveDocFormat = urlDetails.getBankStatementFiveDocFormat();
+    public ApplicationCentralBin(
+            PLDocumentUploadDetails urlDetails,
+            PLApplicationDetails applicantDetails,
+            long mobNo,
+            String applicationType
+    ) {
+        this.mobileNo = mobNo;
+        this.applicationType = applicationType;
+        if (urlDetails != null) {
 
-            }
+            this.panCardUrl = urlDetails.getPanCardUrl();
+            this.idProof=urlDetails.getIdProof();
+            this.addressProof=urlDetails.getAddressProof();
 
-            if (applicantDetails != null) {
-                this.name = applicantDetails.getName();
-                this.dob = applicantDetails.getDob();
-                this.gender = applicantDetails.getGender();
-                this.residentialPincode = applicantDetails.getResidentialPincode();
-                this.residentialAddress = applicantDetails.getResidentialAddress();
-                this.pan = applicantDetails.getPan();
-                this.annualTurnover = applicantDetails.getAnnualTurnover();
-                this.yearsInCurrentBusiness = applicantDetails.getYearsInCurrentBusiness();
-                this.businessPincode = applicantDetails.getBusinessPincode();
-                this.businessAddress = applicantDetails.getBusinessAddress();
-                this.businessRegisteredAs = applicantDetails.getBusinessRegisteredAs();
-                this.productCategory = applicantDetails.getProductCategory();
-                this.natureOfBusiness = applicantDetails.getNatureOfBusiness();
-                this.businessRunBy = applicantDetails.getBusinessRunBy();
-                this.requestedLoanAmount = applicantDetails.getRequestedLoanAmount();
-                this.loanDurationInMonths = applicantDetails.getLoanDurationInMonths();
-            }
-
+            this.bankStatementUrlOne = urlDetails.getBankStatementUrlOne();
+            this.bankInfoOne = urlDetails.getBankInfoOne();
+            this.bankStatementOneDocFormat = urlDetails.getBankStatementOneDocFormat();
+            this.bankStatementUrlTwo = urlDetails.getBankStatementUrlTwo();
+            this.bankInfoTwo = urlDetails.getBankInfoTwo();
+            this.bankStatementTwoDocFormat = urlDetails.getBankStatementTwoDocFormat();
+            this.bankStatementUrlThree = urlDetails.getBankStatementUrlThree();
+            this.bankInfoThree = urlDetails.getBankInfoThree();
+            this.bankStatementThreeDocFormat = urlDetails.getBankStatementThreeDocFormat();
+            this.bankStatementUrlFour = urlDetails.getBankStatementUrlFour();
+            this.bankInfoFour = urlDetails.getBankInfoFour();
+            this.bankStatementFourDocFormat = urlDetails.getBankStatementFourDocFormat();
+            this.bankStatementUrlFive = urlDetails.getBankStatementUrlFive();
+            this.bankInfoFive = urlDetails.getBankInfoFive();
+            this.bankStatementFiveDocFormat = urlDetails.getBankStatementFiveDocFormat();
 
         }
+
+        if (applicantDetails != null) {
+
+            this.residentialPincode = applicantDetails.getResidentialPincode();
+            this.residentialAddress = applicantDetails.getResidentialAddress();
+            this.requestedLoanAmount = applicantDetails.getRequestedLoanAmount();
+            this.loanDurationInMonths = applicantDetails.getLoanDurationInMonths();
+            this.residentType=applicantDetails.getResidentType();
+
+            this.employmentType=applicantDetails.getEmploymentType();
+            this.salaryBankAccount=applicantDetails.getSalaryBankAccount();
+            this.employmentDetails=applicantDetails.getEmploymentDetails();
+        }
+
+
+
     }
 
 

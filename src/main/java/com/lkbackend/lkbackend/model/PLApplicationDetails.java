@@ -31,7 +31,7 @@ public class PLApplicationDetails {
     @Column(name = "residential_address")
     private String residentialAddress;
 
-    // PAN Information
+
     private String residentType;
 
     // Loan Request Information
