@@ -1,34 +1,38 @@
 package com.lkbackend.lkbackend.controller;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.lkbackend.lkbackend.Entity.DocumentUploadRequest;
-import com.lkbackend.lkbackend.model.DocumentUploadDetails;
 import com.lkbackend.lkbackend.Repo.DocumentRepository;
+import com.lkbackend.lkbackend.model.DocumentUploadDetails;
+import com.lkbackend.lkbackend.s3handler.S3Handler;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static org.springframework.http.ResponseEntity.*;
+import static org.springframework.http.ResponseEntity.status;
 
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 public class FileController {
 
-    @Autowired
-    DocumentRepository documentRepository;
+    private final DocumentRepository documentRepository;
 
-    @Autowired
-    private S3Client s3Client;
+    private final AmazonS3 s3Client;
+
+    private final S3Handler s3Handler;
 
     @Value("${aws.s3.bucketName}")
     private String bucketName;
@@ -49,10 +53,7 @@ public class FileController {
             os.write(file.getBytes());
             String fileUrl = "https://" + bucketName + ".s3.amazonaws.com/" + key + '/' + localDateTime.toString();
 
-            s3Client.putObject(PutObjectRequest.builder()
-                    .bucket(bucketName)
-                    .key(key)
-                    .build(), RequestBody.fromFile(modifiedFile));
+            s3Client.putObject(new PutObjectRequest(bucketName, key, modifiedFile));
 
             String bankInfo = documentUploadRequest.getDocumentInfo();
             if (!documentRepository.existsById(mobNo)) {
@@ -92,17 +93,13 @@ public class FileController {
 
                 }
 
-            }
-            else if(documentUploadRequest.getDocumentType().contains("Pan")){
+            } else if (documentUploadRequest.getDocumentType().contains("Pan")) {
                 documentInfo.setPanCardUrl(fileUrl);
-            }
-            else if(documentUploadRequest.getDocumentType().contains("BusinessRegistration")){
+            } else if (documentUploadRequest.getDocumentType().contains("BusinessRegistration")) {
                 documentInfo.setBusinessRegistrationProofUrl(fileUrl);
-            }
-            else if(documentUploadRequest.getDocumentType().contains("BusinessAddress")){
+            } else if (documentUploadRequest.getDocumentType().contains("BusinessAddress")) {
                 documentInfo.setBusinessAddressProofUrl(fileUrl);
-            }
-            else if(documentUploadRequest.getDocumentType().contains("IDProofOfGuarantor")){
+            } else if (documentUploadRequest.getDocumentType().contains("IDProofOfGuarantor")) {
                 documentInfo.setIdProofOfGuarantorUrl(fileUrl);
             }
 
@@ -121,10 +118,10 @@ public class FileController {
     }
 
     @PostMapping("/bl-file-removal/{mobNo}/{documentID}")
-    public ResponseEntity<?> removeFile(@PathVariable Long  mobNo , @PathVariable String documentID){
+    public ResponseEntity<?> removeFile(@PathVariable Long mobNo, @PathVariable String documentID) {
         log.info("Received request to remove file for mobNo: {}, documentID: {}", mobNo, documentID);
 
-        DocumentUploadDetails documentInfo=  documentRepository.findByMobileNo(mobNo);
+        DocumentUploadDetails documentInfo = documentRepository.findByMobileNo(mobNo);
 
         // Check if documentInfo is null
         if (documentInfo == null) {
@@ -199,6 +196,11 @@ public class FileController {
         log.info("File URL Removed Sucessfully");
         return status(HttpStatus.OK).body("fileUrl Removed Sucessfully");
 
+    }
+
+    @GetMapping("/getFileUrl/{keyName}")
+    public ResponseEntity<URL> getUserData(@PathVariable final String keyName) {
+        return new ResponseEntity<>(s3Handler.getPresignedUrl(keyName), HttpStatus.OK);
     }
 
 }

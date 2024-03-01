@@ -1,6 +1,7 @@
 package com.lkbackend.lkbackend.Service;
 
 
+import com.amazonaws.services.s3.AmazonS3;
 import com.lkbackend.lkbackend.Entity.ApplicationCentralBinDTO;
 import com.lkbackend.lkbackend.Repo.ApplicationCentralBinRepo;
 import com.lkbackend.lkbackend.Repo.LoanApplicationRepository;
@@ -11,9 +12,7 @@ import com.lkbackend.lkbackend.model.LoanApplicationDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-import software.amazon.awssdk.services.s3.S3Client;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -22,7 +21,7 @@ import java.util.Optional;
 @Slf4j
 public class BusinessEngineServiceImpl implements BusinessEngineServiceInterface{
     @Autowired
-    private S3Client s3Client;
+    private AmazonS3 s3Client;
 
     @Value("${aws.s3.bucketName}")
     private String bucketName;
