@@ -19,7 +19,6 @@ public class S3Handler {
     private String bucketName;
 
     public URL getPresignedUrl(String keyName) {
-        keyName = "00038a74-144f-4171-a414-9973b4dad958_List-of-DSA.pdf";
         // Set the expiration time for the pre-signed URL (1 minute in this case)
         Duration expirationTime = Duration.ofMinutes(5);
 
