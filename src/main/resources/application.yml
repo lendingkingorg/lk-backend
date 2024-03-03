@@ -20,6 +20,9 @@ spring:
     baselineOnMigrate: true
     enable: true
     locations: classpath:db/migration,classpath:db/test-migration
+  servlet:
+    multipart:
+      max-file-size: 50MB
 
 #logging:
 #  level:

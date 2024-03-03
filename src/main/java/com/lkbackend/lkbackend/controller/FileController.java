@@ -1,6 +1,7 @@
 package com.lkbackend.lkbackend.controller;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.lkbackend.lkbackend.Entity.DocumentUploadRequest;
 import com.lkbackend.lkbackend.Repo.DocumentRepository;
@@ -19,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 import static org.springframework.http.ResponseEntity.status;
@@ -44,16 +46,14 @@ public class FileController {
             @RequestPart DocumentUploadRequest documentUploadRequest) {
         try {
             log.info("Received file upload request for mobNo: {}", mobNo);
-            System.out.println("Request Headers: " + documentUploadRequest.getDocumentType().toString());
-            LocalDateTime localDateTime = LocalDateTime.now();
+            System.out.println("Request Headers: " + documentUploadRequest.getDocumentType());
 
-            String key = generateKey(file.getOriginalFilename());
-            File modifiedFile = new File(file.getOriginalFilename());
-            FileOutputStream os = new FileOutputStream(modifiedFile);
-            os.write(file.getBytes());
-            String fileUrl = "https://" + bucketName + ".s3.amazonaws.com/" + key + '/' + localDateTime.toString();
-
-            s3Client.putObject(new PutObjectRequest(bucketName, key, modifiedFile));
+            String keyName = generateKey(file.getOriginalFilename(), file.getContentType());
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentType(file.getContentType());
+            objectMetadata.setContentLength(file.getSize());
+            objectMetadata.addUserMetadata("mobileNumber", String.valueOf(mobNo));
+            s3Client.putObject(new PutObjectRequest(bucketName, keyName, file.getInputStream(), objectMetadata));
 
             String bankInfo = documentUploadRequest.getDocumentInfo();
             if (!documentRepository.existsById(mobNo)) {
@@ -66,45 +66,44 @@ public class FileController {
             if (documentUploadRequest.getDocumentType().contains("BankStatement")) {
 
 
-                if (documentInfo.getBankStatementUrlOne() == null) {
-                    documentInfo.setBankStatementUrlOne(fileUrl);
+                if (documentInfo.getBankStatementOne() == null) {
+                    documentInfo.setBankStatementOne(keyName);
                     documentInfo.setBankInfoOne(documentUploadRequest.getDocumentInfo());
                     documentInfo.setBankStatementOneDocFormat(documentUploadRequest.getDocumentFormat());
 
-                } else if (documentInfo.getBankStatementUrlTwo() == null) {
-                    documentInfo.setBankStatementUrlTwo(fileUrl);
+                } else if (documentInfo.getBankStatementTwo() == null) {
+                    documentInfo.setBankStatementTwo(keyName);
                     documentInfo.setBankInfoTwo(documentUploadRequest.getDocumentInfo());
                     documentInfo.setBankStatementTwoDocFormat(documentUploadRequest.getDocumentFormat());
 
-                } else if (documentInfo.getBankStatementUrlThree() == null) {
-                    documentInfo.setBankStatementUrlThree(fileUrl);
+                } else if (documentInfo.getBankStatementThree() == null) {
+                    documentInfo.setBankStatementThree(keyName);
                     documentInfo.setBankInfoThree(documentUploadRequest.getDocumentInfo());
                     documentInfo.setBankStatementThreeDocFormat(documentUploadRequest.getDocumentFormat());
 
-                } else if (documentInfo.getBankStatementUrlFour() == null) {
-                    documentInfo.setBankStatementUrlFour(fileUrl);
+                } else if (documentInfo.getBankStatementFour() == null) {
+                    documentInfo.setBankStatementFour(keyName);
                     documentInfo.setBankInfoFour(documentUploadRequest.getDocumentInfo());
                     documentInfo.setBankStatementFourDocFormat(documentUploadRequest.getDocumentFormat());
 
                 } else {
-                    documentInfo.setBankStatementUrlFive(fileUrl);
+                    documentInfo.setBankStatementFive(keyName);
                     documentInfo.setBankInfoFive(documentUploadRequest.getDocumentInfo());
                     documentInfo.setBankStatementFiveDocFormat(documentUploadRequest.getDocumentFormat());
 
                 }
 
             } else if (documentUploadRequest.getDocumentType().contains("Pan")) {
-                documentInfo.setPanCardUrl(fileUrl);
+                documentInfo.setPanCard(keyName);
             } else if (documentUploadRequest.getDocumentType().contains("BusinessRegistration")) {
-                documentInfo.setBusinessRegistrationProofUrl(fileUrl);
+                documentInfo.setBusinessRegistrationProof(keyName);
             } else if (documentUploadRequest.getDocumentType().contains("BusinessAddress")) {
-                documentInfo.setBusinessAddressProofUrl(fileUrl);
+                documentInfo.setBusinessAddressProof(keyName);
             } else if (documentUploadRequest.getDocumentType().contains("IDProofOfGuarantor")) {
-                documentInfo.setIdProofOfGuarantorUrl(fileUrl);
+                documentInfo.setIdProofOfGuarantor(keyName);
             }
 
             documentRepository.save(documentInfo);
-            modifiedFile.delete();
             log.info("File uploaded successfully for mobNo: {}", mobNo);
             return new ResponseEntity<>(documentInfo, HttpStatus.OK);
         } catch (IOException e) {
@@ -113,8 +112,9 @@ public class FileController {
         }
     }
 
-    private String generateKey(String originalFilename) {
-        return UUID.randomUUID().toString() + "_" + originalFilename;
+    private String generateKey(String originalFilename, String contentType) {
+        return UUID.randomUUID().toString() + "_" + originalFilename + "."+ Objects
+                .requireNonNull(contentType).split("/")[1];
     }
 
     @PostMapping("/bl-file-removal/{mobNo}/{documentID}")
@@ -133,7 +133,7 @@ public class FileController {
         switch (documentID) {
             case "bankStatementUrlOne":
                 System.out.println("Processing BankStatement_1");
-                documentInfo.setBankStatementUrlOne(null);
+                documentInfo.setBankStatementOne(null);
                 documentInfo.setBankInfoOne(null);
                 documentInfo.setBankStatementOneDocFormat(null);
 
@@ -142,14 +142,14 @@ public class FileController {
             case "bankStatementUrlTwo":
                 // logic for BankStatement_2
                 System.out.println("Processing BankStatement_2");
-                documentInfo.setBankStatementUrlTwo(null);
+                documentInfo.setBankStatementTwo(null);
                 documentInfo.setBankInfoTwo(null);
                 documentInfo.setBankStatementTwoDocFormat(null);
                 break;
             case "bankStatementUrlThree":
                 // logic for BankStatement_3
                 System.out.println("Processing BankStatement_3");
-                documentInfo.setBankStatementUrlThree(null);
+                documentInfo.setBankStatementThree(null);
                 documentInfo.setBankInfoThree(null);
                 documentInfo.setBankStatementThreeDocFormat(null);
 
@@ -157,7 +157,7 @@ public class FileController {
             case "bankStatementUrlFour":
                 // logic for BankStatement_4
                 System.out.println("Processing BankStatement_4");
-                documentInfo.setBankStatementUrlFour(null);
+                documentInfo.setBankStatementFour(null);
                 documentInfo.setBankInfoFour(null);
                 documentInfo.setBankStatementFourDocFormat(null);
 
@@ -165,7 +165,7 @@ public class FileController {
             case "bankStatementUrlFive":
                 // logic for BankStatement_5
                 System.out.println("Processing BankStatement_5");
-                documentInfo.setBankStatementUrlFive(null);
+                documentInfo.setBankStatementFive(null);
                 documentInfo.setBankInfoFive(null);
                 documentInfo.setBankStatementFiveDocFormat(null);
 
@@ -173,22 +173,22 @@ public class FileController {
             case "Pan":
                 // logic for Pan
                 System.out.println("Processing Pan");
-                documentInfo.setPanCardUrl(null);
+                documentInfo.setPanCard(null);
                 break;
             case "BusinessRegistration":
                 // logic for BusinessRegistration
                 System.out.println("Processing BusinessRegistration");
-                documentInfo.setBusinessRegistrationProofUrl(null);
+                documentInfo.setBusinessRegistrationProof(null);
                 break;
             case "BusinessAddress":
                 // logic for BusinessAddress
                 System.out.println("Processing BusinessAddress");
-                documentInfo.setBusinessAddressProofUrl(null);
+                documentInfo.setBusinessAddressProof(null);
                 break;
             case "IDProofOfGuarantor":
                 // logic for IDProofOfGuarantor
                 System.out.println("Processing IDProofOfGuarantor");
-                documentInfo.setIdProofOfGuarantorUrl(null);
+                documentInfo.setIdProofOfGuarantor(null);
                 break;
         }
 
