@@ -11,26 +11,26 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DocumentURL {
-    private String PanCardUrl;
-    private String BankStatementUrlOne;
-    private String BankStatementUrlTwo;
-    private String BankStatementUrlThree;
-    private String BankStatementUrlFour;
-    private String BankStatementUrlFive;
-    private String BusinessRegistrationProofUrl;
-    private String BusinessAddressProofUrl;
-    private String IDProofOfGuarantorUrl;
+    private String PanCard;
+    private String BankStatementOne;
+    private String BankStatementTwo;
+    private String BankStatementThree;
+    private String BankStatementFour;
+    private String BankStatementFive;
+    private String BusinessRegistrationProof;
+    private String BusinessAddressProof;
+    private String IDProofOfGuarantor;
     public DocumentURL(BLDocumentUploadDetails res) {
-        setBankStatementUrlOne(res.getBankStatementUrlOne());
-        setBankStatementUrlTwo(res.getBankStatementUrlTwo());
-        setBankStatementUrlThree(res.getBankStatementUrlThree());
-        setBankStatementUrlFour(res.getBankStatementUrlFour());
-        setBankStatementUrlFive(res.getBankStatementUrlFive());
+        setBankStatementOne(res.getBankStatementOne());
+        setBankStatementTwo(res.getBankStatementTwo());
+        setBankStatementThree(res.getBankStatementThree());
+        setBankStatementFour(res.getBankStatementFour());
+        setBankStatementFive(res.getBankStatementFive());
 
-        setIDProofOfGuarantorUrl(res.getIdProofOfGuarantorUrl());
-        setPanCardUrl(res.getPanCardUrl());
-        setBusinessAddressProofUrl(res.getBusinessAddressProofUrl());
-        setBusinessRegistrationProofUrl(res.getBusinessRegistrationProofUrl());
+        setIDProofOfGuarantor(res.getIdProofOfGuarantor());
+        setPanCard(res.getPanCard());
+        setBusinessAddressProof(res.getBusinessAddressProof());
+        setBusinessRegistrationProof(res.getBusinessRegistrationProof());
     }
 }
 

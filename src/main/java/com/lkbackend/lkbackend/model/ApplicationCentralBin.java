@@ -63,44 +63,44 @@ public class ApplicationCentralBin {
     private double requestedLoanAmount;
     @Column(name = "loan_duration_in_months")
     private int loanDurationInMonths;
-    @Column(name = "pan_card_url")
-    private String panCardUrl;
-    @Column(name = "bank_statement_url_one")
-    private String bankStatementUrlOne;
+    @Column(name = "pan_card")
+    private String panCard;
+    @Column(name = "bank_statement_one")
+    private String bankStatementOne;
     @Column(name = "bank_info_one")
     private String bankInfoOne;
     @Column(name = "bank_statement_one_doc_format")
     private String bankStatementOneDocFormat;
-    @Column(name = "bank_statement_url_two")
-    private String bankStatementUrlTwo;
+    @Column(name = "bank_statement_two")
+    private String bankStatementTwo;
     @Column(name = "bank_info_two")
     private String bankInfoTwo;
     @Column(name = "bank_statement_two_doc_format")
     private String bankStatementTwoDocFormat;
-    @Column(name = "bank_statement_url_three")
-    private String bankStatementUrlThree;
+    @Column(name = "bank_statement_three")
+    private String bankStatementThree;
     @Column(name = "bank_info_three")
     private String bankInfoThree;
     @Column(name = "bank_statement_three_doc_format")
     private String bankStatementThreeDocFormat;
-    @Column(name = "bank_statement_url_four")
-    private String bankStatementUrlFour;
+    @Column(name = "bank_statement_four")
+    private String bankStatementFour;
     @Column(name = "bank_info_four")
     private String bankInfoFour;
     @Column(name = "bank_statement_four_doc_format")
     private String bankStatementFourDocFormat;
-    @Column(name = "bank_statement_url_five")
-    private String bankStatementUrlFive;
+    @Column(name = "bank_statement_five")
+    private String bankStatementFive;
     @Column(name = "bank_info_five")
     private String bankInfoFive;
     @Column(name = "bank_statement_five_doc_format")
     private String bankStatementFiveDocFormat;
-    @Column(name = "business_registration_proof_url")
-    private String businessRegistrationProofUrl;
-    @Column(name = "business_address_proof_url")
-    private String businessAddressProofUrl;
-    @Column(name = "id_proof_of_guarantor_url")
-    private String idProofOfGuarantorUrl;
+    @Column(name = "business_registration_proof")
+    private String businessRegistrationProof;
+    @Column(name = "business_address_proof")
+    private String businessAddressProof;
+    @Column(name = "id_proof_of_guarantor")
+    private String idProofOfGuarantor;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;
@@ -139,25 +139,25 @@ public class ApplicationCentralBin {
 
             if (urlDetails != null) {
 
-                this.panCardUrl = urlDetails.getPanCardUrl();
-                this.bankStatementUrlOne = urlDetails.getBankStatementUrlOne();
+                this.panCard = urlDetails.getPanCard();
+                this.bankStatementOne = urlDetails.getBankStatementOne();
                 this.bankInfoOne = urlDetails.getBankInfoOne();
                 this.bankStatementOneDocFormat = urlDetails.getBankStatementOneDocFormat();
-                this.bankStatementUrlTwo = urlDetails.getBankStatementUrlTwo();
+                this.bankStatementTwo = urlDetails.getBankStatementTwo();
                 this.bankInfoTwo = urlDetails.getBankInfoTwo();
                 this.bankStatementTwoDocFormat = urlDetails.getBankStatementTwoDocFormat();
-                this.bankStatementUrlThree = urlDetails.getBankStatementUrlThree();
+                this.bankStatementThree = urlDetails.getBankStatementThree();
                 this.bankInfoThree = urlDetails.getBankInfoThree();
                 this.bankStatementThreeDocFormat = urlDetails.getBankStatementThreeDocFormat();
-                this.bankStatementUrlFour = urlDetails.getBankStatementUrlFour();
+                this.bankStatementFour = urlDetails.getBankStatementFour();
                 this.bankInfoFour = urlDetails.getBankInfoFour();
                 this.bankStatementFourDocFormat = urlDetails.getBankStatementFourDocFormat();
-                this.bankStatementUrlFive = urlDetails.getBankStatementUrlFive();
+                this.bankStatementFive = urlDetails.getBankStatementFive();
                 this.bankInfoFive = urlDetails.getBankInfoFive();
                 this.bankStatementFiveDocFormat = urlDetails.getBankStatementFiveDocFormat();
-                this.businessRegistrationProofUrl = urlDetails.getBusinessRegistrationProofUrl();
-                this.businessAddressProofUrl = urlDetails.getBusinessAddressProofUrl();
-                this.idProofOfGuarantorUrl = urlDetails.getIdProofOfGuarantorUrl();
+                this.businessRegistrationProof = urlDetails.getBusinessRegistrationProof();
+                this.businessAddressProof = urlDetails.getBusinessAddressProof();
+                this.idProofOfGuarantor = urlDetails.getIdProofOfGuarantor();
             }
 
             if (applicantDetails != null) {
@@ -191,23 +191,23 @@ public class ApplicationCentralBin {
         this.applicationType = applicationType;
         if (urlDetails != null) {
 
-            this.panCardUrl = urlDetails.getPanCardUrl();
+            this.panCard = urlDetails.getPanCard();
             this.idProof=urlDetails.getIdProof();
             this.addressProof=urlDetails.getAddressProof();
 
-            this.bankStatementUrlOne = urlDetails.getBankStatementUrlOne();
+            this.bankStatementOne = urlDetails.getBankStatementOne();
             this.bankInfoOne = urlDetails.getBankInfoOne();
             this.bankStatementOneDocFormat = urlDetails.getBankStatementOneDocFormat();
-            this.bankStatementUrlTwo = urlDetails.getBankStatementUrlTwo();
+            this.bankStatementTwo = urlDetails.getBankStatementTwo();
             this.bankInfoTwo = urlDetails.getBankInfoTwo();
             this.bankStatementTwoDocFormat = urlDetails.getBankStatementTwoDocFormat();
-            this.bankStatementUrlThree = urlDetails.getBankStatementUrlThree();
+            this.bankStatementThree = urlDetails.getBankStatementThree();
             this.bankInfoThree = urlDetails.getBankInfoThree();
             this.bankStatementThreeDocFormat = urlDetails.getBankStatementThreeDocFormat();
-            this.bankStatementUrlFour = urlDetails.getBankStatementUrlFour();
+            this.bankStatementFour = urlDetails.getBankStatementFour();
             this.bankInfoFour = urlDetails.getBankInfoFour();
             this.bankStatementFourDocFormat = urlDetails.getBankStatementFourDocFormat();
-            this.bankStatementUrlFive = urlDetails.getBankStatementUrlFive();
+            this.bankStatementFive = urlDetails.getBankStatementFive();
             this.bankInfoFive = urlDetails.getBankInfoFive();
             this.bankStatementFiveDocFormat = urlDetails.getBankStatementFiveDocFormat();
 

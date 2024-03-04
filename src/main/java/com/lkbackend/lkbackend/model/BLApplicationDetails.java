@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(name = "loan_inf")
+@Table(name = "bussiness_loan_inf")
 public class BLApplicationDetails {
 
     @Id

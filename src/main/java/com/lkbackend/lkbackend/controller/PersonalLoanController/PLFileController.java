@@ -1,27 +1,19 @@
 package com.lkbackend.lkbackend.controller.PersonalLoanController;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.lkbackend.lkbackend.Entity.DocumentUploadRequest;
-import com.lkbackend.lkbackend.Repo.BLDocumentRepository;
 import com.lkbackend.lkbackend.Repo.PLDocumentRepository;
-import com.lkbackend.lkbackend.model.BLDocumentUploadDetails;
 import com.lkbackend.lkbackend.model.PLDocumentUploadDetails;
-import jakarta.persistence.Column;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -36,7 +28,7 @@ public class PLFileController {
     PLDocumentRepository plDocumentRepository;
 
     @Autowired
-    private S3Client s3Client;
+    private AmazonS3 s3Client;
 
     @Value("${aws.s3.bucketName}")
     private String bucketName;
@@ -51,16 +43,13 @@ public class PLFileController {
             System.out.println("Request Headers: " + documentUploadRequest.getDocumentType().toString());
             LocalDateTime localDateTime = LocalDateTime.now();
 
-            String key = generateKey(file.getOriginalFilename());
-            File modifiedFile = new File(file.getOriginalFilename());
-            FileOutputStream os = new FileOutputStream(modifiedFile);
-            os.write(file.getBytes());
-            String fileUrl = "https://" + bucketName + ".s3.amazonaws.com/" + key + '/' + localDateTime.toString();
+            String keyName = generateKey(file.getOriginalFilename(), file.getContentType());
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentType(file.getContentType());
+            objectMetadata.setContentLength(file.getSize());
+            objectMetadata.addUserMetadata("mobileNumber", String.valueOf(mobNo));
+            s3Client.putObject(new PutObjectRequest(bucketName, keyName, file.getInputStream(), objectMetadata));
 
-            s3Client.putObject(PutObjectRequest.builder()
-                    .bucket(bucketName)
-                    .key(key)
-                    .build(), RequestBody.fromFile(modifiedFile));
 
             String bankInfo = documentUploadRequest.getDocumentInfo();
             if (!plDocumentRepository.existsById(mobNo)) {
@@ -73,28 +62,28 @@ public class PLFileController {
             if (documentUploadRequest.getDocumentType().contains("BankStatement")) {
 
 
-                if (documentInfo.getBankStatementUrlOne() == null) {
-                    documentInfo.setBankStatementUrlOne(fileUrl);
+                if (documentInfo.getBankStatementOne() == null) {
+                    documentInfo.setBankStatementOne(keyName);
                     documentInfo.setBankInfoOne(documentUploadRequest.getDocumentInfo());
                     documentInfo.setBankStatementOneDocFormat(documentUploadRequest.getDocumentFormat());
 
-                } else if (documentInfo.getBankStatementUrlTwo() == null) {
-                    documentInfo.setBankStatementUrlTwo(fileUrl);
+                } else if (documentInfo.getBankStatementTwo() == null) {
+                    documentInfo.setBankStatementTwo(keyName);
                     documentInfo.setBankInfoTwo(documentUploadRequest.getDocumentInfo());
                     documentInfo.setBankStatementTwoDocFormat(documentUploadRequest.getDocumentFormat());
 
-                } else if (documentInfo.getBankStatementUrlThree() == null) {
-                    documentInfo.setBankStatementUrlThree(fileUrl);
+                } else if (documentInfo.getBankStatementThree() == null) {
+                    documentInfo.setBankStatementThree(keyName);
                     documentInfo.setBankInfoThree(documentUploadRequest.getDocumentInfo());
                     documentInfo.setBankStatementThreeDocFormat(documentUploadRequest.getDocumentFormat());
 
-                } else if (documentInfo.getBankStatementUrlFour() == null) {
-                    documentInfo.setBankStatementUrlFour(fileUrl);
+                } else if (documentInfo.getBankStatementFour() == null) {
+                    documentInfo.setBankStatementFour(keyName);
                     documentInfo.setBankInfoFour(documentUploadRequest.getDocumentInfo());
                     documentInfo.setBankStatementFourDocFormat(documentUploadRequest.getDocumentFormat());
 
                 } else {
-                    documentInfo.setBankStatementUrlFive(fileUrl);
+                    documentInfo.setBankStatementFive(keyName);
                     documentInfo.setBankInfoFive(documentUploadRequest.getDocumentInfo());
                     documentInfo.setBankStatementFiveDocFormat(documentUploadRequest.getDocumentFormat());
 
@@ -102,18 +91,17 @@ public class PLFileController {
 
             }
             else if(documentUploadRequest.getDocumentType().contains("Pan")){
-                documentInfo.setPanCardUrl(fileUrl);
+                documentInfo.setPanCard(keyName);
             }
             else if(documentUploadRequest.getDocumentType().contains("IdProof")){
-                documentInfo.setIdProof(fileUrl);
+                documentInfo.setIdProof(keyName);
             }
             else if(documentUploadRequest.getDocumentType().contains("AddressProof")){
-                documentInfo.setAddressProof(fileUrl);
+                documentInfo.setAddressProof(keyName);
             }
 
 
             plDocumentRepository.save(documentInfo);
-            modifiedFile.delete();
             log.info("File uploaded successfully for mobNo: {}", mobNo);
             return new ResponseEntity<>(documentInfo, HttpStatus.OK);
         } catch (IOException e) {
@@ -122,7 +110,7 @@ public class PLFileController {
         }
     }
 
-    private String generateKey(String originalFilename) {
+    private String generateKey(String originalFilename, String contentType) {
         return UUID.randomUUID().toString() + "_" + originalFilename;
     }
 
@@ -142,7 +130,7 @@ public class PLFileController {
         switch (documentID) {
             case "bankStatementUrlOne":
                 System.out.println("Processing BankStatement_1");
-                documentInfo.setBankStatementUrlOne(null);
+                documentInfo.setBankStatementOne(null);
                 documentInfo.setBankInfoOne(null);
                 documentInfo.setBankStatementOneDocFormat(null);
 
@@ -151,14 +139,14 @@ public class PLFileController {
             case "bankStatementUrlTwo":
                 // logic for BankStatement_2
                 System.out.println("Processing BankStatement_2");
-                documentInfo.setBankStatementUrlTwo(null);
+                documentInfo.setBankStatementTwo(null);
                 documentInfo.setBankInfoTwo(null);
                 documentInfo.setBankStatementTwoDocFormat(null);
                 break;
             case "bankStatementUrlThree":
                 // logic for BankStatement_3
                 System.out.println("Processing BankStatement_3");
-                documentInfo.setBankStatementUrlThree(null);
+                documentInfo.setBankStatementThree(null);
                 documentInfo.setBankInfoThree(null);
                 documentInfo.setBankStatementThreeDocFormat(null);
 
@@ -166,7 +154,7 @@ public class PLFileController {
             case "bankStatementUrlFour":
                 // logic for BankStatement_4
                 System.out.println("Processing BankStatement_4");
-                documentInfo.setBankStatementUrlFour(null);
+                documentInfo.setBankStatementFour(null);
                 documentInfo.setBankInfoFour(null);
                 documentInfo.setBankStatementFourDocFormat(null);
 
@@ -174,7 +162,7 @@ public class PLFileController {
             case "bankStatementUrlFive":
                 // logic for BankStatement_5
                 System.out.println("Processing BankStatement_5");
-                documentInfo.setBankStatementUrlFive(null);
+                documentInfo.setBankStatementFive(null);
                 documentInfo.setBankInfoFive(null);
                 documentInfo.setBankStatementFiveDocFormat(null);
 
@@ -182,7 +170,7 @@ public class PLFileController {
             case "Pan":
                 // logic for Pan
                 System.out.println("Processing Pan");
-                documentInfo.setPanCardUrl(null);
+                documentInfo.setPanCard(null);
                 break;
             case "IdProof":
                 // logic for Pan

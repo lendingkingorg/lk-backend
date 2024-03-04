@@ -20,7 +20,7 @@ public class BusinessEngineController {
     @Autowired
     ApplicationCentralBinRepo applicationCentralBinRepo;
 
-    @PostMapping("business-engine-api/{mobNo}/{applicationType)")
+    @PostMapping("business-engine-api/{mobNo}/{applicationType}")
     public ResponseEntity<?> sendDocToLenders(@PathVariable Long mobNo,@PathVariable String applicationType) {
         log.info("Send Doc To Lenders Started.");
         try {
