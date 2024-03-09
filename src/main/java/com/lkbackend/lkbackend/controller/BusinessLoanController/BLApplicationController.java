@@ -1,34 +1,31 @@
-package com.lkbackend.lkbackend.controller;
+package com.lkbackend.lkbackend.controller.BusinessLoanController;
 
 import com.lkbackend.lkbackend.Entity.DocumentURL;
-import com.lkbackend.lkbackend.model.DocumentUploadDetails;
-import com.lkbackend.lkbackend.model.LoanApplicationDetails;
+import com.lkbackend.lkbackend.model.BLDocumentUploadDetails;
+import com.lkbackend.lkbackend.model.BLApplicationDetails;
 import com.lkbackend.lkbackend.Service.LoanApplicationServiceInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/document-api")
 @Slf4j
-public class LoanApplicationController {
+public class BLApplicationController {
     @Autowired
     LoanApplicationServiceInterface loanApplicationServiceInterface;
     @PostMapping("/bl-save-personal-and-business-info/")
 
-    public ResponseEntity<?> saveBusinessDetails(@RequestBody LoanApplicationDetails loanApplication){
+    public ResponseEntity<?> saveBusinessDetails(@RequestBody BLApplicationDetails loanApplication){
         try {
             log.info("Received request to save loan application details: {}", loanApplication);
             // Return a success response with a status code of 200 and a custom message
-            LoanApplicationDetails res= loanApplicationServiceInterface.saveLoanApplication(loanApplication);
+            BLApplicationDetails res= loanApplicationServiceInterface.saveLoanApplication(loanApplication);
             String message = "Data saved successfully";
 
             // Create a Map for the JSON response
@@ -53,7 +50,7 @@ public class LoanApplicationController {
     public ResponseEntity<?> uploadStatus(@PathVariable Long mobNo){
         try {
             log.info("Received request to fetch loan application status for mobile number: {}", mobNo);
-            DocumentUploadDetails res=  loanApplicationServiceInterface.uploadStatus(mobNo);
+            BLDocumentUploadDetails res=  loanApplicationServiceInterface.uploadStatus(mobNo);
             Boolean userDetailsStatus=  loanApplicationServiceInterface.docUploadStatus(mobNo);
             DocumentURL documentURL=null;
             if(res!=null) {

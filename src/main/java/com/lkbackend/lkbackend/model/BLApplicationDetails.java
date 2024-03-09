@@ -8,8 +8,8 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(name = "loan_inf")
-public class LoanApplicationDetails {
+@Table(name = "bussiness_loan_inf")
+public class BLApplicationDetails {
 
     @Id
     @Column(name = "mobile_no")

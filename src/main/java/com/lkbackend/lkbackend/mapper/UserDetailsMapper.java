@@ -2,13 +2,13 @@ package com.lkbackend.lkbackend.mapper;
 
 import com.lkbackend.lkbackend.Entity.UserDetailsDTO;
 import com.lkbackend.lkbackend.model.LendingInfo;
-import com.lkbackend.lkbackend.model.LoanApplicationDetails;
+import com.lkbackend.lkbackend.model.BLApplicationDetails;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserDetailsMapper {
 
-    public UserDetailsDTO mapUserDetailsToDTO(LoanApplicationDetails loanApplicationDetails, LendingInfo lendingInfo) {
+    public UserDetailsDTO mapUserDetailsToDTO(BLApplicationDetails loanApplicationDetails, LendingInfo lendingInfo) {
         UserDetailsDTO userDetailsDTO = new UserDetailsDTO();
 
         userDetailsDTO.setMobileNumber(loanApplicationDetails.getMobileNo());

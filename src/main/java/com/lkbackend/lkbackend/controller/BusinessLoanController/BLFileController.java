@@ -4,22 +4,20 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.lkbackend.lkbackend.Entity.DocumentUploadRequest;
-import com.lkbackend.lkbackend.Repo.DocumentRepository;
-import com.lkbackend.lkbackend.model.DocumentUploadDetails;
+import com.lkbackend.lkbackend.model.BLDocumentUploadDetails;
+import com.lkbackend.lkbackend.Repo.BLDocumentRepository;
 import com.lkbackend.lkbackend.s3handler.S3Handler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -28,9 +26,10 @@ import static org.springframework.http.ResponseEntity.status;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-public class FileController {
+public class BLFileController {
 
-    private final DocumentRepository documentRepository;
+    @Autowired
+    BLDocumentRepository documentRepository;
 
     private final AmazonS3 s3Client;
 
@@ -57,12 +56,12 @@ public class FileController {
 
             String bankInfo = documentUploadRequest.getDocumentInfo();
             if (!documentRepository.existsById(mobNo)) {
-                DocumentUploadDetails documentUploadDetails = new DocumentUploadDetails();
+                BLDocumentUploadDetails documentUploadDetails = new BLDocumentUploadDetails();
                 documentUploadDetails.setMobileNo(mobNo);
                 documentRepository.save(documentUploadDetails);
             }
             System.out.println(documentUploadRequest.getDocumentType().contains("BankStatement"));
-            DocumentUploadDetails documentInfo = documentRepository.findByMobileNo(mobNo);
+            BLDocumentUploadDetails documentInfo = documentRepository.findByMobileNo(mobNo);
             if (documentUploadRequest.getDocumentType().contains("BankStatement")) {
 
 
@@ -121,7 +120,7 @@ public class FileController {
     public ResponseEntity<?> removeFile(@PathVariable Long mobNo, @PathVariable String documentID) {
         log.info("Received request to remove file for mobNo: {}, documentID: {}", mobNo, documentID);
 
-        DocumentUploadDetails documentInfo = documentRepository.findByMobileNo(mobNo);
+        BLDocumentUploadDetails documentInfo=  documentRepository.findByMobileNo(mobNo);
 
         // Check if documentInfo is null
         if (documentInfo == null) {

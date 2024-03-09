@@ -1,6 +1,6 @@
 package com.lkbackend.lkbackend.Entity;
 
-import com.lkbackend.lkbackend.model.DocumentUploadDetails;
+import com.lkbackend.lkbackend.model.BLDocumentUploadDetails;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,23 +11,23 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DocumentURL {
-    private String panCard;
-    private String bankStatementOne;
-    private String bankStatementTwo;
-    private String bankStatementThree;
-    private String bankStatementFour;
-    private String bankStatementFive;
-    private String businessRegistrationProof;
-    private String businessAddressProof;
-    private String idProofOfGuarantor;
-    public DocumentURL(DocumentUploadDetails res) {
+    private String PanCard;
+    private String BankStatementOne;
+    private String BankStatementTwo;
+    private String BankStatementThree;
+    private String BankStatementFour;
+    private String BankStatementFive;
+    private String BusinessRegistrationProof;
+    private String BusinessAddressProof;
+    private String IDProofOfGuarantor;
+    public DocumentURL(BLDocumentUploadDetails res) {
         setBankStatementOne(res.getBankStatementOne());
         setBankStatementTwo(res.getBankStatementTwo());
         setBankStatementThree(res.getBankStatementThree());
         setBankStatementFour(res.getBankStatementFour());
         setBankStatementFive(res.getBankStatementFive());
 
-        setIdProofOfGuarantor(res.getIdProofOfGuarantor());
+        setIDProofOfGuarantor(res.getIdProofOfGuarantor());
         setPanCard(res.getPanCard());
         setBusinessAddressProof(res.getBusinessAddressProof());
         setBusinessRegistrationProof(res.getBusinessRegistrationProof());
