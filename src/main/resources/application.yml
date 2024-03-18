@@ -34,9 +34,9 @@ spring:
 aws:
   accessKeyId: ${AWS_ACCESS_KEY_ID:}
   secretKey: ${AWS_SECRET_ACCESS_KEY:}
-  region: eu-north-1
+  region: ap-south-1
   s3:
-    bucketName: application-details
+    bucketName: lending-applications-files
 
 # Msg91 Configuration
 msg91:

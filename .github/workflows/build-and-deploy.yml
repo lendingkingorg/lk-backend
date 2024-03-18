@@ -4,7 +4,7 @@ name: Build and Deploy to AWS Elastic Beanstalk
 on:
   push:
     branches:
-      - PlayStore
+      - master
       - Test
 
 jobs:
@@ -47,19 +47,11 @@ jobs:
          
           }
         commitChange: false
-
-        
-    - name: Print modified YAML
-      run: cat src/main/resources/application.yml
-    - name: Print modified prod YAML
-      run: cat src/main/resources/application-prod.yml
-    - name: Print modified test YAML
-      run: cat src/main/resources/application-test.yml
       
 
     - name: Build Spring Boot Application
       run: |
-        if [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/PlayStore" ]; then
+        if [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/master" ]; then
           ./mvnw clean package -Dmaven.test.skip=true -Dspring.profiles.active=prod
         elif [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/Test" ]; then
           ./mvnw clean package -Dmaven.test.skip=true -Dspring.profiles.active=test
@@ -72,16 +64,16 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ github.event_name == 'push' && github.ref == 'refs/heads/Test' && 'eu-central-1' || 'eu-north-1' }}
+        aws-region: ap-south-1
 
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v14
       with:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: ${{ github.event_name == 'push' && github.ref == 'refs/heads/PlayStore' && 'LendingKing' || 'lendingking-test' }}
-        environment_name: ${{ github.event_name == 'push' && github.ref == 'refs/heads/PlayStore' && 'my-spring-boot-app-test-env' || 'Lendingking-test-env' }}
+        application_name: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && 'lendingking-prod' || 'lendingking-test' }}
+        environment_name: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && 'Lendingking-prod-env' || 'Lendingking-test-env' }}
         version_label: ${{ github.run_id }}
-        region:  ${{ github.event_name == 'push' && github.ref == 'refs/heads/Test' && 'eu-central-1' || 'eu-north-1' }}
+        region:  ap-south-1
         deployment_package: target/lk-backend-0.0.1-SNAPSHOT.jar
         wait_for_deployment: false

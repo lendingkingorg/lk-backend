@@ -20,12 +20,12 @@ public class BusinessEngineController {
     @Autowired
     ApplicationCentralBinRepo applicationCentralBinRepo;
 
-    @PostMapping("business-engine-api/{mobNo}/{applicationType}")
-    public ResponseEntity<?> sendDocToLenders(@PathVariable Long mobNo,@PathVariable String applicationType) {
+    @PostMapping("business-engine-api/{mobNo}")
+    public ResponseEntity<?> sendDocToLenders(@PathVariable Long mobNo) {
         log.info("Send Doc To Lenders Started.");
         try {
 
-           ApplicationCentralBinDTO sol= businessEngineServiceInterface.runBusinessEngine(mobNo,applicationType);
+           ApplicationCentralBinDTO sol= businessEngineServiceInterface.runBusinessEngine(mobNo, "BLApplication");
            if(sol==null){
                log.info("No data found for mobNo: {}", mobNo);
                return new ResponseEntity<>( "NO_DATA_FOUND", HttpStatus.OK);
