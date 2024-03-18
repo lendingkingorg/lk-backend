@@ -1,22 +1,19 @@
 package com.lkbackend.lkbackend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
-@Table(name = "LPForm_tbl")
+@Table(name = "lp_form_tbl")
+@Getter
+@Setter
 public class LPFormTbl {
 
     @Id
-    @GeneratedValue
-    private Long Id;
-
-    String businessName;
-    String email;
-
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "business_name")
+    private String businessName;
+    private String email;
 }

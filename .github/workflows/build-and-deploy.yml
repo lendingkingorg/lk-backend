@@ -1,9 +1,11 @@
 name: Build and Deploy to AWS Elastic Beanstalk
 
+
 on:
   push:
     branches:
       - PlayStore
+      - Test
 
 jobs:
   build-and-deploy:
@@ -22,40 +24,64 @@ jobs:
     - name: Make Maven Wrapper Executable
       run: chmod +x mvnw
 
-
-    - name: Replace env vars
-      uses: nightstory/replace-env@v2  
+    - name: Update application.yml
+      uses: fjogeleit/yaml-update-action@main
       with:
-        input_file: 'src/main/resources/application.yml'
-        pattern: single_dollar_brackets
-        fail_on_missing_env: true
-      env:
-        SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
-        MSG91_AUTH_KEY: ${{ secrets.MSG91_AUTH_KEY }}
+        valueFile: 'src/main/resources/application.yml'
+        changes: |
+          {
+            "src/main/resources/application.yml": {
+                 "aws.accessKeyId": "${{ secrets.AWS_ACCESS_KEY_ID }}",
+                  "aws.secretKey": "${{ secrets.AWS_SECRET_ACCESS_KEY }}",
+                  "msg91.authkey": "${{ secrets.MSG91_AUTH_KEY }}",
+                  "spring.profiles.active": "${{ github.event_name == 'push' && github.ref == 'refs/heads/Test' && 'test' || 'prod' }}"
+              },
+              "src/main/resources/application-test.yml": {
+               "spring.datasource.password": "${{ secrets.SPRING_TEST_DATASOURCE_PASSWORD }}"
+              },
+              "src/main/resources/application-prod.yml": {
+               "spring.datasource.password": "${{ secrets.SPRING_PROD_DATASOURCE_PASSWORD }}"
+              }
+            
+            
+         
+          }
+        commitChange: false
 
+        
+    - name: Print modified YAML
+      run: cat src/main/resources/application.yml
+    - name: Print modified prod YAML
+      run: cat src/main/resources/application-prod.yml
+    - name: Print modified test YAML
+      run: cat src/main/resources/application-test.yml
+      
 
     - name: Build Spring Boot Application
-      run: ./mvnw clean package -Dmaven.test.skip=true
+      run: |
+        if [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/PlayStore" ]; then
+          ./mvnw clean package -Dmaven.test.skip=true -Dspring.profiles.active=prod
+        elif [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/Test" ]; then
+          ./mvnw clean package -Dmaven.test.skip=true -Dspring.profiles.active=test
+        else
+          echo "Skipping build for event: ${{ github.event_name }} and ref: ${{ github.ref }}"
+        fi
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: eu-north-1
+        aws-region: ${{ github.event_name == 'push' && github.ref == 'refs/heads/Test' && 'eu-central-1' || 'eu-north-1' }}
 
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v14
       with:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: my-spring-boot-app
-        environment_name: my-spring-boot-app-env
+        application_name: ${{ github.event_name == 'push' && github.ref == 'refs/heads/PlayStore' && 'LendingKing' || 'lendingking-test' }}
+        environment_name: ${{ github.event_name == 'push' && github.ref == 'refs/heads/PlayStore' && 'my-spring-boot-app-test-env' || 'Lendingking-test-env' }}
         version_label: ${{ github.run_id }}
-        region: us-east-1
-        source_bundle: target/*.jar
-        environment_variables: |
-          VAR1=${{ secrets.VAR1_SECRET }}
-          VAR2=${{ secrets.VAR2_SECRET }}
+        region:  ${{ github.event_name == 'push' && github.ref == 'refs/heads/Test' && 'eu-central-1' || 'eu-north-1' }}
+        deployment_package: target/lk-backend-0.0.1-SNAPSHOT.jar
+        wait_for_deployment: false

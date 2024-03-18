@@ -1,30 +1,32 @@
 package com.lkbackend.lkbackend.Config;
 
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.s3.S3Client;
 
 @Configuration
 public class AwsS3Config {
 
-    @Value("${AWS_ACCESS_KEY_ID}")
+    @Value("${aws.accessKeyId}")
     private String awsAccessKeyId;
 
-    @Value("${AWS_SECRET_ACCESS_KEY}")
+    @Value("${aws.secretKey}")
     private String awsSecretKey;
 
-    @Value("${AWS_REGION}")
+    @Value("${aws.region}")
     private String awsRegion;
 
     @Bean
-    public S3Client s3Client() {
-        return S3Client.builder()
-                .region(Region.of(awsRegion))
-                .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create(awsAccessKeyId, awsSecretKey)))
+    public AmazonS3 s3Client() {
+        BasicAWSCredentials awsCredentials = new BasicAWSCredentials(awsAccessKeyId, awsSecretKey);
+
+        return AmazonS3ClientBuilder.standard()
+                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                .withRegion(awsRegion)
                 .build();
     }
 }

@@ -1,0 +1,47 @@
+spring:
+  profiles:
+    active: ${SPRING_ACTIVE_PROFILE:}
+  security:
+    user:
+      name: user
+      password: user
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  datasource:
+    url: jdbc:mysql://localhost:3306/database-onboarding?createDatabaseIfNotExist=true
+    username: root
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
+
+  flyway:
+    baselineOnMigrate: true
+    enable: true
+    locations: classpath:db/migration,classpath:db/test-migration
+  servlet:
+    multipart:
+      max-file-size: 50MB
+
+#logging:
+#  level:
+#    root: DEBUG
+
+
+
+# AWS S3 Configuration
+aws:
+  accessKeyId: ${AWS_ACCESS_KEY_ID:}
+  secretKey: ${AWS_SECRET_ACCESS_KEY:}
+  region: eu-north-1
+  s3:
+    bucketName: application-details
+
+# Msg91 Configuration
+msg91:
+  authkey: ${MSG91_AUTH_KEY:}
+  verify-otp-url: "https://control.msg91.com/api/v5/otp/verify"
+  send-otp-url: "https://control.msg91.com/api/v5/otp"
+  send-email-url: "https://control.msg91.com/api/v5/email/send"
+

@@ -1,45 +1,43 @@
-package com.lkbackend.lkbackend.controller;
+package com.lkbackend.lkbackend.controller.BusinessLoanController;
 
 import com.lkbackend.lkbackend.Entity.DocumentURL;
-import com.lkbackend.lkbackend.model.DocumentUploadDetails;
-import com.lkbackend.lkbackend.model.LoanApplicationDetails;
+import com.lkbackend.lkbackend.model.BLDocumentUploadDetails;
+import com.lkbackend.lkbackend.model.BLApplicationDetails;
 import com.lkbackend.lkbackend.Service.LoanApplicationServiceInterface;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/document-api")
-public class LoanApplicationController {
+@Slf4j
+public class BLApplicationController {
     @Autowired
     LoanApplicationServiceInterface loanApplicationServiceInterface;
     @PostMapping("/bl-save-personal-and-business-info/")
 
-    public ResponseEntity<?> saveBusinessDetails(@RequestBody LoanApplicationDetails loanApplication){
-
-
-
+    public ResponseEntity<?> saveBusinessDetails(@RequestBody BLApplicationDetails loanApplication){
         try {
+            log.info("Received request to save loan application details: {}", loanApplication);
             // Return a success response with a status code of 200 and a custom message
-            LoanApplicationDetails res= loanApplicationServiceInterface.saveLoanApplication(loanApplication);
+            BLApplicationDetails res= loanApplicationServiceInterface.saveLoanApplication(loanApplication);
             String message = "Data saved successfully";
 
             // Create a Map for the JSON response
             Map<String, Object> jsonResponse = new HashMap<>();
             jsonResponse.put("isSaved", res!=null);
             jsonResponse.put("message", message);
-
+            log.info("Loan application details saved successfully");
             return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
 
         }
         catch (Exception e){
+            log.error("Failed to save loan application details "+ e.getMessage());
             // Return an error response with a status code of 500 and a custom message
             String errorMessage = "Failed to save data";
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -51,7 +49,8 @@ public class LoanApplicationController {
 
     public ResponseEntity<?> uploadStatus(@PathVariable Long mobNo){
         try {
-            DocumentUploadDetails res=  loanApplicationServiceInterface.uploadStatus(mobNo);
+            log.info("Received request to fetch loan application status for mobile number: {}", mobNo);
+            BLDocumentUploadDetails res=  loanApplicationServiceInterface.uploadStatus(mobNo);
             Boolean userDetailsStatus=  loanApplicationServiceInterface.docUploadStatus(mobNo);
             DocumentURL documentURL=null;
             if(res!=null) {
@@ -61,11 +60,12 @@ public class LoanApplicationController {
             Map<String, Object> jsonResponse = new HashMap<>();
             jsonResponse.put("userDetailsStatus", userDetailsStatus);
             jsonResponse.put("DocumentDetails", documentURL);
-
+            log.info("Loan application status fetched successfully");
             return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
 
         }
         catch (Exception errorMessage){
+            log.error("Failed to fetch loan application status " + errorMessage.getMessage());
             // Return an error response with a status code of 500 and a custom message
             //  String errorMessage = "Failed to Fetch Status";
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);

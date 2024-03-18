@@ -1,0 +1,10 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: jdbc:mysql://database-onboarding.cbgii4kmmlyn.eu-north-1.rds.amazonaws.com:3346/database-onboarding?createDatabaseIfNotExist=true
+    username: admin
+    password: ${SPRING_PROD_DATASOURCE_PASSWORD:}
+  flyway:
+    locations: classpath:db/migration

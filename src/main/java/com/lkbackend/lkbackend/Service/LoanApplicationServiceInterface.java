@@ -1,14 +1,14 @@
 package com.lkbackend.lkbackend.Service;
 
-import com.lkbackend.lkbackend.model.DocumentUploadDetails;
-import com.lkbackend.lkbackend.model.LoanApplicationDetails;
+import com.lkbackend.lkbackend.model.BLDocumentUploadDetails;
+import com.lkbackend.lkbackend.model.BLApplicationDetails;
 
 
 public interface LoanApplicationServiceInterface {
 
-    public LoanApplicationDetails saveLoanApplication(LoanApplicationDetails loanApplication);
+    BLApplicationDetails saveLoanApplication(BLApplicationDetails loanApplication);
 
-    public DocumentUploadDetails uploadStatus(long mobNo);
+    BLDocumentUploadDetails uploadStatus(long mobNo);
 
     Boolean docUploadStatus(Long mobNo);
 }
