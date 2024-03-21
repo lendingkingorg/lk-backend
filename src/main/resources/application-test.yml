@@ -3,7 +3,7 @@ spring:
     activate:
       on-profile: test
   datasource:
-    url: jdbc:mysql://lendingking-test.cbgii4kmmlyn.eu-north-1.rds.amazonaws.com:3306/database-onboarding?createDatabaseIfNotExist=true
+    url: jdbc:mysql://lendingking-test.cfe6um8osgik.ap-south-1.rds.amazonaws.com:3306/lendingking-test?createDatabaseIfNotExist=true
     username: admin
     password: ${SPRING_TEST_DATASOURCE_PASSWORD:}
   flyway:
