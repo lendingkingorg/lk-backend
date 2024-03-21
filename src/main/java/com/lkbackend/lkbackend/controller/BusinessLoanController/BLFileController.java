@@ -47,7 +47,7 @@ public class BLFileController {
             log.info("Received file upload request for mobNo: {}", mobNo);
             System.out.println("Request Headers: " + documentUploadRequest.getDocumentType());
 
-            String keyName = generateKey(file.getOriginalFilename(), file.getContentType());
+            String keyName = generateKey(file.getOriginalFilename());
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentType(file.getContentType());
             objectMetadata.setContentLength(file.getSize());
@@ -111,9 +111,8 @@ public class BLFileController {
         }
     }
 
-    private String generateKey(String originalFilename, String contentType) {
-        return UUID.randomUUID().toString() + "_" + originalFilename + "."+ Objects
-                .requireNonNull(contentType).split("/")[1];
+    private String generateKey(String originalFilename) {
+        return UUID.randomUUID().toString() + "_" + originalFilename;
     }
 
     @PostMapping("/bl-file-removal/{mobNo}/{documentID}")
