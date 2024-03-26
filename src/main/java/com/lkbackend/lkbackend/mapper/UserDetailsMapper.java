@@ -29,8 +29,11 @@ public class UserDetailsMapper {
         userDetailsDTO.setRequestedLoanAmount(applicationCentralBin.getRequestedLoanAmount());
         userDetailsDTO.setLoanDurationInMonths(applicationCentralBin.getLoanDurationInMonths());
         userDetailsDTO.setEmail(lendingInfo.getEmail());
-        userDetailsDTO.setName(applicationCentralBin.getName());
-        userDetailsDTO.setPan(applicationCentralBin.getPan());
+        if (lendingInfo != null) {
+            userDetailsDTO.setName(applicationCentralBin.getName());
+            userDetailsDTO.setPan(applicationCentralBin.getPan());
+        }
+
         return userDetailsDTO;
     }
 }
