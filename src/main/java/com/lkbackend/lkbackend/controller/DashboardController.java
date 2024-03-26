@@ -1,8 +1,10 @@
 package com.lkbackend.lkbackend.controller;
 
+import com.lkbackend.lkbackend.Entity.LendingInfoDTO;
 import com.lkbackend.lkbackend.Entity.UserDetailsDTO;
+import com.lkbackend.lkbackend.Repo.ApplicationCentralBinRepo;
 import com.lkbackend.lkbackend.Repo.LendingInfoRepo;
-import com.lkbackend.lkbackend.Repo.BLApplicationRepository;
+import com.lkbackend.lkbackend.mapper.LendingInfoMapper;
 import com.lkbackend.lkbackend.mapper.UserDetailsMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,19 +21,26 @@ import java.util.Map;
 @AllArgsConstructor
 public class DashboardController {
 
-    private final BLApplicationRepository loanApplicationRepository;
+    private final ApplicationCentralBinRepo applicationCentralBinRepo;
 
     private final LendingInfoRepo lendingInfoRepo;
     private final UserDetailsMapper userDetailsMapper;
+    private final LendingInfoMapper lendingInfoMapper;
 
 
 
-    @GetMapping("/get-all-user/")
-    public ResponseEntity<List<UserDetailsDTO>> getUserData() {
-        log.info("Request received to fetch all user data.");
-        List<UserDetailsDTO> userData = loanApplicationRepository.findAll().stream().map(loanApplicationDetails ->
-                userDetailsMapper.mapUserDetailsToDTO(loanApplicationDetails, lendingInfoRepo.findByMobileNumber(loanApplicationDetails.getMobileNo()))).toList();
+    @GetMapping("/getAllApplications/")
+    public ResponseEntity<List<UserDetailsDTO>> getAllApplicationData() {
+        log.info("Request received to fetch all application data.");
+        List<UserDetailsDTO> userData = applicationCentralBinRepo.findAll().stream().map(applicationCentralBin ->
+                userDetailsMapper.mapUserDetailsToDTO(applicationCentralBin, lendingInfoRepo.findByMobileNumber(Long.parseLong("91" + applicationCentralBin.getMobileNo())))).toList();
         return new ResponseEntity<>(userData, HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllUsers/")
+    public ResponseEntity<List<LendingInfoDTO>> getAllUsersData(){
+        log.info("Request received to fetch all user data.");
+        return new ResponseEntity<>(lendingInfoRepo.findAll().stream().map(lendingInfoMapper::updateLendingInfoToLendingInfoDTO).toList(),HttpStatus.OK);
     }
 
     @GetMapping("/admin-login/{passcode}/{userName}")
