@@ -18,6 +18,7 @@ public class UserDetailsMapper {
         userDetailsDTO.setResidentialPincode(applicationCentralBin.getResidentialPincode());
         userDetailsDTO.setResidentialAddress(applicationCentralBin.getResidentialAddress());
         userDetailsDTO.setPan(applicationCentralBin.getPan());
+        userDetailsDTO.setGstNumber(applicationCentralBin.getGstNumber());
         userDetailsDTO.setAnnualTurnover(applicationCentralBin.getAnnualTurnover());
         userDetailsDTO.setYearsInCurrentBusiness(applicationCentralBin.getYearsInCurrentBusiness());
         userDetailsDTO.setBusinessPincode(applicationCentralBin.getBusinessPincode());

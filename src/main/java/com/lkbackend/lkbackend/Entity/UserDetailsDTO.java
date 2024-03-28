@@ -19,6 +19,7 @@ public class UserDetailsDTO {
     private String residentialAddress;
 
     private String pan;
+    private String gstNumber;
 
     private String annualTurnover;
     private String yearsInCurrentBusiness;

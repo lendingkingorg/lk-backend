@@ -65,6 +65,8 @@ public class ApplicationCentralBin {
     private int loanDurationInMonths;
     @Column(name = "pan_card")
     private String panCard;
+    @Column(name = "gst_number")
+    private String gstNumber;
     @Column(name = "bank_statement_one")
     private String bankStatementOne;
     @Column(name = "bank_info_one")
@@ -167,6 +169,7 @@ public class ApplicationCentralBin {
                 this.residentialPincode = applicantDetails.getResidentialPincode();
                 this.residentialAddress = applicantDetails.getResidentialAddress();
                 this.pan = applicantDetails.getPan();
+                this.gstNumber = applicantDetails.getGstNumber();
                 this.annualTurnover = applicantDetails.getAnnualTurnover();
                 this.yearsInCurrentBusiness = applicantDetails.getYearsInCurrentBusiness();
                 this.businessPincode = applicantDetails.getBusinessPincode();
