@@ -32,7 +32,7 @@ public class DashboardController {
     @GetMapping("/getAllApplications/")
     public ResponseEntity<List<UserDetailsDTO>> getAllApplicationData() {
         log.info("Request received to fetch all application data.");
-        List<UserDetailsDTO> userData = applicationCentralBinRepo.findAll().stream().map(applicationCentralBin ->
+        List<UserDetailsDTO> userData = applicationCentralBinRepo.findAllByOrderByCreatedAtDesc().stream().map(applicationCentralBin ->
                 userDetailsMapper.mapUserDetailsToDTO(applicationCentralBin, lendingInfoRepo.findByMobileNumber(Long.parseLong("91" + applicationCentralBin.getMobileNo())))).toList();
         return new ResponseEntity<>(userData, HttpStatus.OK);
     }
