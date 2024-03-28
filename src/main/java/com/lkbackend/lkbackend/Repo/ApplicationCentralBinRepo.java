@@ -10,8 +10,9 @@ import java.util.List;
 @EnableJpaRepositories
 public interface ApplicationCentralBinRepo extends JpaRepository<ApplicationCentralBin,Long> {
 
-   ApplicationCentralBin findFirstByMobileNoOrderByCreatedAtDesc(Long MobileNo);
+   ApplicationCentralBin findFirstByMobileNoOrderByCreatedAtDesc(Long mobileNo);
    List<ApplicationCentralBin> findAllByMobileNo(Long mobNo);
+   List<ApplicationCentralBin> findAllByOrderByCreatedAtDesc();
 
 
 }

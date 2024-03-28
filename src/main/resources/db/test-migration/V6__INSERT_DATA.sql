@@ -1,0 +1,1 @@
+UPDATE application_central_bin SET gst_number ='07AAAAA0000A1Z5' where mobile_no = 1234567890;

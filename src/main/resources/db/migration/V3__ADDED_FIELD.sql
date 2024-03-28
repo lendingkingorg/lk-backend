@@ -1,0 +1,1 @@
+ALTER table bussiness_loan_inf add column gst_number VARCHAR(20);

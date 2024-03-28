@@ -63,6 +63,8 @@ public class BLApplicationDetails {
     // Loan Request Information
     @Column(name = "requested_loan_amount")
     private double requestedLoanAmount;
+    @Column(name = "gst_number")
+    private String gstNumber;
 
     @Column(name = "loan_duration_in_months")
     private int loanDurationInMonths;

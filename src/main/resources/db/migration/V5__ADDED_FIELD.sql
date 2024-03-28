@@ -1,0 +1,1 @@
+ALTER table application_central_bin add column gst_number VARCHAR(20);
